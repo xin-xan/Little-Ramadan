@@ -63,24 +63,76 @@ export function openDatabase(idb: IDBFactory = indexedDB): Promise<IDBDatabase> 
   });
 }
 
+/**
+ * IndexedDB storage. Safari (especially on iPhone, and inside embedded frames) can close
+ * a database connection at any time — e.g. when the page goes to the background. Every
+ * operation therefore reopens the connection and retries once if it finds it closed.
+ */
 class IdbStorage implements Storage {
   readonly kind = "indexeddb" as const;
-  constructor(private db: IDBDatabase, private idb: IDBFactory) {
-    db.onversionchange = () => db.close();
+  private closed = false;
+  constructor(
+    private db: IDBDatabase,
+    private idb: IDBFactory,
+  ) {
+    this.watch(db);
+  }
+
+  private watch(db: IDBDatabase) {
+    db.onversionchange = () => {
+      db.close();
+      this.closed = true;
+    };
+    db.onclose = () => {
+      this.closed = true;
+    };
+  }
+
+  private async reopen() {
+    try {
+      this.db.close();
+    } catch {
+      /* already closed */
+    }
+    this.db = await openDatabase(this.idb);
+    this.closed = false;
+    this.watch(this.db);
+  }
+
+  /** Runs one transaction, reopening the connection and retrying once if it was closed. */
+  private async run<T>(stores: StoreName | StoreName[], mode: IDBTransactionMode, body: (tx: IDBTransaction) => Promise<T> | T): Promise<T> {
+    const attempt = async () => {
+      if (this.closed) await this.reopen();
+      const tx = this.db.transaction(stores, mode);
+      const result = await body(tx);
+      await txDone(tx);
+      return result;
+    };
+    try {
+      return await attempt();
+    } catch (e) {
+      await this.reopen();
+      try {
+        return await attempt();
+      } catch {
+        throw e;
+      }
+    }
   }
 
   async loadAll(): Promise<AppData> {
-    const tx = this.db.transaction([STORES.kv, STORES.completions, STORES.journal, STORES.goals], "readonly");
-    const kv = tx.objectStore(STORES.kv);
-    const [profile, settings, room, meta, completions, journal, goals] = await Promise.all([
-      req(kv.get(KV_KEYS.profile)),
-      req(kv.get(KV_KEYS.settings)),
-      req(kv.get(KV_KEYS.room)),
-      req(kv.get(KV_KEYS.meta)),
-      req(tx.objectStore(STORES.completions).getAll()),
-      req(tx.objectStore(STORES.journal).getAll()),
-      req(tx.objectStore(STORES.goals).getAll()),
-    ]);
+    const [profile, settings, room, meta, completions, journal, goals] = await this.run([STORES.kv, STORES.completions, STORES.journal, STORES.goals], "readonly", (tx) => {
+      const kv = tx.objectStore(STORES.kv);
+      return Promise.all([
+        req(kv.get(KV_KEYS.profile)),
+        req(kv.get(KV_KEYS.settings)),
+        req(kv.get(KV_KEYS.room)),
+        req(kv.get(KV_KEYS.meta)),
+        req(tx.objectStore(STORES.completions).getAll()),
+        req(tx.objectStore(STORES.journal).getAll()),
+        req(tx.objectStore(STORES.goals).getAll()),
+      ]);
+    });
     const raw: RawData = { profile, settings, room, completions, journal, goals };
     const fromVersion = typeof (meta as { schemaVersion?: number } | undefined)?.schemaVersion === "number" ? (meta as { schemaVersion: number }).schemaVersion : SCHEMA_VERSION;
     const data = normalise(migrate(raw, fromVersion));
@@ -89,31 +141,27 @@ class IdbStorage implements Storage {
   }
 
   async putKv(key: string, value: unknown) {
-    const tx = this.db.transaction(STORES.kv, "readwrite");
-    tx.objectStore(STORES.kv).put(value, key);
-    await txDone(tx);
+    await this.run(STORES.kv, "readwrite", (tx) => void tx.objectStore(STORES.kv).put(value, key));
   }
 
   async put(store: Exclude<StoreName, "kv">, value: Completion | JournalEntry | GoalRecord) {
-    const tx = this.db.transaction(store, "readwrite");
-    tx.objectStore(store).put(value);
-    await txDone(tx);
+    await this.run(store, "readwrite", (tx) => void tx.objectStore(store).put(value));
   }
 
   async remove(store: StoreName, key: string) {
-    const tx = this.db.transaction(store, "readwrite");
-    tx.objectStore(store).delete(key);
-    await txDone(tx);
+    await this.run(store, "readwrite", (tx) => void tx.objectStore(store).delete(key));
   }
 
   async clear(store: StoreName) {
-    const tx = this.db.transaction(store, "readwrite");
-    tx.objectStore(store).clear();
-    await txDone(tx);
+    await this.run(store, "readwrite", (tx) => void tx.objectStore(store).clear());
   }
 
   async destroy() {
-    this.db.close();
+    try {
+      this.db.close();
+    } catch {
+      /* already closed */
+    }
     await new Promise<void>((resolve, reject) => {
       const r = this.idb.deleteDatabase(DB_NAME);
       r.onsuccess = () => resolve();

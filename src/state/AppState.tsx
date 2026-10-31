@@ -99,9 +99,41 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
     };
   }, [storageFactory, attempt]);
 
-  const store = () => {
+  /**
+   * Device storage with a last-resort fallback: if a save still fails after the storage
+   * layer's own reconnect-and-retry, switch to memory (keeping everything the child has done
+   * so far) and show the "can't save" banner, rather than blocking the child with an error.
+   */
+  const store = (): Storage => {
     if (!storageRef.current) storageRef.current = new MemoryStorage();
-    return storageRef.current;
+    const real = storageRef.current;
+    if (real.kind === "memory") return real;
+    const fallback = async <T,>(op: (s: Storage) => Promise<T>): Promise<T> => {
+      try {
+        return await op(real);
+      } catch {
+        const mem = new MemoryStorage();
+        const d = dataRef.current;
+        if (d.profile) await mem.putKv(KV_KEYS.profile, d.profile);
+        await mem.putKv(KV_KEYS.settings, d.settings);
+        await mem.putKv(KV_KEYS.room, d.room);
+        for (const c of d.completions) await mem.put(STORES.completions, c);
+        for (const j of d.journal) await mem.put(STORES.journal, j);
+        for (const g of d.goals) await mem.put(STORES.goals, g);
+        storageRef.current = mem;
+        setStorageKind("memory");
+        return op(mem);
+      }
+    };
+    return {
+      kind: real.kind,
+      loadAll: () => fallback((s) => s.loadAll()),
+      putKv: (k, v) => fallback((s) => s.putKv(k, v)),
+      put: (st, v) => fallback((s) => s.put(st, v)),
+      remove: (st, k) => fallback((s) => s.remove(st, k)),
+      clear: (st) => fallback((s) => s.clear(st)),
+      destroy: () => real.destroy(),
+    };
   };
 
   const commit = useCallback((next: AppData) => {

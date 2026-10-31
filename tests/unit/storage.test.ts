@@ -34,6 +34,19 @@ describe("IndexedDB storage", () => {
     expect(data.completions.map((c) => c.id)).toEqual(["lesson:quran"]);
   });
 
+  it("recovers when the browser closes the connection (iOS Safari behaviour)", async () => {
+    const s = await openStorage();
+    await s.putKv(KV_KEYS.profile, { nickname: "Zain", avatar: "dolphin", createdAt: "x" });
+    // Simulate Safari closing the connection underneath us.
+    (s as unknown as { db: IDBDatabase }).db.close();
+    await s.putKv(KV_KEYS.settings, { soundOn: true });
+    await s.put(STORES.completions, { id: "story:a", kind: "story", contentId: "a", completedAt: "x" });
+    const d = await s.loadAll();
+    expect(d.profile?.nickname).toBe("Zain");
+    expect(d.settings.soundOn).toBe(true);
+    expect(d.completions).toHaveLength(1);
+  });
+
   it("destroy removes everything", async () => {
     const s = await openStorage();
     await s.putKv(KV_KEYS.profile, { nickname: "Star", avatar: "turtle", createdAt: "x" });
