@@ -45,6 +45,7 @@ interface AppState {
   updateProfile(patch: Partial<Pick<ChildProfile, "nickname" | "avatar">>): Promise<void>;
   updateSettings(patch: Partial<Settings>): Promise<void>;
   complete(kind: CompletionKind, contentId: string, opts?: { day?: number; reflection?: string; silent?: boolean }): Promise<boolean>;
+  completeMany(items: { kind: CompletionKind; contentId: string; day?: number; reflection?: string }[], opts?: { silent?: boolean }): Promise<number>;
   saveReflection(dayId: string, day: number, text: string): Promise<void>;
   addJournalEntry(input: { experience: JournalExperience; note?: string; date: string }): Promise<void>;
   deleteJournalEntry(id: string): Promise<void>;
@@ -146,29 +147,40 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
     [commit],
   );
 
-  const complete: AppState["complete"] = useCallback(
-    async (kind, contentId, opts = {}) => {
+  /** Records several completions at once and shows one combined celebration. Each activity is rewarded once. */
+  const completeMany: AppState["completeMany"] = useCallback(
+    async (items, opts = {}) => {
       const cur = dataRef.current;
-      const id = completionId(kind, contentId);
-      if (cur.completions.some((c) => c.id === id)) return false; // rewarded once; revisiting is always allowed
-      const c: Completion = { id, kind, contentId, completedAt: new Date().toISOString() };
-      if (opts.day) c.day = opts.day;
-      if (opts.reflection?.trim()) c.reflection = opts.reflection.trim().slice(0, 300);
-      await store().put(STORES.completions, c);
-      const completions = [...cur.completions, c];
+      const fresh: Completion[] = [];
+      for (const it of items) {
+        const id = completionId(it.kind, it.contentId);
+        if (cur.completions.some((c) => c.id === id) || fresh.some((c) => c.id === id)) continue; // revisiting is always allowed
+        const c: Completion = { id, kind: it.kind, contentId: it.contentId, completedAt: new Date().toISOString() };
+        if (it.day) c.day = it.day;
+        if (it.reflection?.trim()) c.reflection = it.reflection.trim().slice(0, 300);
+        fresh.push(c);
+      }
+      if (!fresh.length) return 0;
+      for (const c of fresh) await store().put(STORES.completions, c);
+      const completions = [...cur.completions, ...fresh];
       const beforeBadges = new Set(unlockedBadgeIds(cur.completions));
       const beforeDecor = new Set(unlockedDecorationIds(cur.completions));
       const newBadges = unlockedBadgeIds(completions).filter((b) => !beforeBadges.has(b));
       const newDecor = unlockedDecorationIds(completions).filter((d) => !beforeDecor.has(d));
       commit({ ...cur, completions });
-      const stars = starsFor(kind);
+      const stars = fresh.reduce((n, c) => n + starsFor(c.kind), 0);
       if (!opts.silent && (stars > 0 || newBadges.length || newDecor.length)) {
-        setCelebration({ id: id, stars, badgeIds: newBadges, decorationIds: newDecor });
+        setCelebration({ id: fresh.map((c) => c.id).join("+"), stars, badgeIds: newBadges, decorationIds: newDecor });
         if (cur.settings.soundOn) playSound(newBadges.length ? "badge" : "star");
       }
-      return true;
+      return fresh.length;
     },
     [commit],
+  );
+
+  const complete: AppState["complete"] = useCallback(
+    async (kind, contentId, opts = {}) => (await completeMany([{ kind, contentId, day: opts.day, reflection: opts.reflection }], { silent: opts.silent })) > 0,
+    [completeMany],
   );
 
   const saveReflection: AppState["saveReflection"] = useCallback(
@@ -280,6 +292,7 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
       updateProfile,
       updateSettings,
       complete,
+      completeMany,
       saveReflection,
       addJournalEntry,
       deleteJournalEntry,
@@ -295,7 +308,7 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
         setAttempt((a) => a + 1);
       },
     }),
-    [status, error, storageKind, data, celebration, createProfile, updateProfile, updateSettings, complete, saveReflection, addJournalEntry, deleteJournalEntry, clearJournal, chooseGoal, removeGoal, completeGoal, setRoomSlot, resetProgress, deleteEverything],
+    [status, error, storageKind, data, celebration, createProfile, updateProfile, updateSettings, complete, completeMany, saveReflection, addJournalEntry, deleteJournalEntry, clearJournal, chooseGoal, removeGoal, completeGoal, setRoomSlot, resetProgress, deleteEverything],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

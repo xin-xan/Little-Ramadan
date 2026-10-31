@@ -98,3 +98,22 @@ test("manifest is installable", async ({ request }) => {
   expect(m.icons.some((i: { sizes: string }) => i.sizes === "512x512")).toBe(true);
   for (const i of m.icons) expect((await request.get(`/${i.src}`)).ok()).toBeTruthy();
 });
+
+test("in-app navigation works offline (links, not just reloads)", async ({ page, context }) => {
+  await onboard(page, "Nav Kid");
+  await page.reload();
+  await page.waitForFunction(() => !!navigator.serviceWorker.controller);
+  await context.setOffline(true);
+  const nav = page.getByRole("navigation", { name: "Main" });
+  await nav.getByRole("link", { name: "Games" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Puzzle Palace" })).toBeVisible();
+  await page.getByRole("link", { name: /Ramadan Memory Cards/ }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Ramadan Memory Cards" })).toBeVisible();
+  await nav.getByRole("link", { name: "Journey" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "My Ramadan Journey" })).toBeVisible();
+  await page.getByRole("link", { name: /Day 7: Sharing/ }).click();
+  await expect(page.getByRole("heading", { level: 1, name: /Day 7/ })).toBeVisible();
+  await nav.getByRole("link", { name: "Rewards" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Celebration Square" })).toBeVisible();
+  await context.setOffline(false);
+});

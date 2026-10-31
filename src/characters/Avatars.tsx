@@ -115,7 +115,7 @@ export function Avatar({ id, size = 64, decorative = false }: { id: string; size
     <svg viewBox="0 0 100 100" width={size} height={size} role={decorative ? undefined : "img"} aria-hidden={decorative || undefined} aria-label={decorative ? undefined : `${a.name} avatar`}>
       <defs>
         <radialGradient id={`av${uid}`} cx="35%" cy="30%" r="80%">
-          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.55" />
+          <stop offset="0%" stopColor={a.accent} />
           <stop offset="45%" stopColor={a.body} />
           <stop offset="100%" stopColor={a.shade} />
         </radialGradient>

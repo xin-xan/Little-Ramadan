@@ -46,3 +46,46 @@ export async function expectNoHorizontalScroll(page: Page) {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow, "page should not scroll sideways").toBeLessThanOrEqual(1);
 }
+
+/** Writes completion records straight into IndexedDB (to set up reward states quickly), then reloads. */
+export async function seedCompletions(page: Page, items: { kind: string; contentId: string }[]) {
+  await page.evaluate(async (items) => {
+    const db: IDBDatabase = await new Promise((res, rej) => {
+      const r = indexedDB.open("little-ramadan");
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => rej(r.error);
+    });
+    const tx = db.transaction("completions", "readwrite");
+    for (const it of items) tx.objectStore("completions").put({ id: `${it.kind}:${it.contentId}`, ...it, completedAt: new Date().toISOString() });
+    await new Promise((res) => (tx.oncomplete = res));
+    db.close();
+  }, items);
+  await page.reload();
+}
+
+export async function starCount(page: Page) {
+  await page.goto("/rewards/");
+  const t = await page.getByText("stars collected").locator("..").innerText();
+  return Number(t.match(/★\s*(\d+)/)![1]);
+}
+
+/** Answer a 3-option question by trying each option until it is marked correct (exercises retry). */
+export async function answerUntilRight(page: Page, group: ReturnType<Page["getByTestId"]>) {
+  const success = page.getByText(/That's right!|means “/);
+  await expect(success).toHaveCount(0); // previous question's feedback has gone
+  const n = await group.getByRole("button").count();
+  for (let i = 0; i < n; i++) {
+    const b = group.getByRole("button").nth(i);
+    if ((await b.getAttribute("aria-disabled")) === "true") continue;
+    await b.click();
+    // wait until the click is processed: either solved, or this option marked wrong
+    await expect.poll(async () => (await success.count()) > 0 || (await b.getAttribute("aria-disabled")) === "true").toBe(true);
+    if ((await success.count()) > 0) return;
+  }
+}
+
+export function isoDaysFromToday(offset: number) {
+  const d = new Date();
+  d.setDate(d.getDate() + offset);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}

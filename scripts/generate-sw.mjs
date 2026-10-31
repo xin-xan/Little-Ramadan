@@ -17,7 +17,7 @@ function walk(dir) {
 
 const files = walk(OUT)
   .map((p) => relative(OUT, p).split(sep).join("/"))
-  .filter((p) => p !== "sw.js" && !p.endsWith(".txt") && !p.endsWith(".map") && !p.startsWith("_next/static/development") && p !== "404.html");
+  .filter((p) => p !== "sw.js" && p !== "_headers" && !p.endsWith(".txt") && !p.endsWith(".map") && !p.startsWith("_next/static/development") && p !== "404.html");
 
 const hash = createHash("sha256");
 for (const f of files.sort()) hash.update(f).update(readFileSync(join(OUT, f)));

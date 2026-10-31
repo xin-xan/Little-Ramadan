@@ -5,6 +5,13 @@
  */
 import { useId } from "react";
 
+/** Mix a hex colour towards white (used for soft highlights without grey blending). */
+function lighten(hex: string, amt: number) {
+  const n = parseInt(hex.slice(1), 16);
+  const ch = (shift: number) => Math.round(((n >> shift) & 255) + (255 - ((n >> shift) & 255)) * amt);
+  return `rgb(${ch(16)},${ch(8)},${ch(0)})`;
+}
+
 export type Expression = "happy" | "wave" | "think" | "cheer" | "calm";
 
 export const PALETTE = {
@@ -34,18 +41,18 @@ function Kid({ who, expression = "happy", size = 160, title, className }: KidPro
     <svg viewBox="0 0 200 240" width={size} height={(size * 240) / 200} role="img" aria-label={label} className={className}>
       <defs>
         <radialGradient id={`skin${uid}`} cx="40%" cy="35%" r="70%">
-          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.35" />
+          <stop offset="0%" stopColor={lighten(p.skin, 0.3)} />
           <stop offset="45%" stopColor={p.skin} />
           <stop offset="100%" stopColor={p.skinShade} />
         </radialGradient>
         <radialGradient id={`body${uid}`} cx="35%" cy="25%" r="85%">
-          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.35" />
+          <stop offset="0%" stopColor={lighten(outfit, 0.3)} />
           <stop offset="40%" stopColor={outfit} />
           <stop offset="100%" stopColor={outfitShade} />
         </radialGradient>
         {who === "amina" && (
           <radialGradient id={`hijab${uid}`} cx="40%" cy="30%" r="75%">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.5" />
+            <stop offset="0%" stopColor={lighten(PALETTE.amina.hijab, 0.45)} />
             <stop offset="45%" stopColor={PALETTE.amina.hijab} />
             <stop offset="100%" stopColor={PALETTE.amina.hijabShade} />
           </radialGradient>
@@ -153,7 +160,6 @@ export function Hilmy({ expression = "happy", size = 120, className, title = "Hi
           <circle cx="82" cy="46" r="40" fill="#000" />
         </mask>
       </defs>
-      <circle cx="56" cy="62" r="46" fill="#FFF1C2" opacity="0.25" />
       <circle cx="56" cy="62" r="44" fill={`url(#moon${uid})`} mask={`url(#cres${uid})`} />
       {expression === "sleepy" ? (
         <path d="M28 64 Q34 58 40 64" stroke="#5B3A12" strokeWidth="3.5" fill="none" strokeLinecap="round" />

@@ -37,10 +37,11 @@ export default function HomePage() {
   return (
     <div className="stack-lg">
       <div className="top-bar">
-        <div className="brand">
+        <h1 className="brand" style={{ margin: 0, fontSize: "1.1rem" }}>
           <LogoMark size={36} />
           <span>Little Ramadan</span>
-        </div>
+          <span className="sr-only">: Noor&apos;s House</span>
+        </h1>
         <div className="row" style={{ gap: 8 }}>
           <StarCount stars={stars} />
           <Link href="/rewards/room/" aria-label={`My room. Your avatar is ${profile.avatar}`} className="icon-btn" style={{ padding: 0 }}>

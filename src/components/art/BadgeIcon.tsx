@@ -19,7 +19,7 @@ export function BadgeIcon({ id, size = 72, locked = false, label }: { id: string
     <svg viewBox="0 0 100 100" width={size} height={size} role={label ? "img" : undefined} aria-label={label} aria-hidden={label ? undefined : true} style={locked ? { filter: "grayscale(1)", opacity: 0.45 } : undefined}>
       <defs>
         <radialGradient id={`b${uid}`} cx="35%" cy="30%" r="80%">
-          <stop offset="0%" stopColor="#fff" stopOpacity="0.7" />
+          <stop offset="0%" stopColor="#ffffff" />
           <stop offset="60%" stopColor={s.inner} />
           <stop offset="100%" stopColor={s.inner} />
         </radialGradient>

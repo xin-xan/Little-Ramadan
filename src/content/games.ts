@@ -32,17 +32,17 @@ export const vocabulary: VocabTerm[] = [
 ];
 
 /** Word-to-picture pairs for "Match the Words". */
-export const pictureWords: { id: string; word: string; illustration: IllustrationKey; hint: string }[] = [
-  { id: "pw-ramadan", word: "Ramadan", illustration: "crescent", hint: "A crescent moon — Ramadan begins when it is seen." },
-  { id: "pw-suhoor", word: "Suhoor", illustration: "sunrise", hint: "Suhoor is eaten before dawn, before the sun comes up." },
-  { id: "pw-iftar", word: "Iftar", illustration: "sunset", hint: "Iftar is the meal at sunset." },
-  { id: "pw-dua", word: "Dua", illustration: "dua", hint: "Many people raise their hands when they make a dua." },
-  { id: "pw-mosque", word: "Mosque", illustration: "mosque", hint: "A mosque is a place where Muslims pray together." },
-  { id: "pw-quran", word: "Quran", illustration: "book", hint: "The Quran is the holy book of Islam." },
-  { id: "pw-charity", word: "Charity", illustration: "charity-box", hint: "Charity means giving to help others." },
-  { id: "pw-eid", word: "Eid", illustration: "eid", hint: "Eid is the happy celebration at the end of Ramadan." },
-  { id: "pw-dates", word: "Dates", illustration: "dates", hint: "Many people begin Iftar with dates and water." },
-  { id: "pw-lantern", word: "Lantern", illustration: "lantern", hint: "Lanterns are a favourite Ramadan decoration." },
+export const pictureWords: { id: string; word: string; illustration: IllustrationKey; picture: string; hint: string }[] = [
+  { id: "pw-ramadan", picture: "a crescent moon in the night sky", word: "Ramadan", illustration: "crescent", hint: "A crescent moon — Ramadan begins when it is seen." },
+  { id: "pw-suhoor", picture: "the sun rising over the sea", word: "Suhoor", illustration: "sunrise", hint: "Suhoor is eaten before dawn, before the sun comes up." },
+  { id: "pw-iftar", picture: "the sun setting behind a palm tree", word: "Iftar", illustration: "sunset", hint: "Iftar is the meal at sunset." },
+  { id: "pw-dua", picture: "two open hands raised", word: "Dua", illustration: "dua", hint: "Many people raise their hands when they make a dua." },
+  { id: "pw-mosque", picture: "a building with a dome and a tall tower", word: "Mosque", illustration: "mosque", hint: "A mosque is a place where Muslims pray together." },
+  { id: "pw-quran", picture: "an open book on a stand", word: "Quran", illustration: "book", hint: "The Quran is the holy book of Islam." },
+  { id: "pw-charity", picture: "a giving box with a heart", word: "Charity", illustration: "charity-box", hint: "Charity means giving to help others." },
+  { id: "pw-eid", picture: "bunting, a moon and a star", word: "Eid", illustration: "eid", hint: "Eid is the happy celebration at the end of Ramadan." },
+  { id: "pw-dates", picture: "a plate of brown dates", word: "Dates", illustration: "dates", hint: "Many people begin Iftar with dates and water." },
+  { id: "pw-lantern", picture: "a glowing lantern", word: "Lantern", illustration: "lantern", hint: "Lanterns are a favourite Ramadan decoration." },
 ];
 
 /** Cards for "Sort the Good Deeds". Language explains gently; never shames. */

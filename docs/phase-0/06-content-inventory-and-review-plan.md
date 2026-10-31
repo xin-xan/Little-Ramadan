@@ -12,12 +12,13 @@ The Parent Zone → “Content & review” page lists every item and its status.
 | Type | Count | File |
 |---|---|---|
 | Journey days (theme, lesson/story, kindness mission, game, reflection) | 30 (+ final-day adaptation for 29-day months) | `days.ts` |
-| Lessons (CLAUDE.md §6.6 topics) | 20 | `lessons.ts` |
-| Illustrated stories (original fiction with Noor & Amina, clearly marked as stories) | 6 | `stories.ts` |
-| Kindness missions | 20 | `missions.ts` |
-| Quiz sets / questions | 6 sets / 36 questions | `quizzes.ts` |
+| Lessons (all 20 CLAUDE.md §6.6 topics + cleanliness, good words, forgiveness, respect) | 24 | `lessons.ts` |
+| Illustrated stories (original fiction with Noor & Amina, clearly marked as stories) | 8 | `stories.ts` |
+| Kindness missions | 32 | `missions.ts` |
+| Quiz sets / questions | 7 sets / 42 questions | `quizzes.ts` |
 | Vocabulary terms | 14 | `vocabulary.ts` |
 | Good-deed sorting cards | 14 | `games.ts` |
+| Picture-word pairs / memory cards / lantern designs | 10 / 8 / 8 | `games.ts` |
 | Personal goals | 7 | `goals.ts` |
 | Badges | 8 | `badges.ts` |
 | Room decorations | 18 | `decorations.ts` |
