@@ -1,0 +1,19 @@
+{
+  "name": "Little Ramadan",
+  "short_name": "Little Ramadan",
+  "description": "My Little Journey of Faith, Kindness & Discovery. Free, child-safe Ramadan learning — no ads, no purchases, no accounts.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FFF7E8",
+  "theme_color": "#123C35",
+  "lang": "en-GB",
+  "categories": ["education", "kids"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
