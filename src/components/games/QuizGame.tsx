@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { ListenButton, useAutoRead } from "../Listen";
 import { Amina } from "@/characters/Characters";
 import { gameById } from "@/content/games";
 import type { QuizSet } from "@/content/types";
@@ -18,6 +19,11 @@ export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: n
   const finish = useFinishGame("quiz", { quizSetId: set.id, day });
   const sfx = useSfx();
   const q = qs[i];
+  const askRef = useRef<HTMLDivElement>(null);
+  const feedbackRef = useRef<HTMLDivElement>(null);
+  // Read the question and its answers aloud, then the gentle feedback after each try.
+  useAutoRead(askRef, `${set.id}:${i}:${qs.length}`, "quiz", !done);
+  useAutoRead(feedbackRef, `${i}:${solved}:${wrong.length}`, "quiz", !done && (solved || wrong.length > 0));
 
   const restart = () => {
     setQs(prepareQuiz(set.questions));
@@ -55,10 +61,12 @@ export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: n
         <GameDone message={`You answered all ${qs.length} questions about ${set.title.toLowerCase()}. You learned something new today!`} onReplay={restart} dayId={day?.id} />
       ) : (
         <div className="stack">
+          <div ref={askRef} className="stack">
           <div className="speech">
             <Amina size={72} expression={solved ? "cheer" : "think"} />
-            <div className="bubble" style={{ fontSize: "1.2rem", fontWeight: 700 }} id="quiz-question">
-              {q.question}
+            <div className="bubble" style={{ fontSize: "1.2rem", fontWeight: 700 }}>
+              <ListenButton compact target={askRef} narrationKey="quiz" label="Hear the question" className="bubble-listen" />
+              <span id="quiz-question">{q.question}</span>
             </div>
           </div>
           <div className="stack" role="group" aria-labelledby="quiz-question" data-testid="answers">
@@ -83,23 +91,28 @@ export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: n
                   <span aria-hidden="true" className="quiz-letter">
                     {isRight ? <Icon name="check" size={16} strokeWidth={3} /> : isWrong ? <Icon name="close" size={16} strokeWidth={3} /> : ["A", "B", "C"][idx]}
                   </span>
-                  {opt}
+                  <span data-narrate="read">{opt}</span>
                   {isRight && <span className="sr-only">, correct</span>}
                   {isWrong && <span className="sr-only">, not this one</span>}
                 </button>
               );
             })}
           </div>
+          </div>
+          <div ref={feedbackRef} className="stack">
           {wrong.length > 0 && !solved && <Feedback kind="retry">Not quite — that&apos;s okay! Have another go.</Feedback>}
           {solved && (
             <>
               <Feedback kind="good">
                 <strong>That&apos;s right!</strong> {q.explanation}
               </Feedback>
-              <button className="btn block" onClick={next} data-autofocus>
-                {i + 1 < qs.length ? "Next question" : "Finish"} <Icon name="arrowRight" size={20} />
-              </button>
             </>
+          )}
+          </div>
+          {solved && (
+            <button className="btn block" onClick={next} data-autofocus>
+              {i + 1 < qs.length ? "Next question" : "Finish"} <Icon name="arrowRight" size={20} />
+            </button>
           )}
         </div>
       )}

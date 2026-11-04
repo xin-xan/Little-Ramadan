@@ -183,8 +183,16 @@ function SettingsPanel() {
         </div>
       </div>
       <div className="card">
-        <h2>Sound, motion and display</h2>
+        <h2>Sound, voice, motion and display</h2>
         <Switch id="set-sound" label="Sound effects" description="Soft chimes and sparkles, generated on this device. Nothing in the app depends on sound." checked={s.soundOn} onChange={(v) => updateSettings({ soundOn: v })} />
+        <Switch id="set-read" label="Read aloud automatically" description="Stories, lessons and quiz questions are read aloud with a voice built into this device, and the sentence being read is highlighted. Every page also has a Listen button. Nothing leaves the device." checked={s.readAloud} onChange={(v) => updateSettings({ readAloud: v })} />
+        <div className="toggle-row">
+          <label htmlFor="set-speed">Reading speed</label>
+          <select id="set-speed" className="input" style={{ maxWidth: 200 }} value={s.narrationSpeed} onChange={(e) => updateSettings({ narrationSpeed: e.target.value === "slow" ? "slow" : "normal" })}>
+            <option value="normal">Normal</option>
+            <option value="slow">Slower</option>
+          </select>
+        </div>
         <Switch id="set-motion" label="Reduce motion" description="Turns off animations. The device's own reduce-motion setting is always respected too." checked={s.reducedMotion} onChange={(v) => updateSettings({ reducedMotion: v })} />
         <div className="toggle-row">
           <label htmlFor="set-village">Village view</label>

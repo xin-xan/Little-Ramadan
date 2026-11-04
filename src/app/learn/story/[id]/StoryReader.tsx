@@ -11,6 +11,7 @@ import { storyById } from "@/content/stories";
 import { has } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
 import { Icon } from "@/components/Icon";
+import { ListenButton, ReadToMeToggle, useAutoRead } from "@/components/Listen";
 
 /** Paged story reader. No autoplay: the child turns each page. */
 export function StoryReader({ id }: { id: string }) {
@@ -19,6 +20,10 @@ export function StoryReader({ id }: { id: string }) {
   const story = storyById(id);
   const [page, setPage] = useState(0);
   const textRef = useRef<HTMLDivElement>(null);
+  const endRef = useRef<HTMLDivElement>(null);
+  const readRef = page > (story?.pages.length ?? 0) - 1 ? endRef : textRef;
+  // "Read to me": each page is read aloud when it opens. The child still turns every page.
+  useAutoRead(readRef, `${id}:${page}`, "story", !!story);
   if (!story) return <NotFound what="story" back={{ href: "/learn/", label: "Knowledge Garden" }} />;
   const done = has(data.completions, "story", story.id);
   const last = story.pages.length - 1;
@@ -31,8 +36,11 @@ export function StoryReader({ id }: { id: string }) {
 
   return (
     <article className="stack-lg">
-      <PageHeader title={story.title} back={from ? { href: `/journey/${from.id}/`, label: "today's mission" } : { href: "/learn/", label: "Knowledge Garden" }} />
-      {page === 0 && <p className="pill" style={{ alignSelf: "flex-start" }}>A story about {story.value.toLowerCase()}</p>}
+      <PageHeader listen={false} title={story.title} back={from ? { href: `/journey/${from.id}/`, label: "today's mission" } : { href: "/learn/", label: "Knowledge Garden" }} />
+      <div className="row wrap" style={{ justifyContent: "space-between" }}>
+        {page === 0 ? <p className="pill" style={{ margin: 0 }}>A story about {story.value.toLowerCase()}</p> : <span />}
+        <ReadToMeToggle />
+      </div>
       {!atEnd ? (
         <>
           <div className="card stack center" style={{ minHeight: 320 }}>
@@ -43,7 +51,10 @@ export function StoryReader({ id }: { id: string }) {
               {story.pages[page].text}
             </div>
           </div>
-          <p className="center small muted" aria-hidden="true">
+          <div className="row" style={{ justifyContent: "center" }}>
+            <ListenButton target={textRef} narrationKey="story" label="Read this page" />
+          </div>
+          <p className="center small muted" aria-hidden="true" style={{ margin: 0 }}>
             Page {page + 1} of {story.pages.length}
           </p>
           <div className="row">
@@ -57,10 +68,12 @@ export function StoryReader({ id }: { id: string }) {
         </>
       ) : (
         <div className="card gold stack center">
-          <h2>The end!</h2>
-          <p>
-            This story was about <strong>{story.value.toLowerCase()}</strong>. What did you like about it?
-          </p>
+          <div ref={endRef} className="stack center">
+            <h2>The end!</h2>
+            <p>
+              This story was about <strong>{story.value.toLowerCase()}</strong>. What did you like about it?
+            </p>
+          </div>
           {done ? (
             <p className="pill done" style={{ alignSelf: "center" }}>
               <Icon name="check" size={14} strokeWidth={3} /> Story read

@@ -11,17 +11,26 @@ import { lessonById } from "@/content/lessons";
 import { has } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
 import { Icon } from "@/components/Icon";
+import { ListenButton, ReadToMeToggle, useAutoRead } from "@/components/Listen";
+import { useRef } from "react";
 
 export function LessonReader({ id }: { id: string }) {
   const { data, complete } = useApp();
   const from = useDayParam();
   const lesson = lessonById(id);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  useAutoRead(bodyRef, id, "lesson", !!lesson);
   if (!lesson) return <NotFound what="lesson" back={{ href: "/learn/", label: "Knowledge Garden" }} />;
   const done = has(data.completions, "lesson", lesson.id);
 
   return (
     <article className="stack-lg">
-      <PageHeader title={lesson.title} back={from ? { href: `/journey/${from.id}/`, label: "today's mission" } : { href: "/learn/", label: "Knowledge Garden" }} />
+      <PageHeader listen={false} title={lesson.title} back={from ? { href: `/journey/${from.id}/`, label: "today's mission" } : { href: "/learn/", label: "Knowledge Garden" }} />
+      <div className="row wrap" style={{ justifyContent: "space-between" }}>
+        <ListenButton target={bodyRef} narrationKey="lesson" label="Listen to the lesson" />
+        <ReadToMeToggle />
+      </div>
+      <div ref={bodyRef} className="stack-lg">
       <div className="card lav row">
         <CharacterById id={lesson.guide} size={80} />
         <p style={{ margin: 0, fontSize: "1.1rem" }}>{lesson.summary}</p>
@@ -46,6 +55,7 @@ export function LessonReader({ id }: { id: string }) {
       <div className="card sky">
         <h2>Try this with your family</h2>
         <p style={{ margin: 0 }}>{lesson.tryThis}</p>
+      </div>
       </div>
       {done ? (
         <p className="pill done" style={{ alignSelf: "center", fontSize: "1rem" }}>

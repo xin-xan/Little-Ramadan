@@ -26,8 +26,12 @@ Stars come only from learning, kindness, games and goals. They are never taken a
 
 ## Parent Zone
 Open **Parents** in the bottom menu. By default it asks a grown-up maths question (this keeps young children out but is not security). You can set a 4–6 digit PIN under Settings; it is stored only as a secure hash.
-From there you can see progress and reflections, change sound and motion, set a gentle break reminder, read the privacy notice and content review status, reset progress or delete everything.
+From there you can see progress and reflections, change sound, read-aloud and motion settings, set a gentle break reminder, read the privacy notice and content review status, reset progress or delete everything.
 
 ## Important to know
 - Progress is saved only in this browser on this device. Clearing browser data, uninstalling, or switching devices or browsers will lose it.
 - The religious-learning content is being reviewed by qualified reviewers. Please guide your child with your family's own teachers and scholars.
+
+
+## Read to me
+Stories, lessons and quiz questions are read aloud automatically with your device's built-in voice, and the sentence being read is highlighted so children can follow along. Every page has a Listen button (headphones icon). Children can switch **Read to me** off on stories and lessons; in the Parent Zone you can turn automatic reading off or choose a slower speed. If no Listen button appears, your device has no built-in English voice: on iPhone, go to Settings > Accessibility > Spoken Content > Voices > English to download one; on Android, install or update "Speech Services by Google" and download an English voice.
