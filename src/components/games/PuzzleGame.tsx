@@ -5,6 +5,7 @@ import { MosqueArt, PalmArt, StarArt, CrescentArt } from "@/components/art/Illus
 import { gameById } from "@/content/games";
 import { isSolved, scrambleTiles, swapTiles } from "@/game-engine/engine";
 import { Feedback, GameDone, GameFrame, HowToPlay, useFinishGame, useSfx } from "./GameFrame";
+import { Icon } from "../Icon";
 
 /** The puzzle picture: the fictional village mosque at sunset. No sacred text is used. */
 function PuzzlePicture() {
@@ -115,7 +116,7 @@ export function PuzzleGame({ day }: { day: { id: string; day: number } | null })
                   <Tile piece={piece} size={size} />
                   {inPlace && (
                     <span aria-hidden="true" style={{ position: "absolute", right: 4, bottom: 4, background: "var(--success-bg)", color: "var(--success-text)", borderRadius: 999, fontSize: "0.75rem", fontWeight: 800, padding: "0 6px" }}>
-                      ✓
+                      <Icon name="check" size={14} strokeWidth={3} />
                     </span>
                   )}
                 </button>
@@ -124,7 +125,7 @@ export function PuzzleGame({ day }: { day: { id: string; day: number } | null })
           </div>
           {sel !== null && <Feedback kind="info">Now tap the piece you want to swap with.</Feedback>}
           <button className="btn ghost block" onClick={() => setPeek((p) => !p)} aria-expanded={peek}>
-            {peek ? "Hide the picture" : "👀 Peek at the finished picture"}
+            <Icon name="eye" /> {peek ? "Hide the picture" : "Peek at the finished picture"}
           </button>
           {peek && (
             <svg viewBox="0 0 100 100" width="100%" style={{ maxWidth: 220, alignSelf: "center", borderRadius: 12 }} role="img" aria-label="The finished picture: the village mosque at sunset">

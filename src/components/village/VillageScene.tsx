@@ -1,18 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Noor } from "@/characters/Characters";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { playSound } from "@/accessibility/sound";
+import { Icon, IconChip } from "@/components/Icon";
+import type { DestinationId, VillageHandle } from "@/three/village";
 import { CrescentArt, LanternArt, MosqueArt, PalmArt, StarArt } from "@/components/art/Illustration";
 import { countKind, unlockedBadgeIds, unlockedDecorationIds } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
 
 export const DESTINATIONS = [
-  { id: "house", name: "Noor's House", what: "Daily missions", href: "/journey/", icon: "🏠", x: 18, y: 64 },
-  { id: "garden", name: "Knowledge Garden", what: "Stories and lessons", href: "/learn/", icon: "🌴", x: 50, y: 40 },
-  { id: "street", name: "Kindness Street", what: "Good deeds", href: "/kindness/", icon: "💗", x: 82, y: 64 },
-  { id: "palace", name: "Puzzle Palace", what: "Quizzes and games", href: "/games/", icon: "🧩", x: 26, y: 88 },
-  { id: "square", name: "Celebration Square", what: "Stars, badges and Eid", href: "/rewards/", icon: "🎉", x: 74, y: 88 },
+  { id: "house", name: "Noor's House", short: "Noor's House", what: "Daily missions", href: "/journey/", icon: "home", tone: "emerald", x: 20, y: 50 },
+  { id: "garden", name: "Knowledge Garden", short: "Garden", what: "Stories and lessons", href: "/learn/", icon: "sprout", tone: "emerald", x: 50, y: 36 },
+  { id: "street", name: "Kindness Street", short: "Kindness", what: "Good deeds", href: "/kindness/", icon: "heart", tone: "rose", x: 80, y: 50 },
+  { id: "palace", name: "Puzzle Palace", short: "Puzzles", what: "Quizzes and games", href: "/games/", icon: "games", tone: "lavender", x: 28, y: 78 },
+  { id: "square", name: "Celebration Square", short: "Celebrate", what: "Stars, badges and Eid", href: "/rewards/", icon: "rewards", tone: "gold", x: 72, y: 78 },
 ] as const;
 
 /** Low-powered device heuristic for the automatic simple village. */
@@ -28,14 +31,12 @@ function SimpleVillage() {
       {DESTINATIONS.map((d) => (
         <li key={d.id}>
           <Link href={d.href} className="list-link">
-            <span style={{ fontSize: "2rem" }} aria-hidden="true">
-              {d.icon}
-            </span>
+            <IconChip name={d.icon} tone={d.tone} />
             <span className="grow">
               <strong>{d.name}</strong>
               <span className="small muted">{d.what}</span>
             </span>
-            <span aria-hidden="true">›</span>
+            <Icon name="next" className="chev" />
           </Link>
         </li>
       ))}
@@ -146,16 +147,118 @@ function SceneArt({ lanterns, flowers, stars, animate }: { lanterns: number; flo
   );
 }
 
+type Pins = Record<DestinationId, { x: number; y: number; visible: boolean }>;
+
+/** Interactive 3D village (lazy-loaded). Flat illustrated scene while loading or without WebGL. */
+function Village3D({ animate, lowPower }: { animate: boolean; lowPower: boolean }) {
+  const { data } = useApp();
+  const router = useRouter();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const pinRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
+  const handle = useRef<VillageHandle | null>(null);
+  const [state, setState] = useState<"loading" | "ready" | "fallback">("loading");
+  const c = data.completions;
+  const lanterns = unlockedDecorationIds(c).length;
+  const flowers = countKind(c, "kindness");
+  const init = useRef({ animate, lanterns, flowers, router, sound: data.settings.soundOn });
+  useEffect(() => {
+    init.current.router = router;
+    init.current.sound = data.settings.soundOn;
+  }, [router, data.settings.soundOn]);
+
+  useEffect(() => {
+    let cancelled = false;
+    import("@/three/village")
+      .then((m) => {
+        if (cancelled || !canvasRef.current) return;
+        const h = m.mountVillage(canvasRef.current, {
+          animate: init.current.animate,
+          lowPower,
+          lanterns: init.current.lanterns,
+          flowers: init.current.flowers,
+          onSelect: (id) => {
+            if (init.current.sound) playSound("open");
+            const d = DESTINATIONS.find((x) => x.id === id);
+            if (d) init.current.router.push(d.href);
+          },
+          onPins: (pins: Pins) => {
+            // Place labels above their buildings, nudging any that would overlap (anchor = bottom centre).
+            const placed: { l: number; r: number; t: number; b: number }[] = [];
+            const order = (Object.entries(pins) as [string, Pins[DestinationId]][]).sort((a, b) => a[1].y - b[1].y);
+            for (const [id, p] of order) {
+              const el = pinRefs.current[id];
+              if (!el) continue;
+              const w = el.offsetWidth;
+              const h = el.offsetHeight + 8;
+              let y = p.y;
+              for (let guard = 0; guard < 6; guard++) {
+                const hit = placed.find((q) => p.x - w / 2 < q.r && p.x + w / 2 > q.l && y - h < q.b && y > q.t);
+                if (!hit) break;
+                y = hit.b + h;
+              }
+              placed.push({ l: p.x - w / 2, r: p.x + w / 2, t: y - h, b: y });
+              el.style.left = `${p.x}px`;
+              el.style.top = `${y}px`;
+              el.style.visibility = p.visible ? "visible" : "hidden";
+            }
+          },
+        });
+        if (!h) return setState("fallback");
+        handle.current = h;
+        setState("ready");
+      })
+      .catch(() => !cancelled && setState("fallback"));
+    return () => {
+      cancelled = true;
+      handle.current?.dispose();
+      handle.current = null;
+    };
+  }, [lowPower]);
+
+  useEffect(() => handle.current?.setProgress(lanterns, flowers), [lanterns, flowers, state]);
+  useEffect(() => handle.current?.setAnimate(animate), [animate, state]);
+
+  return (
+    <div className="village">
+      {state !== "ready" && (
+        <div style={{ position: "absolute", inset: 0 }} aria-hidden="true">
+          <SceneArt lanterns={lanterns} flowers={flowers} stars={unlockedBadgeIds(c).length} animate={false} />
+        </div>
+      )}
+      {state !== "fallback" && <canvas ref={canvasRef} aria-hidden="true" style={{ opacity: state === "ready" ? 1 : 0, transition: "opacity 600ms ease" }} />}
+      <nav aria-label="Village places">
+        {DESTINATIONS.map((d) => (
+          <Link
+            key={d.id}
+            href={d.href}
+            ref={(el) => {
+              pinRefs.current[d.id] = el;
+            }}
+            className="village-pin"
+            style={{ left: `${d.x}%`, top: `${d.y}%` }}
+            data-sound="open"
+            aria-label={d.name}
+          >
+            <IconChip name={d.icon} tone={d.tone} size={28} />
+            {d.short}
+          </Link>
+        ))}
+      </nav>
+    </div>
+  );
+}
+
 export function VillageScene() {
   const { data, updateSettings } = useApp();
   const mode = data.settings.villageMode;
   // Page content only renders on the client (after local data loads), so this is safe to read once.
   const [lowPower] = useState(isLowPowerDevice);
   const simple = mode === "simple" || (mode === "auto" && lowPower);
-  const animate = !data.settings.reducedMotion;
+  const animate = !data.settings.reducedMotion && !(typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
 
   const toggle = (
     <button type="button" className="btn ghost small" onClick={() => updateSettings({ villageMode: simple ? "scene" : "simple" })}>
+      <Icon name={simple ? "eye" : "book"} size={20} />
       {simple ? "Show village picture" : "Show simple list"}
     </button>
   );
@@ -168,45 +271,12 @@ export function VillageScene() {
       </div>
     );
 
-  const c = data.completions;
   return (
     <div className="stack">
-      <div style={{ position: "relative", borderRadius: 24, overflow: "hidden", boxShadow: "var(--shadow-soft)", aspectRatio: "4 / 3" }}>
-        <SceneArt lanterns={unlockedDecorationIds(c).length} flowers={countKind(c, "kindness")} stars={unlockedBadgeIds(c).length} animate={animate} />
-        <div style={{ position: "absolute", left: "2%", bottom: "28%", width: "17%" }} className={animate ? "float" : undefined}>
-          <Noor size={70} expression="wave" title="Noor waving" />
-        </div>
-        <nav aria-label="Village places">
-          {DESTINATIONS.map((d) => (
-            <Link
-              key={d.id}
-              href={d.href}
-              style={{
-                position: "absolute",
-                left: `${d.x}%`,
-                top: `${d.y}%`,
-                transform: "translate(-50%, -50%)",
-                background: "rgba(255,253,246,0.95)",
-                color: "var(--emerald)",
-                borderRadius: 999,
-                padding: "6px 10px",
-                minHeight: 44,
-                display: "flex",
-                alignItems: "center",
-                gap: 4,
-                fontWeight: 800,
-                fontSize: "0.8rem",
-                textDecoration: "none",
-                boxShadow: "0 4px 0 rgba(18,60,53,.25)",
-                whiteSpace: "nowrap",
-              }}
-            >
-              <span aria-hidden="true">{d.icon}</span>
-              {d.name}
-            </Link>
-          ))}
-        </nav>
-      </div>
+      <Village3D animate={animate} lowPower={lowPower} />
+      <p className="small muted center" style={{ margin: 0 }}>
+        Tap a place to visit it. Drag to look around.
+      </p>
       {toggle}
     </div>
   );

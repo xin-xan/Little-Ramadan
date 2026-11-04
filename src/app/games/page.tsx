@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/ui";
 import { games } from "@/content/games";
 import { has } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
+import { Icon } from "@/components/Icon";
 
 export default function GamesPage() {
   const { data } = useApp();
@@ -29,7 +30,7 @@ export default function GamesPage() {
                 <Illustration name={g.illustration} size={64} />
                 <span>{g.title}</span>
                 <span className="tile-sub">{g.description}</span>
-                <span className={`pill ${tried ? "done" : "gold"}`}>{tried ? "✓ Played" : "★ New"}</span>
+                <span className={`pill ${tried ? "done" : "gold"}`}>{tried ? <><Icon name="check" size={14} strokeWidth={3} /> Played</> : "New"}</span>
               </Link>
             </li>
           );

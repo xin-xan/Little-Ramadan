@@ -8,6 +8,7 @@ import { firstFastPages, JOURNAL_OPTIONS, JOURNAL_SAVED_MESSAGE } from "@/conten
 import { formatDate, localISODate } from "@/storage/calendar";
 import type { JournalExperience } from "@/storage/schema";
 import { useApp } from "@/state/AppState";
+import { IconChip } from "@/components/Icon";
 
 /**
  * My First Fast — educational pages plus an OPTIONAL private journal
@@ -56,7 +57,9 @@ export default function FirstFastPage() {
       </div>
 
       <section className="card lav stack" aria-labelledby="journal-h">
-        <h2 id="journal-h">📔 My private Ramadan journal</h2>
+        <h2 id="journal-h" className="row" style={{ gap: 10 }}>
+          <IconChip name="book" tone="lavender" size={36} /> My private Ramadan journal
+        </h2>
         {!enabled ? (
           <p style={{ margin: 0 }}>The journal is switched off. A grown-up can switch it on in the Parents area if your family would like to use it.</p>
         ) : (

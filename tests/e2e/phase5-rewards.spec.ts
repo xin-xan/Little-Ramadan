@@ -37,9 +37,9 @@ test("badge gallery and star-based decorations reflect seeded progress", async (
     ...["tidy-toys", "say-thank-you", "set-table", "share-sibling", "help-family", "kind-card", "family-time", "water-plants"].map((id) => ({ kind: "kindness", contentId: id })),
   ]);
   await page.goto("/rewards/");
-  await expect(page.getByText("★ 24")).toBeVisible();
-  await expect(page.getByRole("listitem").filter({ hasText: "Kindness Hero" }).getByText("✓ Earned")).toBeVisible();
-  await expect(page.getByRole("listitem").filter({ hasText: "Star garland" }).getByText("✓ Unlocked")).toBeVisible();
+  await expect(page.getByRole("region", { name: "24 stars collected" })).toBeVisible();
+  await expect(page.getByRole("listitem").filter({ hasText: "Kindness Hero" }).getByText("Earned", { exact: true })).toBeVisible();
+  await expect(page.getByRole("listitem").filter({ hasText: "Star garland" }).getByText("Unlocked", { exact: true })).toBeVisible();
   await expect(page.getByRole("listitem").filter({ hasText: "Little Scholar" }).getByText(/% there/)).toBeVisible();
 });
 
@@ -92,8 +92,10 @@ test("Eid works with a 29-day calendar and with no calendar", async ({ page }) =
   await expect(page.getByRole("heading", { name: /end of your Ramadan journey/ })).toBeVisible();
 });
 
-test("the experience works without sound (sound is off by default)", async ({ page }) => {
+test("the experience works without sound", async ({ page }) => {
   await onboard(page);
+  await page.getByRole("button", { name: /Turn sound off/ }).click();
+  await expect(page.getByRole("button", { name: /Turn sound on/ })).toBeVisible();
   await page.goto("/kindness/say-thank-you/");
   await page.getByRole("button", { name: /I did it!/ }).click();
   await expect(page.getByRole("heading", { name: "You earned 3 stars!" })).toBeVisible(); // visual feedback carries all info

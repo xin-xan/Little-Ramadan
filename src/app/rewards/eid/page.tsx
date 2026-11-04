@@ -8,6 +8,7 @@ import { calendarStatus, dateOfDay, formatDate } from "@/storage/calendar";
 import { countKind, progressOf } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
 import { playSound } from "@/accessibility/sound";
+import { Icon } from "@/components/Icon";
 
 /** Eid celebration. Works with 29- or 30-day calendars and with no calendar at all. */
 export default function EidPage() {
@@ -39,7 +40,7 @@ export default function EidPage() {
         </div>
         {data.settings.soundOn && (
           <button className="btn gold" onClick={() => playSound("badge")}>
-            🔔 Play a happy sound
+            <Icon name="sound-on" /> Play a happy sound
           </button>
         )}
       </div>
@@ -48,7 +49,7 @@ export default function EidPage() {
         <h2 id="eid-journey">Your Ramadan journey</h2>
         <div className="grid-2">
           <div className="card gold center">
-            <strong style={{ fontSize: "1.6rem" }}>★ {p.stars}</strong>
+            <strong style={{ fontSize: "1.6rem" }}>{p.stars}</strong>
             <div className="small">stars</div>
           </div>
           <div className="card sky center">
@@ -85,7 +86,7 @@ export default function EidPage() {
       </section>
 
       <Link href="/rewards/certificate/" className="btn gold block">
-        📜 See my certificate
+        <Icon name="scroll" /> See my certificate
       </Link>
       <Link href="/learn/lesson/eid-al-fitr/" className="btn ghost block">
         Learn about Eid al-Fitr

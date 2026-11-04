@@ -4,6 +4,8 @@
  * Soft "3D-cartoon" shading comes from radial gradients and rim highlights.
  */
 import { useId } from "react";
+import { Character3D } from "./Character3D";
+import type { Pose } from "@/three/characters";
 
 /** Mix a hex colour towards white (used for soft highlights without grey blending). */
 function lighten(hex: string, amt: number) {
@@ -137,15 +139,15 @@ function Kid({ who, expression = "happy", size = 160, title, className }: KidPro
   );
 }
 
-export function Noor(props: Omit<KidProps, "who">) {
+function NoorFlat(props: Omit<KidProps, "who">) {
   return <Kid who="noor" {...props} />;
 }
 
-export function Amina(props: Omit<KidProps, "who">) {
+function AminaFlat(props: Omit<KidProps, "who">) {
   return <Kid who="amina" {...props} />;
 }
 
-export function Hilmy({ expression = "happy", size = 120, className, title = "Hilmy, a friendly crescent moon" }: { expression?: "happy" | "sleepy" | "cheer"; size?: number; className?: string; title?: string }) {
+function HilmyFlat({ expression = "happy", size = 120, className, title = "Hilmy, a friendly crescent moon" }: { expression?: "happy" | "sleepy" | "cheer"; size?: number; className?: string; title?: string }) {
   const uid = useId().replace(/:/g, "");
   return (
     <svg viewBox="0 0 120 120" width={size} height={size} role="img" aria-label={title} className={className}>
@@ -174,6 +176,24 @@ export function Hilmy({ expression = "happy", size = 120, className, title = "Hi
       <path d="M22 40 Q30 26 44 22" stroke="#fff" strokeOpacity="0.7" strokeWidth="4" fill="none" strokeLinecap="round" />
     </svg>
   );
+}
+
+/** Flat vector versions: used as the instant placeholder and as the fallback when 3D is unavailable. */
+export { NoorFlat, AminaFlat, HilmyFlat };
+
+const KID_LABEL = { noor: "Noor, a cheerful boy in a green outfit and white cap", amina: "Amina, a cheerful girl in a lavender dress and pink hijab" };
+const toPose = (e: Expression | "sleepy" | undefined): Pose => (e === "sleepy" ? "calm" : (e ?? "happy"));
+
+export function Noor({ expression, size = 160, title, className }: Omit<KidProps, "who">) {
+  return <Character3D who="noor" pose={toPose(expression)} width={size} height={(size * 240) / 200} title={title ?? KID_LABEL.noor} className={className} flat={<NoorFlat expression={expression} size={size} title={title} />} />;
+}
+
+export function Amina({ expression, size = 160, title, className }: Omit<KidProps, "who">) {
+  return <Character3D who="amina" pose={toPose(expression)} width={size} height={(size * 240) / 200} title={title ?? KID_LABEL.amina} className={className} flat={<AminaFlat expression={expression} size={size} title={title} />} />;
+}
+
+export function Hilmy({ expression = "happy", size = 120, className, title = "Hilmy, a friendly crescent moon" }: { expression?: "happy" | "sleepy" | "cheer"; size?: number; className?: string; title?: string }) {
+  return <Character3D who="hilmy" pose={toPose(expression)} width={size} height={size} title={title} className={className} flat={<HilmyFlat expression={expression} size={size} title={title} />} />;
 }
 
 export function CharacterById({ id, expression, size }: { id: "noor" | "amina" | "hilmy"; expression?: Expression; size?: number }) {

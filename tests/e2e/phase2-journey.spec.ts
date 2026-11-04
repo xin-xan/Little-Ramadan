@@ -72,12 +72,12 @@ test("completing a day earns the right stars and badge, and persists", async ({ 
   await page.getByLabel(/How did people feel/).fill("They smiled");
   await page.getByRole("button", { name: /I did it!/ }).click();
   await page.getByRole("button", { name: "Yay! Continue" }).click();
-  await expect(page.getByText("✓ You did it!")).toBeVisible();
+  await expect(page.getByText("You did it!")).toBeVisible();
   // 3. quiz (+2 quiz, +1 new game)
   await page.getByRole("link", { name: /Ramadan Quiz: Ramadan Basics/ }).click();
   for (let i = 0; i < 6; i++) {
     await answerUntilRight(page, page.getByTestId("answers"));
-    await page.getByRole("button", { name: i < 5 ? "Next question →" : "Finish" }).click();
+    await page.getByRole("button", { name: i < 5 ? "Next question" : "Finish" }).click();
   }
   await expect(page.getByRole("heading", { name: "You earned 3 stars!" })).toBeVisible();
   await page.getByRole("button", { name: "Yay! Continue" }).click();
@@ -86,7 +86,7 @@ test("completing a day earns the right stars and badge, and persists", async ({ 
 
   // revisiting does not double-award
   await page.goto("/learn/lesson/why-fast/");
-  await expect(page.getByText("✓ Lesson complete.")).toBeVisible();
+  await expect(page.getByText("Lesson complete.")).toBeVisible();
 
   await page.reload();
   expect(await starCount(page)).toBe(8);

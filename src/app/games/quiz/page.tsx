@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/ui";
 import { quizSets } from "@/content/quizzes";
 import { has } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
+import { Icon } from "@/components/Icon";
 
 export default function QuizListPage() {
   const { data } = useApp();
@@ -24,7 +25,7 @@ export default function QuizListPage() {
                   <strong>{q.title}</strong>
                   <span className="small muted">{q.questions.length} questions</span>
                 </span>
-                <span className={`pill ${done ? "done" : ""}`}>{done ? "✓ Done" : "Play"}</span>
+                <span className={`pill ${done ? "done" : ""}`}>{done ? <><Icon name="check" size={14} strokeWidth={3} /> Done</> : "Play"}</span>
               </Link>
             </li>
           );

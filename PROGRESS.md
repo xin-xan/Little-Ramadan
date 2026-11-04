@@ -40,3 +40,11 @@ Tests: `tests/e2e/phase5-rewards.spec.ts`.
 - 🟡 Supervised usability testing with families (with consent) — owner
 - 🟡 Legal/privacy review for the Maldives; parent support contact route — owner
 - ⬜ Deploy to free HTTPS hosting and verify the public URL — awaiting owner approval and hosting choice
+
+## Design v2 — professional redesign (owner request)
+- ✅ Real-time 3D characters (Noor, Amina, Hilmy) with idle, wave, cheer, think, calm and talk animations, blinking, and tap-to-hop; flat fallback without WebGL
+- ✅ Interactive 3D Ramadan Village (island, sea, mosque landmark, five destinations, lanterns that light up with progress, flowers for kindness); drag to look around; accessible link pins; simple-list fallback
+- ✅ New design system: Fredoka/Nunito (self-hosted), custom icon set replacing all emoji, hero banners, metallic badge medals, floating tab bar, page transitions, confetti
+- ✅ Premium synthesised sound design (taps, chimes, sparkles, page turns, celebrations); on by default with an explicit setup choice, quick mute on home
+- ✅ RYSE credit with logo at the bottom of every page
+- 🟡 Owner to review the new look on real phones (3D performance on older devices especially)

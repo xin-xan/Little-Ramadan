@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Hilmy } from "@/characters/Characters";
+import { Icon, IconChip } from "@/components/Icon";
 import { BadgeIcon } from "@/components/art/BadgeIcon";
 import { DecorationThumb } from "@/components/room/DecorationArt";
 import { PageHeader } from "@/components/ui";
@@ -19,44 +20,56 @@ export default function RewardsPage() {
   return (
     <div className="stack-lg">
       <PageHeader title="Celebration Square" back={{ href: "/home/", label: "Home" }} />
-      <div className="card emerald row">
-        <Hilmy size={80} expression="cheer" />
-        <div>
-          <p style={{ margin: 0, fontSize: "2rem", fontWeight: 800, color: "var(--gold)" }}>★ {p.stars}</p>
-          <p style={{ margin: 0 }}>stars collected</p>
+      <section className="hero" aria-label={`${p.stars} stars collected`}>
+        <Hilmy size={110} expression="cheer" />
+        <div className="hero-text">
+          <p className="eyebrow" style={{ margin: 0 }}>Your collection</p>
+          <p style={{ margin: 0, fontFamily: "var(--display)", fontSize: "2.6rem", fontWeight: 600, color: "var(--gold)", lineHeight: 1.1 }} className="row">
+            <Icon name="star" size={34} fill strokeWidth={1.5} /> {p.stars}
+          </p>
+          <p style={{ margin: 0, fontWeight: 700 }}>stars collected</p>
         </div>
-      </div>
+      </section>
 
       <div className="grid-2">
-        <Link href="/rewards/room/" className="tile">
-          <span style={{ fontSize: "2rem" }} aria-hidden="true">🏮</span>
-          My Ramadan Room
-        </Link>
-        <Link href="/goals/" className="tile">
-          <span style={{ fontSize: "2rem" }} aria-hidden="true">🎯</span>
-          My Goals
-        </Link>
-        <Link href="/rewards/certificate/" className="tile">
-          <span style={{ fontSize: "2rem" }} aria-hidden="true">📜</span>
-          My Certificate
-        </Link>
-        <Link href="/rewards/eid/" className="tile">
-          <span style={{ fontSize: "2rem" }} aria-hidden="true">🌙</span>
-          Eid Celebration
-        </Link>
+        {(
+          [
+            ["/rewards/room/", "My Ramadan Room", "lantern", "gold"],
+            ["/goals/", "My Goals", "target", "emerald"],
+            ["/rewards/certificate/", "My Certificate", "scroll", "sky"],
+            ["/rewards/eid/", "Eid Celebration", "moon", "lavender"],
+          ] as const
+        ).map(([href, label, icon, tone]) => (
+          <Link key={href} href={href} className="tile">
+            <IconChip name={icon} tone={tone} size={52} />
+            {label}
+          </Link>
+        ))}
       </div>
 
       <section className="card stack" aria-labelledby="summary-h">
         <h2 id="summary-h">My achievements</h2>
-        <ul style={{ margin: 0 }}>
-          <li>{countKind(c, "lesson")} lessons learned</li>
-          <li>{countKind(c, "story")} stories read</li>
-          <li>{countKind(c, "kindness")} kind things done</li>
-          <li>{countKind(c, "quiz")} quizzes completed</li>
-          <li>{p.gamesExplored} games explored</li>
-          <li>{p.daysCompleted} journey days completed</li>
-          <li>{countKind(c, "goal")} goals finished</li>
-        </ul>
+        <div className="grid-2 wide-3">
+          {(
+            [
+              [countKind(c, "lesson"), "lessons learned", "sprout", "emerald"],
+              [countKind(c, "story"), "stories read", "book", "sky"],
+              [countKind(c, "kindness"), "kind things done", "heart", "rose"],
+              [countKind(c, "quiz"), "quizzes completed", "sparkle", "lavender"],
+              [p.gamesExplored, "games explored", "games", "lavender"],
+              [p.daysCompleted, "journey days completed", "journey", "gold"],
+              [countKind(c, "goal"), "goals finished", "target", "emerald"],
+            ] as const
+          ).map(([n, label, icon, tone]) => (
+            <div key={label} className="row" style={{ gap: 10, padding: 10, borderRadius: 16, background: "var(--cream)" }}>
+              <IconChip name={icon} tone={tone} size={40} />
+              <span style={{ lineHeight: 1.2 }}>
+                <strong style={{ fontFamily: "var(--display)", fontSize: "1.3rem", display: "block" }}>{n}</strong>
+                <span className="small muted">{label}</span>
+              </span>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="stack" aria-labelledby="badges-h">
@@ -75,7 +88,7 @@ export default function RewardsPage() {
                 <strong style={{ color: "var(--emerald)" }}>{b.title}</strong>
                 <span className="small">{got ? b.description : b.hint}</span>
                 <span className={`pill ${got ? "done" : ""}`} style={{ alignSelf: "center" }}>
-                  {got ? "✓ Earned" : `${prog}% there`}
+                  {got ? <><Icon name="check" size={14} strokeWidth={3} /> Earned</> : `${prog}% there`}
                 </span>
               </li>
             );
@@ -95,7 +108,7 @@ export default function RewardsPage() {
                   <DecorationThumb id={d.id} size={56} locked={!got} />
                 </div>
                 <span className="small" style={{ fontWeight: 700 }}>{d.title}</span>
-                <span className="small muted">{got ? "✓ Unlocked" : `🔒 ${d.hint}`}</span>
+                <span className="small muted">{got ? "Unlocked" : d.hint}</span>
               </li>
             );
           })}

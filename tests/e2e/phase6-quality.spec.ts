@@ -47,7 +47,7 @@ test("app updates (new service worker / cleared caches) keep local progress", as
     for (const k of await caches.keys()) await caches.delete(k);
   });
   await page.goto("/rewards/");
-  await expect(page.getByText("★ 3")).toBeVisible();
+  await expect(page.getByRole("region", { name: "3 stars collected" })).toBeVisible();
   await page.goto("/home/");
   await expect(page.getByText(/Update Kid/).first()).toBeVisible();
 });

@@ -45,7 +45,7 @@ test("quiz allows retrying and explains answers", async ({ page }) => {
   for (let i = 0; i < 6; i++) {
     await answerUntilRight(page, page.getByTestId("answers"));
     await expect(page.getByText(/That's right!/)).toBeVisible();
-    await page.getByRole("button", { name: i < 5 ? "Next question →" : "Finish" }).click();
+    await page.getByRole("button", { name: i < 5 ? "Next question" : "Finish" }).click();
   }
   await expectFinished(page);
 });
@@ -54,7 +54,7 @@ test("vocabulary match", async ({ page }) => {
   await page.goto("/games/vocab-match/");
   for (let i = 0; i < 6; i++) {
     await answerUntilRight(page, page.getByTestId("answers"));
-    await page.getByRole("button", { name: i < 5 ? "Next word →" : "Finish" }).click();
+    await page.getByRole("button", { name: i < 5 ? "Next word" : "Finish" }).click();
   }
   await expectFinished(page);
 });
@@ -75,8 +75,8 @@ test("match the words by tapping", async ({ page }) => {
 test("sort the good deeds", async ({ page }) => {
   await page.goto("/games/sort-deeds/");
   for (let i = 0; i < 8; i++) {
-    await page.getByRole("button", { name: "💚 Kind choice" }).click();
-    await page.getByRole("button", { name: i < 7 ? "Next card →" : "Finish" }).click();
+    await page.getByRole("button", { name: "Kind choice" }).click();
+    await page.getByRole("button", { name: i < 7 ? "Next card" : "Finish" }).click();
   }
   await expectFinished(page);
 });
@@ -98,7 +98,7 @@ test("find the missing lantern (untimed)", async ({ page }) => {
         break;
       }
     }
-    await page.getByRole("button", { name: round < 2 ? "Next round →" : "Finish" }).click();
+    await page.getByRole("button", { name: round < 2 ? "Next round" : "Finish" }).click();
   }
   await expectFinished(page);
 });

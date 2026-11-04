@@ -11,6 +11,7 @@ import { APP_NAME, TAGLINE } from "@/content/copy";
 import { CHILD_SAFETY_POINTS, NOT_MEDICAL_NOTICE, NOT_RELIGIOUS_AUTHORITY_NOTICE } from "@/content/safety";
 import { NICKNAME_MAX, nicknameProblem } from "@/storage/schema";
 import { useApp } from "@/state/AppState";
+import { Icon, IconChip } from "@/components/Icon";
 
 const STEPS = ["splash", "noor", "about", "gate", "consent", "nickname", "avatar", "prefs", "safety", "enter"] as const;
 type Step = (typeof STEPS)[number];
@@ -24,7 +25,7 @@ export default function WelcomePage() {
   const [nickname, setNickname] = useState("");
   const [nickError, setNickError] = useState<string | null>(null);
   const [avatar, setAvatar] = useState<string>("turtle");
-  const [soundOn, setSoundOn] = useState(false);
+  const [soundOn, setSoundOn] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(() => typeof window !== "undefined" && !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -71,7 +72,7 @@ export default function WelcomePage() {
     <div className="row" style={{ marginTop: 8 }}>
       {idx > 0 && (
         <button type="button" className="btn ghost" onClick={back}>
-          ← Back
+          <Icon name="back" /> Back
         </button>
       )}
       <button type="button" className="btn" style={{ flex: 1 }} onClick={next} disabled={!canNext}>
@@ -124,10 +125,18 @@ export default function WelcomePage() {
           {stepNumber}
           <h1 id="h-about">What can you do here?</h1>
           <ul className="card stack" style={{ listStyle: "none", margin: 0 }}>
-            <li>📖 Read stories and learn about Ramadan</li>
-            <li>💗 Do kind things for your family</li>
-            <li>🧩 Play gentle games and quizzes</li>
-            <li>⭐ Collect stars and decorate your own Ramadan Room</li>
+            <li className="row">
+              <IconChip name="book" tone="sky" size={40} /> Read stories and learn about Ramadan
+            </li>
+            <li className="row">
+              <IconChip name="heart" tone="rose" size={40} /> Do kind things for your family
+            </li>
+            <li className="row">
+              <IconChip name="games" tone="lavender" size={40} /> Play gentle games and quizzes
+            </li>
+            <li className="row">
+              <IconChip name="star" tone="gold" size={40} /> Collect stars and decorate your own Ramadan Room
+            </li>
           </ul>
           <SpeechBubble who="amina">You can enjoy your Ramadan adventure whether or not you are fasting!</SpeechBubble>
           <p className="notice">Next, please ask a parent or guardian to help you set up.</p>
@@ -147,7 +156,7 @@ export default function WelcomePage() {
             I&apos;m a grown-up
           </button>
           <button className="btn ghost block" onClick={back}>
-            ← Back
+            <Icon name="back" /> Back
           </button>
           <ParentGate open={gateOpen} reason="Setting up Little Ramadan is for parents and guardians." onCancel={() => setGateOpen(false)} onPass={() => { setGateOpen(false); next(); }} />
         </section>
@@ -212,7 +221,7 @@ export default function WelcomePage() {
           </p>
           <div className="row">
             <button type="button" className="btn ghost" onClick={back}>
-              ← Back
+              <Icon name="back" /> Back
             </button>
             <button type="submit" className="btn" style={{ flex: 1 }}>
               Next
@@ -244,7 +253,7 @@ export default function WelcomePage() {
           <h1 id="h-prefs">Sound and movement</h1>
           <p className="muted">You can change these later in the Parents area.</p>
           <div className="card">
-            <Switch id="pref-sound" label="Sound effects" description="Gentle sounds when you earn stars. Off by default." checked={soundOn} onChange={setSoundOn} />
+            <Switch id="pref-sound" label="Sound effects" description="Soft chimes and sparkles as you play. You can turn them off any time." checked={soundOn} onChange={setSoundOn} />
             <Switch id="pref-motion" label="Less movement" description="Turns off animations." checked={reducedMotion} onChange={setReducedMotion} />
           </div>
           {nav()}
@@ -283,7 +292,7 @@ export default function WelcomePage() {
             {saving ? "Opening the village…" : "Enter Ramadan Village"}
           </button>
           <button className="btn ghost block" onClick={back} disabled={saving}>
-            ← Back
+            <Icon name="back" /> Back
           </button>
         </section>
       )}

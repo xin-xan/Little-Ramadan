@@ -10,6 +10,7 @@ import { STAR_VALUES } from "@/content/copy";
 import { lessonById } from "@/content/lessons";
 import { has } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
+import { Icon } from "@/components/Icon";
 
 export function LessonReader({ id }: { id: string }) {
   const { data, complete } = useApp();
@@ -43,12 +44,12 @@ export function LessonReader({ id }: { id: string }) {
         ))}
       </section>
       <div className="card sky">
-        <h2>🏡 Try this with your family</h2>
+        <h2>Try this with your family</h2>
         <p style={{ margin: 0 }}>{lesson.tryThis}</p>
       </div>
       {done ? (
         <p className="pill done" style={{ alignSelf: "center", fontSize: "1rem" }}>
-          ✓ Lesson complete. You learned something new!
+          <Icon name="check" size={14} strokeWidth={3} /> Lesson complete. You learned something new!
         </p>
       ) : (
         <button className="btn gold block" onClick={() => complete("lesson", lesson.id, { day: from?.day })}>

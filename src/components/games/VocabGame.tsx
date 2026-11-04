@@ -5,6 +5,7 @@ import { Illustration } from "@/components/art/Illustration";
 import { gameById, vocabulary } from "@/content/games";
 import { makeChoiceRounds } from "@/game-engine/engine";
 import { Feedback, GameDone, GameFrame, HowToPlay, useFinishGame, useSfx } from "./GameFrame";
+import { Icon } from "../Icon";
 
 const ROUNDS = 6;
 
@@ -61,7 +62,7 @@ export function VocabGame({ day }: { day: { id: string; day: number } | null }) 
                     }
                   }}
                 >
-                  <span aria-hidden="true">{isRight ? "✓" : isWrong ? "✗" : "•"}</span> {o.meaning}
+                  <Icon name={isRight ? "check" : isWrong ? "close" : "sparkle"} size={18} strokeWidth={isRight || isWrong ? 3 : 2} /> {o.meaning}
                 </button>
               );
             })}
@@ -89,7 +90,7 @@ export function VocabGame({ day }: { day: { id: string; day: number } | null }) 
                   }
                 }}
               >
-                {i + 1 < rounds.length ? "Next word →" : "Finish"}
+                {i + 1 < rounds.length ? "Next word" : "Finish"} <Icon name="arrowRight" size={20} />
               </button>
             </>
           )}

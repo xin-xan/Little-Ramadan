@@ -5,6 +5,7 @@ import { LanternArt } from "@/components/art/Illustration";
 import { gameById, lanternDesigns } from "@/content/games";
 import { makeLanternRound, type LanternRound } from "@/game-engine/engine";
 import { Feedback, GameDone, GameFrame, HowToPlay, useFinishGame, useSfx } from "./GameFrame";
+import { Icon } from "../Icon";
 
 type Design = (typeof lanternDesigns)[number];
 const LEVELS = [3, 4, 5]; // lanterns per round — grows gently
@@ -100,7 +101,7 @@ export function LanternGame({ day }: { day: { id: string; day: number } | null }
                   >
                     <LanternPic d={d} size={64} />
                     <span className="small">
-                      {isRight ? "✓ " : isWrong ? "✗ " : ""}
+                      {isRight ? <Icon name="check" size={14} strokeWidth={3} /> : isWrong ? <Icon name="close" size={14} strokeWidth={3} /> : null}{" "}
                       {d.name}
                     </span>
                   </button>
@@ -130,7 +131,7 @@ export function LanternGame({ day }: { day: { id: string; day: number } | null }
                   }
                 }}
               >
-                {level + 1 < LEVELS.length ? "Next round →" : "Finish"}
+                {level + 1 < LEVELS.length ? "Next round" : "Finish"} <Icon name="arrowRight" size={20} />
               </button>
             </>
           )}

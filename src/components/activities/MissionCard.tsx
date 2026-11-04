@@ -6,6 +6,7 @@ import type { Mission } from "@/content/types";
 import { STAR_VALUES } from "@/content/copy";
 import { has } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
+import { Icon } from "../Icon";
 
 /** A kindness mission with "I did it!" and an optional private reflection. */
 export function MissionCard({ mission, day }: { mission: Mission; day?: number }) {
@@ -26,14 +27,16 @@ export function MissionCard({ mission, day }: { mission: Mission; day?: number }
       </div>
       {mission.adultHelpRequired && (
         <p className="notice warn" style={{ margin: 0 }}>
-          <strong>👪 Do this with a grown-up.</strong> {mission.safetyNote}
+          <strong>
+            <Icon name="family" size={18} /> Do this with a grown-up.
+          </strong> {mission.safetyNote}
         </p>
       )}
       {!mission.adultHelpRequired && mission.safetyNote && <p className="small muted">{mission.safetyNote}</p>}
       {done ? (
         <div className="stack">
           <p className="pill done" style={{ alignSelf: "flex-start", fontSize: "1rem" }}>
-            ✓ You did it! Every kind action matters.
+            <Icon name="check" size={14} strokeWidth={3} /> You did it! Every kind action matters.
           </p>
           {saved?.reflection && (
             <p className="small">
@@ -59,7 +62,7 @@ export function MissionCard({ mission, day }: { mission: Mission; day?: number }
           </label>
           <textarea id={`reflect-${mission.id}`} className="input" maxLength={300} value={reflection} onChange={(e) => setReflection(e.target.value)} placeholder="You can write or draw on paper instead. Please don't write names or addresses." />
           <button className="btn gold block" type="submit" disabled={busy}>
-            ✋ I did it! (+{STAR_VALUES.kindness} stars)
+            <Icon name="hand" /> I did it! (+{STAR_VALUES.kindness} stars)
           </button>
           <p className="small muted" style={{ margin: 0 }}>
             No rush — you can come back and tap this after you&apos;ve done it.

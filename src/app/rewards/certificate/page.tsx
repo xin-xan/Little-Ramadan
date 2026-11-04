@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/ui";
 import { badges } from "@/content/badges";
 import { countKind, progressOf, ruleMet } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
+import { Icon } from "@/components/Icon";
 
 const W = 1000;
 const H = 700;
@@ -129,10 +130,10 @@ export default function CertificatePage() {
       </svg>
       <div className="stack no-print">
         <button className="btn gold block" onClick={() => window.print()}>
-          🖨️ Print certificate
+          <Icon name="print" /> Print certificate
         </button>
         <button className="btn block" onClick={download}>
-          ⬇️ Save as picture
+          <Icon name="download" /> Save as picture
         </button>
         {error && (
           <p className="field-error" role="alert">

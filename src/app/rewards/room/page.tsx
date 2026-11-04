@@ -10,6 +10,7 @@ import type { RoomSlot } from "@/content/types";
 import { unlockedDecorationIds } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
 import { playSound } from "@/accessibility/sound";
+import { Icon } from "@/components/Icon";
 
 export default function RoomPage() {
   const { data, setRoomSlot } = useApp();
@@ -56,7 +57,7 @@ export default function RoomPage() {
             >
               <DecorationThumb id={d.id} size={56} locked={!got} />
               <span>{d.title}</span>
-              {!got && <span className="small muted" style={{ fontWeight: 500 }}>🔒 {d.hint}</span>}
+              {!got && <span className="small muted" style={{ fontWeight: 500 }}><Icon name="lock" size={12} /> {d.hint}</span>}
             </button>
           );
         })}

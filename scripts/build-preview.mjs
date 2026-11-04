@@ -18,7 +18,7 @@ const result = await build({
   format: "iife",
   target: "es2020",
   jsx: "automatic",
-  loader: { ".png": "dataurl" },
+  loader: { ".png": "dataurl", ".woff2": "dataurl" },
   alias: { "next/link": join(root, "preview/shims/link.tsx"), "next/navigation": join(root, "preview/shims/navigation.ts") },
   define: { "process.env.NODE_ENV": '"preview"', "process.env.NEXT_PUBLIC_BASE_PATH": '""' },
   tsconfig: join(root, "tsconfig.json"),

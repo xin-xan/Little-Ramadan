@@ -5,6 +5,7 @@ import { PageHeader, SpeechBubble } from "@/components/ui";
 import { STAR_VALUES } from "@/content/copy";
 import { goals, MAX_ACTIVE_GOALS } from "@/content/goals";
 import { useApp } from "@/state/AppState";
+import { Icon } from "@/components/Icon";
 
 export default function GoalsPage() {
   const { data, chooseGoal, removeGoal, completeGoal } = useApp();
@@ -34,7 +35,7 @@ export default function GoalsPage() {
               </div>
               {done ? (
                 <p className="pill done" style={{ alignSelf: "flex-start" }}>
-                  ✓ Goal finished! Wonderful effort.
+                  <Icon name="check" size={14} strokeWidth={3} /> Goal finished! Wonderful effort.
                 </p>
               ) : rec ? (
                 <div className="row wrap">

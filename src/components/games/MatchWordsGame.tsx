@@ -5,6 +5,7 @@ import { Illustration } from "@/components/art/Illustration";
 import { gameById, pictureWords } from "@/content/games";
 import { pick, shuffle } from "@/game-engine/engine";
 import { Feedback, GameDone, GameFrame, HowToPlay, useFinishGame, useSfx } from "./GameFrame";
+import { Icon } from "../Icon";
 
 const PAIRS = 4;
 type Item = (typeof pictureWords)[number];
@@ -78,7 +79,7 @@ export function MatchWordsGame({ day }: { day: { id: string; day: number } | nul
                       sfx("tap");
                     }}
                   >
-                    {isDone && "✓ "}
+                    {isDone && <Icon name="check" size={16} strokeWidth={3} />} 
                     {w.word}
                   </button>
                 );
@@ -91,7 +92,11 @@ export function MatchWordsGame({ day }: { day: { id: string; day: number } | nul
                 return (
                   <button key={p.id} className="tile" style={{ minHeight: 88, padding: 4, background: isDone ? "var(--success-bg)" : undefined }} onClick={() => tapPicture(p)} aria-label={isDone ? `${p.picture}, matched with ${p.word}` : `Picture of ${p.picture}`} aria-disabled={isDone}>
                     <Illustration name={p.illustration} size={60} />
-                    {isDone && <span className="small">✓ {p.word}</span>}
+                    {isDone && (
+                      <span className="small">
+                        <Icon name="check" size={12} strokeWidth={3} /> {p.word}
+                      </span>
+                    )}
                   </button>
                 );
               })}

@@ -8,6 +8,7 @@ import { Sheet } from "@/components/ui";
 import type { GameId, GameInfo } from "@/content/types";
 import { useApp } from "@/state/AppState";
 import { playSound, type SoundName } from "@/accessibility/sound";
+import { Icon } from "../Icon";
 
 /** Shared frame: title, progress, Pause (resume / how to play / start again / exit). No timers. */
 export function GameFrame({ game, title, progress, dayId, onRestart, children }: { game: GameInfo; title?: string; progress?: string; dayId?: string; onRestart(): void; children: ReactNode }) {
@@ -17,11 +18,11 @@ export function GameFrame({ game, title, progress, dayId, onRestart, children }:
     <div className="stack-lg">
       <header className="page-header">
         <Link href={exitHref} className="icon-btn" aria-label={dayId ? "Exit game, back to today's mission" : "Exit game, back to Puzzle Palace"}>
-          <span aria-hidden="true">✕</span>
+          <Icon name="close" />
         </Link>
         <h1>{title ?? game.title}</h1>
         <button type="button" className="icon-btn" onClick={() => setPaused(true)} aria-label="Pause">
-          <span aria-hidden="true">⏸</span>
+          <Icon name="pause" />
         </button>
       </header>
       {progress && (
@@ -41,7 +42,7 @@ export function GameFrame({ game, title, progress, dayId, onRestart, children }:
             ))}
           </ol>
           <button className="btn block" onClick={() => setPaused(false)} data-autofocus>
-            ▶ Keep playing
+            <Icon name="play" /> Keep playing
           </button>
           <button
             className="btn ghost block"
@@ -50,7 +51,7 @@ export function GameFrame({ game, title, progress, dayId, onRestart, children }:
               setPaused(false);
             }}
           >
-            ↺ Start again
+            <Icon name="refresh" /> Start again
           </button>
           <Link className="btn ghost block" href={exitHref}>
             Exit game
@@ -102,7 +103,7 @@ export function GameDone({ message, onReplay, dayId, children }: { message: stri
       <p>{message}</p>
       {children}
       <button className="btn block" onClick={onReplay}>
-        ↺ Play again
+        <Icon name="refresh" /> Play again
       </button>
       {dayId ? (
         <BackToDay dayId={dayId} className="btn gold block" />
@@ -120,7 +121,7 @@ export function Feedback({ kind, children }: { kind: "good" | "retry" | "info"; 
   const style = kind === "good" ? { background: "var(--success-bg)", color: "var(--success-text)" } : kind === "retry" ? { background: "#fff1cc", color: "#5b4300" } : { background: "#e5f0f7" };
   return (
     <div role="status" aria-live="polite" className="notice" style={{ ...style, borderLeftColor: "currentColor" }}>
-      <strong>{kind === "good" ? "✓ " : kind === "retry" ? "↻ " : "ℹ️ "}</strong>
+      <Icon name={kind === "good" ? "check" : kind === "retry" ? "refresh" : "info"} size={18} strokeWidth={2.6} />{" "}
       {children}
     </div>
   );

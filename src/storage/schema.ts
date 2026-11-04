@@ -48,7 +48,7 @@ export interface Settings {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-  soundOn: false,
+  soundOn: true,
   reducedMotion: false,
   villageMode: "auto",
   journalEnabled: false,

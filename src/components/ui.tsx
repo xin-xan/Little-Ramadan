@@ -2,14 +2,17 @@
 
 import Link from "next/link";
 import { useEffect, useRef, type ReactNode } from "react";
+import { playSound, setSoundEnabled } from "@/accessibility/sound";
+import { useApp } from "@/state/AppState";
 import { CharacterById, CHARACTER_NAMES, type Expression } from "@/characters/Characters";
+import { Icon } from "./Icon";
 
 export function PageHeader({ title, back, right }: { title: string; back?: { href: string; label: string }; right?: ReactNode }) {
   return (
     <header className="page-header">
       {back && (
         <Link href={back.href} className="icon-btn" aria-label={`Back to ${back.label}`}>
-          <span aria-hidden="true">←</span>
+          <Icon name="back" />
         </Link>
       )}
       <h1>{title}</h1>
@@ -52,7 +55,7 @@ export function ProgressBar({ value, max, label }: { value: number; max: number;
 export function StarCount({ stars, href = "/rewards/" }: { stars: number; href?: string }) {
   return (
     <Link href={href} className="star-count" aria-label={`${stars} stars. Open rewards`}>
-      <span aria-hidden="true">★</span> {stars}
+      <Icon name="star" size={20} fill strokeWidth={1.5} /> {stars}
     </Link>
   );
 }
@@ -87,6 +90,7 @@ export function Sheet({ open, onClose, labelledBy, children, dismissable = true 
   });
   useEffect(() => {
     if (!open) return;
+    playSound("open");
     const prev = document.activeElement as HTMLElement | null;
     const el = ref.current;
     const focusables = () => [...(el?.querySelectorAll<HTMLElement>('button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])') ?? [])].filter((x) => !x.hasAttribute("disabled"));
@@ -113,6 +117,7 @@ export function Sheet({ open, onClose, labelledBy, children, dismissable = true 
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = overflow;
+      playSound("close");
       prev?.focus?.();
     };
   }, [open, dismissable]);
@@ -129,7 +134,9 @@ export function Sheet({ open, onClose, labelledBy, children, dismissable = true 
 export function HealthNotice({ compact = false }: { compact?: boolean }) {
   return (
     <div className="notice health" role="note">
-      <strong>❤️ Your health comes first!</strong>{" "}
+      <strong className="row" style={{ display: "inline-flex", gap: 6 }}>
+        <Icon name="heart" size={18} fill strokeWidth={1.5} /> Your health comes first!
+      </strong>{" "}
       {compact ? "If you feel unwell, tell a grown-up straight away." : "If you feel dizzy, very weak or unwell, tell your parent or another trusted adult straight away. You can stop fasting whenever you need to. Your Ramadan adventure is still special!"}
     </div>
   );
@@ -154,5 +161,29 @@ export function NotFound({ what, back }: { what: string; back: { href: string; l
         Back to {back.label}
       </Link>
     </div>
+  );
+}
+
+/** Quick sound on/off button (the same setting as Parents → Settings). */
+export function SoundToggle() {
+  const { data, updateSettings } = useApp();
+  const on = data.settings.soundOn;
+  return (
+    <button
+      type="button"
+      className="icon-btn"
+      aria-pressed={on}
+      aria-label={on ? "Sound is on. Turn sound off" : "Sound is off. Turn sound on"}
+      data-sound="none"
+      onClick={async () => {
+        await updateSettings({ soundOn: !on });
+        if (!on) {
+          setSoundEnabled(true);
+          playSound("toggle");
+        }
+      }}
+    >
+      <Icon name={on ? "sound-on" : "sound-off"} />
+    </button>
   );
 }

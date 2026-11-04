@@ -15,6 +15,7 @@ import { storyById } from "@/content/stories";
 import { dateOfDay, daysFor, formatDate, isDayOpen } from "@/storage/calendar";
 import { dayPartsDone } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
+import { Icon } from "@/components/Icon";
 
 function Step({ n, done, title, children }: { n: number; done: boolean; title: string; children: React.ReactNode }) {
   return (
@@ -23,7 +24,7 @@ function Step({ n, done, title, children }: { n: number; done: boolean; title: s
         <h2 id={`step-${n}`} style={{ margin: 0, fontSize: "1.15rem" }}>
           {n}. {title}
         </h2>
-        <span className={`pill ${done ? "done" : ""}`}>{done ? "✓ Done" : "To do"}</span>
+        <span className={`pill ${done ? "done" : ""}`}>{done ? <><Icon name="check" size={14} strokeWidth={3} /> Done</> : "To do"}</span>
       </div>
       {children}
     </section>
@@ -88,7 +89,7 @@ export function DayView({ dayId }: { dayId: string }) {
                 {learn.summary} · about {learn.minutes} min
               </span>
             </span>
-            <span aria-hidden="true">›</span>
+            <Icon name="next" className="chev" />
           </Link>
         )}
       </Step>
@@ -105,14 +106,14 @@ export function DayView({ dayId }: { dayId: string }) {
               <strong>{quiz ? `${game.title}: ${quiz.title}` : game.title}</strong>
               <span className="small muted">{game.description}</span>
             </span>
-            <span aria-hidden="true">›</span>
+            <Icon name="next" className="chev" />
           </Link>
         )}
       </Step>
 
       <section className="card lav stack" aria-labelledby="reflect-title">
         <h2 id="reflect-title" style={{ fontSize: "1.15rem", margin: 0 }}>
-          💭 Think about it <span className="small muted">(optional)</span>
+          Think about it <span className="small muted">(optional)</span>
         </h2>
         <label htmlFor="day-reflection">{content.reflection}</label>
         <textarea id="day-reflection" className="input" maxLength={300} value={reflection} onChange={(e) => { setReflection(e.target.value); setSavedMsg(false); }} placeholder="Write a few words, or just think about it! Please don't write names or addresses." />
@@ -131,14 +132,14 @@ export function DayView({ dayId }: { dayId: string }) {
 
       {allDone && (
         <div className="card gold stack center" role="status">
-          <h2>🌟 Day {dayNo} complete!</h2>
+          <h2>Day {dayNo} complete!</h2>
           <p>{STOPPING_MESSAGE}</p>
         </div>
       )}
 
       {isFinal && (
         <section className="card emerald stack" aria-labelledby="final-title">
-          <h2 id="final-title">🌙 The end of your Ramadan journey</h2>
+          <h2 id="final-title">The end of your Ramadan journey</h2>
           <p>Look back at everything you learned and all the kind things you did!</p>
           <Link className="btn gold block" href="/rewards/">
             See my achievements

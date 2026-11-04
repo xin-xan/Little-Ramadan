@@ -111,7 +111,7 @@ function ProgressPanel() {
         <ProgressBar value={countKind(c, "quiz")} max={quizSets.length} label="Quizzes" />
         <ProgressBar value={countKind(c, "game")} max={games.length} label="Games tried" />
         <p style={{ margin: 0 }}>
-          ★ {totalStars(c)} stars · {unlockedBadgeIds(c).length} of {badges.length} badges · {unlockedDecorationIds(c).length} decorations · {goalsDone} goals finished
+          {totalStars(c)} stars · {unlockedBadgeIds(c).length} of {badges.length} badges · {unlockedDecorationIds(c).length} decorations · {goalsDone} goals finished
         </p>
         <p className="small muted">Stars come only from learning, kindness, games and goals. Fasting never affects stars or badges.</p>
       </div>
@@ -184,7 +184,7 @@ function SettingsPanel() {
       </div>
       <div className="card">
         <h2>Sound, motion and display</h2>
-        <Switch id="set-sound" label="Sound effects" description="Off by default. Nothing in the app depends on sound." checked={s.soundOn} onChange={(v) => updateSettings({ soundOn: v })} />
+        <Switch id="set-sound" label="Sound effects" description="Soft chimes and sparkles, generated on this device. Nothing in the app depends on sound." checked={s.soundOn} onChange={(v) => updateSettings({ soundOn: v })} />
         <Switch id="set-motion" label="Reduce motion" description="Turns off animations. The device's own reduce-motion setting is always respected too." checked={s.reducedMotion} onChange={(v) => updateSettings({ reducedMotion: v })} />
         <div className="toggle-row">
           <label htmlFor="set-village">Village view</label>

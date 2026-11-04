@@ -3,6 +3,10 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
+import { playSound, setSoundEnabled, type SoundName } from "@/accessibility/sound";
+import { Confetti } from "./Confetti";
+import { Icon } from "./Icon";
+import { SiteFooter } from "./SiteFooter";
 import { badges } from "@/content/badges";
 import { decorations } from "@/content/decorations";
 import { STOPPING_MESSAGE } from "@/content/copy";
@@ -45,9 +49,12 @@ function useServiceWorker() {
 }
 
 function CelebrationLayer() {
-  const { celebration, dismissCelebration } = useApp();
+  const { celebration, dismissCelebration, data } = useApp();
   const open = !!celebration;
+  const reduced = data.settings.reducedMotion || (typeof window !== "undefined" && !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
   return (
+    <>
+    {!reduced && <Confetti burst={celebration?.id ?? null} />}
     <Sheet open={open} onClose={dismissCelebration} labelledBy="celebrate-title">
       {celebration && (
         <div className="stack center" aria-live="polite">
@@ -58,8 +65,8 @@ function CelebrationLayer() {
           {celebration.stars > 0 && (
             <div className="celebrate-stars" aria-hidden="true">
               {Array.from({ length: celebration.stars }, (_, i) => (
-                <span key={i} className="pop" style={{ animationDelay: `${i * 120}ms`, color: "#C99A2E" }}>
-                  ★
+                <span key={i} className="pop" style={{ animationDelay: `${120 + i * 120}ms` }}>
+                  <Icon name="star" size={40} fill strokeWidth={1.5} />
                 </span>
               ))}
             </div>
@@ -101,6 +108,7 @@ function CelebrationLayer() {
         </div>
       )}
     </Sheet>
+    </>
   );
 }
 
@@ -155,6 +163,21 @@ export function AppChrome({ children }: { children: ReactNode }) {
     else if (data.profile && pathname === "/") router.replace("/home/");
   }, [status, data.profile, needsProfile, pathname, router]);
 
+  // Soft UI sounds for every button and link (a premium, tactile feel). data-sound="none" opts out.
+  const soundOn = data.settings.soundOn;
+  useEffect(() => {
+    setSoundEnabled(soundOn);
+    if (!soundOn) return;
+    const onDown = (e: PointerEvent) => {
+      const el = (e.target as HTMLElement | null)?.closest<HTMLElement>("button, a, [role=switch], [role=tab], summary");
+      if (!el || el.getAttribute("aria-disabled") === "true" || (el as HTMLButtonElement).disabled) return;
+      const s = el.dataset.sound ?? (el.getAttribute("role") === "switch" ? "toggle" : "tap");
+      if (s !== "none") playSound(s as SoundName);
+    };
+    document.addEventListener("pointerdown", onDown);
+    return () => document.removeEventListener("pointerdown", onDown);
+  }, [soundOn]);
+
   // Reduced motion: the in-app setting adds to the OS preference.
   useEffect(() => {
     document.documentElement.dataset.reducedMotion = String(data.settings.reducedMotion);
@@ -165,7 +188,13 @@ export function AppChrome({ children }: { children: ReactNode }) {
       <div className="loading-screen" role="status" aria-live="polite">
         <LogoMark size={88} />
         <h1>Little Ramadan</h1>
+        <div className="loader-dots" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
         <p>Getting your Ramadan Village ready…</p>
+        <SiteFooter dark />
       </div>
     );
   }
@@ -180,6 +209,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
         <button className="btn gold" onClick={retry}>
           Try again
         </button>
+        <SiteFooter dark />
       </div>
     );
   }
@@ -191,17 +221,21 @@ export function AppChrome({ children }: { children: ReactNode }) {
       </a>
       {!online && (
         <div className="banner offline" role="status">
-          📴 You&apos;re offline. Everything already on this device still works, and your progress is saved here.
+          <Icon name="moon" size={16} /> You&apos;re offline. Everything already on this device still works, and your progress is saved here.
         </div>
       )}
       {storageKind === "memory" && (
         <div className="banner memory" role="status">
-          ⚠️ This browser can&apos;t save progress (for example in private browsing). Progress will be lost when the app closes.
+          <Icon name="info" size={16} /> This browser can&apos;t save progress (for example in private browsing). Progress will be lost when the app closes.
         </div>
       )}
-      <main id="main" className={`page${showNav ? "" : " no-nav"}`}>
-        {children}
+      <main id="main" className="page">
+        <div key={pathname} className="page-enter">
+          {children}
+        </div>
       </main>
+      <SiteFooter />
+      {showNav && <div className="nav-spacer" aria-hidden="true" />}
       {showNav && <BottomNav />}
       <CelebrationLayer />
       <ScreenTimeReminder />

@@ -1,6 +1,6 @@
 # Character guide (Phase 0)
 
-All characters are **original vector artwork** drawn in code (`src/characters/`), so every screen uses the exact same asset — no ad-hoc image generation. A soft “3D-cartoon” look comes from radial gradients, rim highlights and soft ground shadows. Live reference sheet: run the app and open `/style-guide` (developer page, not linked from child navigation).
+All characters are **original real-time 3D models** built in code (`src/three/characters.ts`) with soft “clay” materials and studio lighting, so every screen uses the exact same asset — no ad-hoc image generation. Animations: idle breathing and blinking, wave, cheer (jump), think (hand to chin), calm, talk, and a hop and giggle when tapped. Flat vector versions (`src/characters/Characters.tsx`) are the instant placeholder and the no-WebGL fallback. Live reference sheet: run the app and open `/style-guide` (developer page, not linked from child navigation).
 
 No prophets or sacred figures are depicted. Characters are children and a moon mascot only.
 
@@ -26,7 +26,7 @@ No prophets or sacred figures are depicted. Characters are children and a moon m
 ## Consistency rules
 - Use only the `<Noor>`, `<Amina>`, `<Hilmy>` components; never redraw characters inline.
 - Fixed palette above; sizes scale uniformly (no squashing).
-- Front view is used in the MVP. **Side and back views are not drawn yet** because no screen needs them; they must be added to the same components before any screen uses them.
+- Because the characters are 3D models, front, side and back views are all the same model seen from different angles (the village shows them turned).
 
 ## Approval needed
 The owner should approve the look in `/style-guide` before public launch. If commissioned 3D renders are preferred later, they should replace the component internals while keeping names, sizes and expressions so screens don't change.

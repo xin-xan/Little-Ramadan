@@ -7,6 +7,7 @@ import { PageHeader, ProgressBar } from "@/components/ui";
 import { calendarStatus, dateOfDay, daysFor, formatDate, isDayOpen } from "@/storage/calendar";
 import { dayPartsDone } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
+import { Icon } from "@/components/Icon";
 
 export default function JourneyPage() {
   const { data } = useApp();
@@ -44,7 +45,7 @@ export default function JourneyPage() {
               <Illustration name={d.illustration} size={44} />
               <span style={{ fontSize: "0.85rem", lineHeight: 1.2 }}>{d.theme}</span>
               <span className={`pill ${n === 3 ? "done" : ""}`} aria-hidden="true" style={{ fontSize: "0.7rem" }}>
-                {!open ? "🔒 Soon" : n === 3 ? "✓ Done" : n > 0 ? `${n}/3` : "Open"}
+                {!open ? <><Icon name="lock" size={12} /> Soon</> : n === 3 ? <><Icon name="check" size={14} strokeWidth={3} /> Done</> : n > 0 ? `${n}/3` : "Open"}
               </span>
             </>
           );
@@ -65,7 +66,7 @@ export default function JourneyPage() {
       </ol>
       {days[days.length - 1].isFinal && (
         <Link href="/rewards/eid/" className="btn gold block">
-          🌙 Eid celebration
+          <Icon name="moon" /> Eid celebration
         </Link>
       )}
     </div>

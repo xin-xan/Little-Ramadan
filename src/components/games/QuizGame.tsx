@@ -6,6 +6,7 @@ import { gameById } from "@/content/games";
 import type { QuizSet } from "@/content/types";
 import { prepareQuiz } from "@/game-engine/engine";
 import { Feedback, GameDone, GameFrame, useFinishGame, useSfx } from "./GameFrame";
+import { Icon } from "../Icon";
 
 export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: number } | null }) {
   const game = gameById("quiz")!;
@@ -79,8 +80,8 @@ export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: n
                   aria-disabled={isWrong || (solved && !isRight)}
                   onClick={() => choose(idx)}
                 >
-                  <span aria-hidden="true" style={{ width: 28 }}>
-                    {isRight ? "✓" : isWrong ? "✗" : ["A", "B", "C"][idx]}
+                  <span aria-hidden="true" className="quiz-letter">
+                    {isRight ? <Icon name="check" size={16} strokeWidth={3} /> : isWrong ? <Icon name="close" size={16} strokeWidth={3} /> : ["A", "B", "C"][idx]}
                   </span>
                   {opt}
                   {isRight && <span className="sr-only">, correct</span>}
@@ -96,7 +97,7 @@ export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: n
                 <strong>That&apos;s right!</strong> {q.explanation}
               </Feedback>
               <button className="btn block" onClick={next} data-autofocus>
-                {i + 1 < qs.length ? "Next question →" : "Finish"}
+                {i + 1 < qs.length ? "Next question" : "Finish"} <Icon name="arrowRight" size={20} />
               </button>
             </>
           )}

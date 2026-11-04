@@ -8,6 +8,7 @@ import { missions } from "@/content/missions";
 import { localISODate } from "@/storage/calendar";
 import { countKind, has } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
+import { Icon } from "@/components/Icon";
 
 /** Rotating "kindness of the day" so the street feels fresh without any streak pressure. */
 function missionOfTheDay(doneIds: Set<string>) {
@@ -36,7 +37,7 @@ export default function KindnessPage() {
         <Illustration name={featured.illustration} size={64} />
         <span>
           <span className="small" style={{ fontWeight: 800 }}>
-            ✨ Idea for today
+            Idea for today
           </span>
           <strong style={{ display: "block", color: "var(--emerald)" }}>{featured.title}</strong>
           <span className="small">{featured.description}</span>
@@ -51,9 +52,9 @@ export default function KindnessPage() {
                 <Illustration name={m.illustration} size={52} />
                 <span className="grow">
                   <strong>{m.title}</strong>
-                  <span className="small muted">{m.adultHelpRequired ? "👪 With a grown-up" : m.description}</span>
+                  <span className="small muted">{m.adultHelpRequired ? "With a grown-up" : m.description}</span>
                 </span>
-                <span className={`pill ${done ? "done" : ""}`}>{done ? "✓ Done" : "Try it"}</span>
+                <span className={`pill ${done ? "done" : ""}`}>{done ? <><Icon name="check" size={14} strokeWidth={3} /> Done</> : "Try it"}</span>
               </Link>
             </li>
           );

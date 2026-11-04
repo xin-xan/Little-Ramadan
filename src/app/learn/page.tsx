@@ -8,6 +8,7 @@ import { lessons } from "@/content/lessons";
 import { stories } from "@/content/stories";
 import { has } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
+import { Icon } from "@/components/Icon";
 
 export default function LearnPage() {
   const { data } = useApp();
@@ -23,7 +24,7 @@ export default function LearnPage() {
       </div>
 
       <section className="stack" aria-labelledby="stories-h">
-        <h2 id="stories-h">📖 Stories</h2>
+        <h2 id="stories-h">Stories</h2>
         <p className="small muted">Stories with Noor and Amina. They are made-up stories that show good values.</p>
         <ul className="stack" style={{ listStyle: "none", padding: 0, margin: 0 }}>
           {stories.map((s) => {
@@ -38,7 +39,7 @@ export default function LearnPage() {
                       {s.summary} · {s.minutes} min
                     </span>
                   </span>
-                  <span className={`pill ${done ? "done" : ""}`}>{done ? "✓ Read" : "New"}</span>
+                  <span className={`pill ${done ? "done" : ""}`}>{done ? <><Icon name="check" size={14} strokeWidth={3} /> Read</> : "New"}</span>
                 </Link>
               </li>
             );
@@ -47,7 +48,7 @@ export default function LearnPage() {
       </section>
 
       <section className="stack" aria-labelledby="lessons-h">
-        <h2 id="lessons-h">🌱 Lessons</h2>
+        <h2 id="lessons-h">Lessons</h2>
         <ul className="stack" style={{ listStyle: "none", padding: 0, margin: 0 }}>
           {lessons.map((l) => {
             const done = has(data.completions, "lesson", l.id);
@@ -61,7 +62,7 @@ export default function LearnPage() {
                       {l.summary} · {l.minutes} min
                     </span>
                   </span>
-                  <span className={`pill ${done ? "done" : ""}`}>{done ? "✓ Done" : "New"}</span>
+                  <span className={`pill ${done ? "done" : ""}`}>{done ? <><Icon name="check" size={14} strokeWidth={3} /> Done</> : "New"}</span>
                 </Link>
               </li>
             );

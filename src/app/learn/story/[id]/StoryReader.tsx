@@ -10,6 +10,7 @@ import { STAR_VALUES } from "@/content/copy";
 import { storyById } from "@/content/stories";
 import { has } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
+import { Icon } from "@/components/Icon";
 
 /** Paged story reader. No autoplay: the child turns each page. */
 export function StoryReader({ id }: { id: string }) {
@@ -31,7 +32,7 @@ export function StoryReader({ id }: { id: string }) {
   return (
     <article className="stack-lg">
       <PageHeader title={story.title} back={from ? { href: `/journey/${from.id}/`, label: "today's mission" } : { href: "/learn/", label: "Knowledge Garden" }} />
-      {page === 0 && <p className="pill" style={{ alignSelf: "flex-start" }}>📖 A story about {story.value.toLowerCase()}</p>}
+      {page === 0 && <p className="pill" style={{ alignSelf: "flex-start" }}>A story about {story.value.toLowerCase()}</p>}
       {!atEnd ? (
         <>
           <div className="card stack center" style={{ minHeight: 320 }}>
@@ -46,11 +47,11 @@ export function StoryReader({ id }: { id: string }) {
             Page {page + 1} of {story.pages.length}
           </p>
           <div className="row">
-            <button className="btn ghost" onClick={() => turn(page - 1)} disabled={page === 0} aria-label="Previous page" style={{ flex: 1 }}>
-              ← Back
+            <button className="btn ghost" onClick={() => turn(page - 1)} disabled={page === 0} aria-label="Previous page" style={{ flex: 1 }} data-sound="page">
+              <Icon name="back" /> Back
             </button>
-            <button className="btn" onClick={() => turn(page + 1)} style={{ flex: 2 }} aria-label={page === last ? "Finish the story" : `Next page, ${page + 2} of ${story.pages.length}`}>
-              {page === last ? "The end ✓" : "Next →"}
+            <button className="btn" data-sound="page" onClick={() => turn(page + 1)} style={{ flex: 2 }} aria-label={page === last ? "Finish the story" : `Next page, ${page + 2} of ${story.pages.length}`}>
+              {page === last ? "The end" : "Next"} <Icon name={page === last ? "check" : "arrowRight"} size={20} />
             </button>
           </div>
         </>
@@ -62,7 +63,7 @@ export function StoryReader({ id }: { id: string }) {
           </p>
           {done ? (
             <p className="pill done" style={{ alignSelf: "center" }}>
-              ✓ Story read
+              <Icon name="check" size={14} strokeWidth={3} /> Story read
             </p>
           ) : (
             <button className="btn gold block" onClick={() => complete("story", story.id, { day: from?.day })}>

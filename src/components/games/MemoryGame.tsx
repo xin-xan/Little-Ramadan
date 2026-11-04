@@ -5,6 +5,7 @@ import { Illustration } from "@/components/art/Illustration";
 import { gameById, memoryCards } from "@/content/games";
 import { createDeck, flipCard, memoryDone, pick, type MemoryState } from "@/game-engine/engine";
 import { Feedback, GameDone, GameFrame, HowToPlay, useFinishGame, useSfx } from "./GameFrame";
+import { Icon } from "../Icon";
 
 const newGame = (pairs: number): MemoryState => ({ deck: createDeck(pick(memoryCards, pairs).map((c) => c.id)), open: [], moves: 0 });
 
@@ -70,13 +71,13 @@ export function MemoryGame({ day }: { day: { id: string; day: number } | null })
                     <>
                       <Illustration name={it.illustration} size={48} />
                       <span style={{ fontSize: "0.75rem" }}>
-                        {c.matched && "✓ "}
+                        {c.matched && <Icon name="check" size={12} strokeWidth={3} />} 
                         {it.label}
                       </span>
                     </>
                   ) : (
-                    <span aria-hidden="true" style={{ fontSize: "1.8rem", color: "var(--gold)" }}>
-                      ☾
+                    <span aria-hidden="true" style={{ color: "var(--gold)" }}>
+                      <Icon name="moon" size={30} fill strokeWidth={1} />
                     </span>
                   )}
                 </button>

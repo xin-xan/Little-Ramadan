@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Icon } from "./Icon";
 
 const ITEMS = [
-  { href: "/home/", label: "Home", icon: "🏠", match: ["/home", "/learn", "/kindness", "/goals", "/first-fast", "/safety"] },
-  { href: "/journey/", label: "Journey", icon: "🌙", match: ["/journey"] },
-  { href: "/games/", label: "Games", icon: "🧩", match: ["/games"] },
-  { href: "/rewards/", label: "Rewards", icon: "⭐", match: ["/rewards"] },
-  { href: "/parent/", label: "Parents", icon: "👪", match: ["/parent"] },
+  { href: "/home/", label: "Home", icon: "home", match: ["/home", "/learn", "/kindness", "/goals", "/first-fast", "/safety"] },
+  { href: "/journey/", label: "Journey", icon: "journey", match: ["/journey"] },
+  { href: "/games/", label: "Games", icon: "games", match: ["/games"] },
+  { href: "/rewards/", label: "Rewards", icon: "rewards", match: ["/rewards"] },
+  { href: "/parent/", label: "Parents", icon: "parents", match: ["/parent"] },
 ];
 
 const strip = (p: string) => {
@@ -25,9 +26,9 @@ export function BottomNav() {
           const active = it.match.some((m) => pathname === m || pathname.startsWith(m + "/"));
           return (
             <li key={it.href}>
-              <Link href={it.href} aria-current={active ? "page" : undefined} className={it.href === "/parent/" ? "parent-link" : undefined}>
-                <span className="nav-icon" aria-hidden="true">
-                  {it.icon}
+              <Link href={it.href} aria-current={active ? "page" : undefined} className={it.href === "/parent/" ? "parent-link" : undefined} data-sound="nav">
+                <span className="nav-icon">
+                  <Icon name={it.icon} size={24} strokeWidth={active ? 2.4 : 2} />
                 </span>
                 {it.label}
               </Link>

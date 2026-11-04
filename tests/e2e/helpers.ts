@@ -32,7 +32,7 @@ export async function onboard(page: Page, nickname = "Star Explorer", avatar = "
   await page.getByRole("button", { name: "I understand" }).click();
   await page.getByRole("button", { name: "Enter Ramadan Village" }).click();
   await expect(page).toHaveURL(/\/home\/$/);
-  await expect(page.getByText(`Welcome to Ramadan Village, ${nickname}!`)).toBeVisible();
+  await expect(page.getByText(`Welcome, ${nickname}!`)).toBeVisible();
 }
 
 export async function openParentZone(page: Page) {
@@ -65,8 +65,8 @@ export async function seedCompletions(page: Page, items: { kind: string; content
 
 export async function starCount(page: Page) {
   await page.goto("/rewards/");
-  const t = await page.getByText("stars collected").locator("..").innerText();
-  return Number(t.match(/★\s*(\d+)/)![1]);
+  const label = await page.getByRole("region", { name: /stars collected/ }).getAttribute("aria-label");
+  return Number(label!.match(/(\d+)/)![1]);
 }
 
 /** Answer a 3-option question by trying each option until it is marked correct (exercises retry). */

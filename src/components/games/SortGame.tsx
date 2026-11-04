@@ -5,6 +5,7 @@ import { Illustration } from "@/components/art/Illustration";
 import { gameById, sortCards } from "@/content/games";
 import { pick, shuffle } from "@/game-engine/engine";
 import { Feedback, GameDone, GameFrame, HowToPlay, useFinishGame, useSfx } from "./GameFrame";
+import { Icon } from "../Icon";
 
 const PER_ROUND = 8;
 
@@ -49,7 +50,7 @@ export function SortGame({ day }: { day: { id: string; day: number } | null }) {
         <GameDone message="You sorted all the cards. Thinking about our choices helps us be kind!" onReplay={restart} dayId={day?.id}>
           <div className="grid-2" style={{ textAlign: "left" }}>
             <div className="card" style={{ background: "var(--success-bg)" }}>
-              <strong>💚 Kind choices</strong>
+              <strong>Kind choices</strong>
               <ul className="small" style={{ paddingLeft: 18, margin: 0 }}>
                 {kind.map((k) => (
                   <li key={k}>{k}</li>
@@ -57,7 +58,7 @@ export function SortGame({ day }: { day: { id: string; day: number } | null }) {
               </ul>
             </div>
             <div className="card" style={{ background: "#fff1cc" }}>
-              <strong>🤔 Could choose better</strong>
+              <strong>Could choose better</strong>
               <ul className="small" style={{ paddingLeft: 18, margin: 0 }}>
                 {better.map((k) => (
                   <li key={k}>{k}</li>
@@ -79,10 +80,10 @@ export function SortGame({ day }: { day: { id: string; day: number } | null }) {
           </div>
           <div className="grid-2" role="group" aria-labelledby="sort-card">
             <button className="btn block" style={{ background: "var(--teal)", minHeight: 72 }} onClick={() => choose(true)} aria-disabled={answer !== null}>
-              💚 Kind choice
+              <Icon name="heart" fill strokeWidth={1.5} /> Kind choice
             </button>
             <button className="btn block" style={{ background: "#8a5a00", minHeight: 72 }} onClick={() => choose(false)} aria-disabled={answer !== null}>
-              🤔 Could choose better
+              <Icon name="thought" /> Could choose better
             </button>
           </div>
           {answer !== null && (
@@ -104,7 +105,7 @@ export function SortGame({ day }: { day: { id: string; day: number } | null }) {
                   }
                 }}
               >
-                {i + 1 < deck.length ? "Next card →" : "Finish"}
+                {i + 1 < deck.length ? "Next card" : "Finish"} <Icon name="arrowRight" size={20} />
               </button>
             </>
           )}

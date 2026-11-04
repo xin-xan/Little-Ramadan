@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useApp } from "@/state/AppState";
 import { checkChallenge, makeChallenge, verifyPin, type GateChallenge } from "@/safety/parentGate";
 import { Sheet } from "./ui";
+import { Icon, IconChip } from "./Icon";
 
 /**
  * Low-friction parent gate. Not authentication: it simply keeps young
@@ -53,7 +54,10 @@ export function ParentGate({ open, onPass, onCancel, reason = "This part is for 
       labelledBy="gate-title"
     >
       <form onSubmit={submit} className="stack" aria-describedby="gate-desc">
-        <h2 id="gate-title">👪 Grown-ups only</h2>
+        <h2 id="gate-title" className="row" style={{ gap: 10 }}>
+          <IconChip name="parents" tone="parent" size={40} />
+          Grown-ups only
+        </h2>
         <p id="gate-desc" className="muted">
           {reason} {pin ? "Please enter your parent PIN." : "Please answer this question."}
         </p>
@@ -86,7 +90,7 @@ export function ParentGate({ open, onPass, onCancel, reason = "This part is for 
             </button>
           ))}
           <button type="button" className="btn ghost" onClick={() => setValue((v) => v.slice(0, -1))} aria-label="Delete last digit">
-            ⌫
+            <Icon name="back" />
           </button>
           <button type="button" className="btn ghost" onClick={() => press("0")} aria-label="Digit 0">
             0

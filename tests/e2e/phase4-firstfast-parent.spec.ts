@@ -86,9 +86,9 @@ test("parent can change sound, nickname and see progress, privacy and review sta
   await openParentZone(page);
   await page.getByRole("tab", { name: "Settings" }).click();
   const sound = page.getByRole("switch", { name: "Sound effects" });
-  await expect(sound).toHaveAttribute("aria-checked", "false"); // muted by default
+  await expect(sound).toHaveAttribute("aria-checked", "true"); // on by default (chosen during setup)
   await sound.click();
-  await expect(sound).toHaveAttribute("aria-checked", "true");
+  await expect(sound).toHaveAttribute("aria-checked", "false");
   await page.getByLabel("Nickname").fill("New Name");
   await page.getByRole("button", { name: "Save nickname" }).click();
   await page.getByRole("tab", { name: "Progress" }).click();
@@ -102,7 +102,7 @@ test("parent can change sound, nickname and see progress, privacy and review sta
   await page.reload();
   await openParentZone(page);
   await page.getByRole("tab", { name: "Settings" }).click();
-  await expect(page.getByRole("switch", { name: "Sound effects" })).toHaveAttribute("aria-checked", "true");
+  await expect(page.getByRole("switch", { name: "Sound effects" })).toHaveAttribute("aria-checked", "false");
 });
 
 test("Parent Zone is not linked inside child activity screens", async ({ page }) => {
