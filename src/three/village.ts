@@ -380,6 +380,15 @@ export function mountVillage(canvas: HTMLCanvasElement, opts: VillageOptions): V
   placeChar("noor", [-2.2, 0.1, 1.9], 0.6, 0.35, "wave");
   placeChar("amina", [1.6, 0.1, 2.1], 0.6, -0.3, "happy");
   placeChar("hilmy", [5.2, 4.6, -9], 1.5, -0.2, "happy");
+  // The moon should glow in the night sky rather than be lit like the ground.
+  chars[chars.length - 1].o.traverse((o) => {
+    const m = (o as THREE.Mesh).material as THREE.MeshPhysicalMaterial | undefined;
+    if (m && "emissive" in m && m.color.getHexString() === "f5d06a") {
+      m.emissive = new THREE.Color("#f5c95a");
+      m.emissiveIntensity = 0.75;
+      m.fog = false;
+    }
+  });
 
   // ---------- state ----------
   const setProgress = (lanterns: number, flowers: number) => {

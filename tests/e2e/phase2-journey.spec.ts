@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import { answerUntilRight, expectNoHorizontalScroll, isoDaysFromToday, onboard, openParentZone, starCount } from "./helpers";
 
 test("every village destination opens the correct screen", async ({ page }) => {
+  test.setTimeout(180_000); // loads the 3D home five times (software rendering in CI is slow)
   await onboard(page);
   const dest: [string, RegExp, string][] = [
     ["Noor's House", /\/journey\/$/, "My Ramadan Journey"],

@@ -20,7 +20,7 @@ const result = await build({
   jsx: "automatic",
   loader: { ".png": "dataurl", ".woff2": "dataurl" },
   alias: { "next/link": join(root, "preview/shims/link.tsx"), "next/navigation": join(root, "preview/shims/navigation.ts") },
-  define: { "process.env.NODE_ENV": '"preview"', "process.env.NEXT_PUBLIC_BASE_PATH": '""' },
+  define: { "process.env.NODE_ENV": '"production"', "process.env.NEXT_PUBLIC_BASE_PATH": '""', "process.env.NEXT_PUBLIC_PREVIEW": '"1"' },
   tsconfig: join(root, "tsconfig.json"),
   logLevel: "warning",
 });

@@ -41,7 +41,7 @@ function useOnline() {
 
 function useServiceWorker() {
   useEffect(() => {
-    if (process.env.NODE_ENV !== "production" || !("serviceWorker" in navigator)) return;
+    if (process.env.NODE_ENV !== "production" || process.env.NEXT_PUBLIC_PREVIEW === "1" || !("serviceWorker" in navigator)) return;
     navigator.serviceWorker.register(`${BASE}/sw.js`, { scope: `${BASE}/` }).catch(() => {
       /* offline support unavailable; the app still works online */
     });
