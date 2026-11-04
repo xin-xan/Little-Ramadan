@@ -144,7 +144,7 @@ export function mountVillage(canvas: HTMLCanvasElement, opts: VillageOptions): V
   } catch {
     return null;
   }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, opts.lowPower ? 1 : 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, opts.lowPower ? 1 : 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.15;
@@ -190,7 +190,7 @@ export function mountVillage(canvas: HTMLCanvasElement, opts: VillageOptions): V
   scene.add(new THREE.Points(starGeo, starMat));
 
   // sea with gentle waves
-  const seaGeo = new THREE.PlaneGeometry(90, 90, opts.lowPower ? 30 : 70, opts.lowPower ? 30 : 70);
+  const seaGeo = new THREE.PlaneGeometry(90, 90, opts.lowPower ? 24 : 44, opts.lowPower ? 24 : 44);
   seaGeo.rotateX(-Math.PI / 2);
   const seaBase = Float32Array.from(seaGeo.attributes.position.array as Float32Array);
   const sea = new THREE.Mesh(seaGeo, new THREE.MeshStandardMaterial({ color: "#1f6d93", roughness: 0.25, metalness: 0.1, flatShading: true }));
@@ -416,6 +416,7 @@ export function mountVillage(canvas: HTMLCanvasElement, opts: VillageOptions): V
     kick();
   };
   const onUp = (e: PointerEvent) => {
+    if (!dragging) return; // only taps that started on the 3D scene (not on a pin or elsewhere)
     dragging = false;
     if (moved) return;
     const r = canvas.getBoundingClientRect();
@@ -441,9 +442,12 @@ export function mountVillage(canvas: HTMLCanvasElement, opts: VillageOptions): V
   let t = 0;
   let last = performance.now();
   let visible = true;
+  let frameNo = 0;
+  let camKey = "";
   const anchor = new THREE.Vector3();
 
   const resize = () => {
+    camKey = "";
     const w = canvas.clientWidth;
     const h = canvas.clientHeight;
     if (!w || !h) return;
@@ -466,12 +470,15 @@ export function mountVillage(canvas: HTMLCanvasElement, opts: VillageOptions): V
 
   function frame(now: number) {
     raf = 0;
+    if (animate && !dragging && !dirty && now - last < 1000 / 30 - 2) {
+      raf = requestAnimationFrame(frame);
+      return;
+    }
     const dt = Math.min(0.1, (now - last) / 1000);
     last = now;
     if (animate) t += dt;
-    // camera: gentle drift + drag
-    const drift = animate ? Math.sin(t * 0.18) * 0.12 : 0;
-    const az = azimuth + drift;
+    // Camera moves only when the child drags, so the tap targets (pins) stay still.
+    const az = azimuth;
     const narrow = camera.aspect < 1.3;
     const dist = narrow ? 22 : 19;
     camera.position.set(Math.sin(az) * dist, narrow ? 9.5 : 8, Math.cos(az) * dist + 0.9);
@@ -485,7 +492,7 @@ export function mountVillage(canvas: HTMLCanvasElement, opts: VillageOptions): V
         arr[i + 1] = Math.sin(x * 0.35 + t * 1.1) * 0.12 + Math.cos(z * 0.4 + t * 0.8) * 0.1;
       }
       pos.needsUpdate = true;
-      seaGeo.computeVertexNormals();
+      if (++frameNo % 3 === 0) seaGeo.computeVertexNormals();
       lanternMeshes.forEach((l, i) => {
         l.g.rotation.z = Math.sin(t * 1.4 + i) * 0.08;
         if (l.glow.visible) l.glow.material.opacity = 0.75 + Math.sin(t * 3 + i * 1.7) * 0.25;
@@ -495,7 +502,9 @@ export function mountVillage(canvas: HTMLCanvasElement, opts: VillageOptions): V
     }
     chars.forEach((c) => c.m.update(t, animate ? dt : 0.016));
     renderer.render(scene, camera);
-    // pins
+    // pins: only re-project when the view changed (drag, resize, first frame)
+    if (camKey !== `${az}|${canvas.clientWidth}|${canvas.clientHeight}`) {
+    camKey = `${az}|${canvas.clientWidth}|${canvas.clientHeight}`;
     const pins = {} as Record<DestinationId, { x: number; y: number; visible: boolean }>;
     const w = canvas.clientWidth;
     const h = canvas.clientHeight;
@@ -506,6 +515,7 @@ export function mountVillage(canvas: HTMLCanvasElement, opts: VillageOptions): V
       pins[id] = { x: ((anchor.x + 1) / 2) * w, y: ((1 - anchor.y) / 2) * h, visible: anchor.z < 1 };
     });
     opts.onPins(pins);
+    }
     dirty = false;
     if (visible && document.visibilityState === "visible" && (animate || dirty || dragging)) raf = requestAnimationFrame(frame);
   }

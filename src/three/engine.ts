@@ -56,6 +56,9 @@ let raf = 0;
 let last = 0;
 const FRAME = 1000 / 30;
 
+let bufW = 0;
+let bufH = 0;
+
 function draw(inst: Instance) {
   const r = getRenderer();
   if (!r) return;
@@ -68,10 +71,21 @@ function draw(inst: Instance) {
     inst.camera.aspect = w / h;
     inst.camera.updateProjectionMatrix();
   }
-  if (r.domElement.width !== w || r.domElement.height !== h) r.setSize(w, h, false);
+  // Grow the shared drawing buffer only when needed, then render into a viewport of it.
+  // (Resizing the buffer for every character every frame is very expensive.)
+  if (w > bufW || h > bufH) {
+    bufW = Math.max(bufW, w);
+    bufH = Math.max(bufH, h);
+    r.setSize(bufW, bufH, false);
+  }
+  r.setViewport(0, 0, w, h);
+  r.setScissor(0, 0, w, h);
+  r.setScissorTest(true);
+  r.clear();
   r.render(inst.scene, inst.camera);
   inst.ctx.clearRect(0, 0, w, h);
-  inst.ctx.drawImage(r.domElement, 0, 0, w, h);
+  // WebGL's viewport origin is bottom-left; the 2D source rect is measured from the top.
+  inst.ctx.drawImage(r.domElement, 0, bufH - h, w, h, 0, 0, w, h);
 }
 
 function loop(now: number) {

@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { gzipSync } from "node:zlib";
 import { onboard } from "./helpers";
 
 const ROUTES = ["/home/", "/journey/", "/journey/d01/", "/learn/", "/learn/lesson/salah/", "/learn/story/harbour-wait/", "/kindness/", "/kindness/give-food/", "/games/", "/games/quiz/", "/games/quiz/manners/", "/games/match-words/", "/games/missing-lantern/", "/games/mosque-puzzle/", "/games/sort-deeds/", "/games/memory-cards/", "/games/vocab-match/", "/rewards/", "/rewards/room/", "/rewards/certificate/", "/rewards/eid/", "/goals/", "/first-fast/", "/safety/"];
@@ -57,7 +58,7 @@ test("small initial download", async ({ page }) => {
   page.on("response", async (res) => {
     if (res.url().startsWith("http://localhost") && !res.url().endsWith("sw.js")) {
       try {
-        bytes += (await res.body()).length;
+        bytes += gzipSync(await res.body()).length; // what a compressing host actually sends
       } catch {
         /* redirects */
       }
@@ -65,6 +66,7 @@ test("small initial download", async ({ page }) => {
   });
   await page.goto("/welcome/");
   await expect(page.getByRole("button", { name: "Start" })).toBeVisible();
-  console.log(`first screen transfer (uncompressed): ${Math.round(bytes / 1024)} KB`);
-  expect(bytes).toBeLessThan(900 * 1024);
+  await page.waitForLoadState("networkidle");
+  console.log(`first screen transfer (gzip): ${Math.round(bytes / 1024)} KB`);
+  expect(bytes).toBeLessThan(500 * 1024);
 });

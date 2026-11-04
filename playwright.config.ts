@@ -6,7 +6,8 @@ export default defineConfig({
   testDir: "./tests/e2e",
   timeout: 60_000,
   fullyParallel: true,
-  workers: 4,
+  // Tests render real 3D in a software renderer (no GPU here), so keep parallelism modest.
+  workers: 2,
   reporter: [["list"]],
   use: { baseURL: `http://localhost:${PORT}`, trace: "retain-on-failure" },
   webServer: {
