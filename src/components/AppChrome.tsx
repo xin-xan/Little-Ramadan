@@ -59,14 +59,14 @@ function CelebrationLayer() {
       {celebration && (
         <div className="stack center" aria-live="polite">
           <div className="pop" style={{ display: "flex", justifyContent: "center" }}>
-            <Hilmy expression="cheer" size={96} />
+            <Hilmy expression="cheer" size={76} />
           </div>
           <h2 id="celebrate-title">{celebration.stars > 0 ? `You earned ${celebration.stars} star${celebration.stars === 1 ? "" : "s"}!` : "Something new unlocked!"}</h2>
           {celebration.stars > 0 && (
             <div className="celebrate-stars" aria-hidden="true">
               {Array.from({ length: celebration.stars }, (_, i) => (
                 <span key={i} className="pop" style={{ animationDelay: `${120 + i * 120}ms` }}>
-                  <Icon name="star" size={40} fill strokeWidth={1.5} />
+                  <Icon name="star" size={32} fill strokeWidth={1.5} />
                 </span>
               ))}
             </div>
@@ -74,8 +74,8 @@ function CelebrationLayer() {
           {celebration.badgeIds.map((id) => {
             const b = badges.find((x) => x.id === id);
             return b ? (
-              <div key={id} className="card gold row" style={{ textAlign: "left" }}>
-                <BadgeIcon id={id} size={64} />
+              <div key={id} className="card gold row celebrate-item">
+                <BadgeIcon id={id} size={52} />
                 <div>
                   <strong>New badge: {b.title}</strong>
                   <div className="small">{b.description}</div>
@@ -86,8 +86,8 @@ function CelebrationLayer() {
           {celebration.decorationIds.map((id) => {
             const d = decorations.find((x) => x.id === id);
             return d ? (
-              <div key={id} className="card lav row" style={{ textAlign: "left" }}>
-                <DecorationThumb id={id} size={56} />
+              <div key={id} className="card lav row celebrate-item">
+                <DecorationThumb id={id} size={48} />
                 <div>
                   <strong>New decoration: {d.title}</strong>
                   <div className="small">Put it in your Ramadan Room!</div>

@@ -37,6 +37,10 @@ test("kindness mission marks adult help and completes", async ({ page }) => {
   await expect(page.getByText("Do this with a grown-up.")).toBeVisible();
   await page.getByRole("button", { name: /I did it!/ }).click();
   await expect(page.getByRole("heading", { name: "You earned 3 stars!" })).toBeVisible();
+  await expectNoHorizontalScroll(page); // completion message must wrap on small phones
+  await page.getByRole("button", { name: "Yay! Continue" }).click();
+  await expect(page.getByText("You did it!")).toBeVisible();
+  await expectNoHorizontalScroll(page);
 });
 
 test("quiz allows retrying and explains answers", async ({ page }) => {
