@@ -7,6 +7,11 @@ npm ci
 npm run check    # lint, typecheck, unit tests, build, e2e
 ```
 
+## Option A0 — Cloudflare Workers (static assets) — current setup
+`wrangler.jsonc` tells Workers to serve the static export in `out/` (no server code).
+- Workers & Pages → your project → Settings → Build: build command `npm run build`, deploy command `npx wrangler deploy`, production branch `main`.
+- Do **not** use the OpenNext / Next.js adapter: this app is a static export.
+
 ## Option A — Cloudflare Pages / Netlify (recommended: free tier, HTTPS, compression)
 - Build command: `npm run build`
 - Output directory: `out`
