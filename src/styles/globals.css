@@ -983,7 +983,7 @@ textarea.input {
 }
 .tabs button {
   flex: none;
-  min-height: 44px;
+  min-height: 46px;
   padding: 8px 16px;
   border-radius: 999px;
   border: 0;
