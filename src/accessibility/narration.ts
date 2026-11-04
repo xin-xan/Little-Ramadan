@@ -16,6 +16,8 @@ export interface Segment {
   spoken: string;
   /** Where the sentence is on screen, for highlighting. */
   range?: Range;
+  /** Sentences of the same paragraph share a block number and are spoken in one breath. */
+  block?: number;
 }
 
 /**
@@ -23,37 +25,25 @@ export interface Segment {
  * Reviewers: please check these with a native speaker.
  */
 export const PRONOUNCE: [RegExp, string][] = [
-  [/\bSuhoor\b/gi, "Su-hoor"],
-  [/\bIftar\b/gi, "Iff-taar"],
-  [/\bLaylatul Qadr\b/gi, "Lay-la-tul Kadr"],
-  [/\bQadr\b/gi, "Kadr"],
-  [/\bZakat\b/gi, "Za-kaat"],
-  [/\bSadaqah\b/gi, "Sa-da-ka"],
-  [/\bduas\b/gi, "doo-aahs"],
-  [/\bdua\b/gi, "doo-aah"],
-  [/\bSalah\b/gi, "Sa-laah"],
-  [/\bFajr\b/gi, "Fudger"],
-  [/\bMaghrib\b/gi, "Mug-rib"],
-  [/\bQuran\b/gi, "Kur-aan"],
+  // Gentle fixes only: most voices already say these words well. No hyphens (they cause choppy pauses).
+  [/\bLaylatul Qadr\b/gi, "Laylatul Kadder"],
+  [/\bQadr\b/gi, "Kadder"],
   [/\bEid al-Fitr\b/gi, "Eed al Fitter"],
-  [/\bEid\b/gi, "Eed"],
-  [/\bKuda Eid\b/gi, "Kuda Eed"],
-  [/\bmasroshi\b/gi, "mass-roshi"],
-  [/\bgulha\b/gi, "gul-ha"],
-  [/\bbajiya\b/gi, "ba-jiya"],
-  [/\brihaakuru\b/gi, "ree-haa-kuru"],
-  [/\broshi\b/gi, "roshi"],
-  [/\bHilmy\b/g, "Hill-mee"],
-  [/\bAmina\b/g, "Aa-mina"],
-  [/\bAisha\b/g, "Aa-isha"],
-  [/\bMariyam\b/g, "Mar-yam"],
-  [/\bAssalamu alaikum\b/gi, "As-salaamu alay-kum"],
-  [/\bInsha'?Allah\b/gi, "In-sha-Allah"],
-  [/\bAlhamdulillah\b/gi, "Al-ham-du-lil-lah"],
-  [/\bBismillah\b/gi, "Bis-mil-lah"],
-  [/\bRamadan\b/g, "Ramadaan"],
-  [/—|–/g, ", "],
-  [/…/g, "."],
+  [/\bEid\b/g, "Eed"],
+  [/\bduas\b/gi, "dooahs"],
+  [/\bdua\b/gi, "dooah"],
+  [/\bFajr\b/gi, "Fudger"],
+  [/\bZakat\b/gi, "Zakaat"],
+  [/\bSalah\b/gi, "Salaah"],
+  [/\bHilmy\b/g, "Hilmee"],
+  [/\brihaakuru\b/gi, "reehaakuru"],
+  [/\bAssalamu alaikum\b/gi, "Assalaamu alaykum"],
+  // Read punctuation as natural pauses, not symbols.
+  [/\s*[—–]\s*/g, ", "],
+  [/…/g, "..."],
+  [/\s*·\s*/g, ", "],
+  [/&/g, " and "],
+  [/\+(\d+)/g, "plus $1"],
 ];
 
 export function toSpoken(text: string): string {
@@ -81,7 +71,7 @@ export function splitSentences(text: string): { start: number; end: number }[] {
   return out;
 }
 
-const SKIP = "button, a, input, textarea, select, nav, svg, canvas, [aria-hidden='true'], [hidden], .sr-only, [data-narrate='skip'], details:not([open]) > :not(summary)";
+const SKIP = ".pill, .eyebrow, .read-toggle, button, a, input, textarea, select, nav, svg, canvas, [aria-hidden='true'], [hidden], .sr-only, [data-narrate='skip'], details:not([open]) > :not(summary)";
 
 function isBlock(el: Element) {
   const d = getComputedStyle(el).display;
@@ -111,7 +101,9 @@ export function segmentsFrom(root: Element): Segment[] {
     else groups.push({ block, nodes: [n] });
   }
   const segs: Segment[] = [];
+  let blockNo = 0;
   for (const g of groups) {
+    blockNo++;
     const offsets: { node: Text; start: number }[] = [];
     let full = "";
     for (const node of g.nodes) {
@@ -135,7 +127,7 @@ export function segmentsFrom(root: Element): Segment[] {
       } catch {
         range = undefined;
       }
-      segs.push({ text, spoken: toSpoken(text), range });
+      segs.push({ text, spoken: toSpoken(text), range, block: blockNo });
     }
   }
   return segs;
@@ -145,7 +137,7 @@ export function segmentsFrom(root: Element): Segment[] {
 export function segmentsFromText(text: string): Segment[] {
   return splitSentences(text).map((s) => {
     const t = text.slice(s.start, s.end);
-    return { text: t, spoken: toSpoken(t) };
+    return { text: t, spoken: toSpoken(t), block: 1 };
   });
 }
 
@@ -166,13 +158,15 @@ export function pickVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice 
   const score = (v: SpeechSynthesisVoice) => {
     let s = 0;
     const n = v.name.toLowerCase();
-    if (/premium|enhanced|natural|neural/.test(n)) s += 40;
-    if (/samantha|karen|daniel|moira|serena|kate|martha|tessa|ava|zoe|allison|google uk english female|google us english/.test(n)) s += 15;
+    if (/premium|enhanced|natural|neural|siri/.test(n)) s += 40;
+    // Warm, clear voices that suit children's stories.
+    if (/\b(ava|zoe|samantha|serena|kate|stephanie|martha|moira|tessa|karen|allison|susan|catherine|libby|sonia|jenny|aria|emma|nicky|google uk english female|google us english)\b/.test(n)) s += 18;
+    if (/female/.test(n)) s += 4;
     if (/en[-_]gb/i.test(v.lang)) s += 6;
     if (/en[-_](us|au|ie|in)/i.test(v.lang)) s += 4;
     if (v.default) s += 3;
     // Novelty / robotic voices are not suitable for children's stories.
-    if (/albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|junior|ralph|fred|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley|espeak/.test(n)) s -= 100;
+    if (/albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|junior|ralph|fred|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley|espeak|robot|novelty/.test(n)) s -= 100;
     return s;
   };
   return [...local].sort((a, b) => score(b) - score(a))[0];
@@ -250,7 +244,7 @@ function highlight(range?: Range) {
 
 let session = 0;
 let activeKey: string | null = null;
-let rate = 0.92;
+let rate = 0.97;
 
 export function setNarrationRate(r: number) {
   rate = Math.min(1.2, Math.max(0.6, r));
@@ -270,17 +264,30 @@ export function stopNarration() {
   if (was) emit();
 }
 
+/** Sentences of one paragraph are joined into one utterance, so the voice flows naturally. */
+function chunk(segments: Segment[]) {
+  const out: Segment[][] = [];
+  for (const seg of segments) {
+    const cur = out[out.length - 1];
+    const len = cur ? cur.reduce((n, x) => n + x.spoken.length + 1, 0) : 0;
+    if (cur && cur[0].block != null && cur[0].block === seg.block && len + seg.spoken.length < 320) cur.push(seg);
+    else out.push([seg]);
+  }
+  return out;
+}
+
 /**
- * Reads segments aloud one by one. Resolves true when finished, false if stopped.
- * `key` identifies the control that started it so it can show "Stop".
+ * Reads segments aloud, one paragraph per utterance, highlighting the sentence being read.
+ * Resolves true when finished, false if stopped. `key` identifies the control that started it.
  */
-export function narrate(segments: Segment[], key = "default", onSegment?: (i: number) => void): Promise<boolean> {
+export function narrate(segments: Segment[], key = "default"): Promise<boolean> {
   const s = synth();
   if (!s || !segments.length || !narrationAvailable()) return Promise.resolve(false);
   stopNarration();
   const my = ++session;
   activeKey = key;
   emit();
+  const chunks = chunk(segments);
   return new Promise((resolve) => {
     let i = 0;
     const finish = (ok: boolean) => {
@@ -292,35 +299,54 @@ export function narrate(segments: Segment[], key = "default", onSegment?: (i: nu
     };
     const next = () => {
       if (my !== session) return resolve(false);
-      if (i >= segments.length) return finish(true);
-      const seg = segments[i];
-      const u = new SpeechSynthesisUtterance(seg.spoken);
+      if (i >= chunks.length) return finish(true);
+      const group = chunks[i];
+      const starts: number[] = [];
+      let text = "";
+      for (const g of group) {
+        starts.push(text.length);
+        // End every sentence with punctuation so the voice uses a natural falling tone.
+        const t = /[.!?:,"”’)]$/.test(g.spoken) ? g.spoken : `${g.spoken}.`;
+        text += (text ? " " : "") + t;
+      }
+      const u = new SpeechSynthesisUtterance(text);
       if (voice) {
         u.voice = voice;
         u.lang = voice.lang;
       }
       u.rate = rate;
-      u.pitch = 1.05;
+      u.pitch = 1;
       let ended = false;
-      // Some engines occasionally never fire "end": move on after a generous estimate.
-      const guard = window.setTimeout(() => done(), 4000 + (seg.spoken.length * 140) / rate);
+      let shown = 0;
+      highlight(group[0].range);
+      // Move the highlight along as the voice reaches each sentence (where the device reports it).
+      u.onboundary = (e) => {
+        let k = 0;
+        while (k + 1 < starts.length && starts[k + 1] <= e.charIndex) k++;
+        if (k !== shown) {
+          shown = k;
+          highlight(group[k].range);
+        }
+      };
+      const guard = window.setTimeout(() => done(), 5000 + (text.length * 130) / rate);
       function done() {
         if (ended) return;
         ended = true;
         window.clearTimeout(guard);
         i++;
-        next();
+        // A short, natural breath between paragraphs.
+        window.setTimeout(next, 180);
       }
       u.onend = done;
       u.onerror = (e) => {
-        window.clearTimeout(guard);
-        ended = true;
-        if ((e as SpeechSynthesisErrorEvent).error === "interrupted" || (e as SpeechSynthesisErrorEvent).error === "canceled") return resolve(false);
-        i++;
-        next();
+        const err = (e as SpeechSynthesisErrorEvent).error;
+        if (err === "interrupted" || err === "canceled") {
+          ended = true;
+          window.clearTimeout(guard);
+          return resolve(false);
+        }
+        done();
       };
-      highlight(seg.range);
-      onSegment?.(i);
       s.speak(u);
     };
     // Safari can drop a speak() made in the same tick as cancel().

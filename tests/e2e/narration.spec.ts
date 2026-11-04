@@ -51,7 +51,7 @@ test("stories are read aloud page by page, with a Read to me switch", async ({ p
   await page.goto("/learn/story/noor-first-suhoor/");
   // Read to me is on by default: the first page is read automatically.
   await expect.poll(async () => (await spoken(page)).join(" ")).toContain("Mum gently woke Noor.");
-  await expect.poll(async () => (await spoken(page)).join(" ")).toContain("time for Su-hoor");
+  await expect.poll(async () => (await spoken(page)).join(" ")).toContain("time for Suhoor");
   await page.getByRole("button", { name: /Next page/ }).click();
   await expect.poll(async () => (await spoken(page)).join(" ")).toContain("The kitchen smelled of warm roshi and tea.");
 
@@ -71,7 +71,7 @@ test("lessons, quizzes and information pages can be listened to", async ({ page 
   await fakeVoices(page);
   await onboard(page);
   await page.goto("/learn/lesson/what-is-ramadan/");
-  await expect.poll(async () => (await spoken(page)).join(" ")).toContain("Ramadaan is the ninth month of the Islamic calendar.");
+  await expect.poll(async () => (await spoken(page)).join(" ")).toContain("Ramadan is the ninth month of the Islamic calendar.");
 
   await page.goto("/games/quiz/");
   await page.getByRole("link").filter({ hasText: /questions|quiz/i }).first().click();
@@ -79,8 +79,9 @@ test("lessons, quizzes and information pages can be listened to", async ({ page 
   await expect(answers).toBeVisible();
   const question = (await page.locator("#quiz-question").innerText()).trim();
   const firstAnswer = (await answers.getByRole("button").first().innerText()).replace(/^[ABC]\s*/, "").trim();
-  await expect.poll(async () => (await spoken(page)).join(" | ")).toContain(firstAnswer.split(" ")[0]);
-  expect((await spoken(page)).length).toBeGreaterThan(1);
+  // Asked naturally: "...? Is it <a>, <b>, or <c>?" in one breath.
+  await expect.poll(async () => (await spoken(page)).join(" | ").toLowerCase()).toContain(`is it ${firstAnswer.toLowerCase()}`);
+  expect((await spoken(page)).join(" | ")).toMatch(/, or .+\?/);
   expect(question.length).toBeGreaterThan(3);
 
   await page.goto("/safety/");

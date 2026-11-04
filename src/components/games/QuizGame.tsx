@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { ListenButton, useAutoRead } from "../Listen";
+import { segmentsFrom, toSpoken, type Segment } from "@/accessibility/narration";
 import { Amina } from "@/characters/Characters";
 import { gameById } from "@/content/games";
 import type { QuizSet } from "@/content/types";
@@ -21,8 +22,26 @@ export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: n
   const q = qs[i];
   const askRef = useRef<HTMLDivElement>(null);
   const feedbackRef = useRef<HTMLDivElement>(null);
-  // Read the question and its answers aloud, then the gentle feedback after each try.
-  useAutoRead(askRef, `${set.id}:${i}:${qs.length}`, "quiz", !done);
+  // Read the question the way a person would ask it: "...? Is it A, B, or C?"
+  const askScript = (): Segment[] => {
+    const root = askRef.current;
+    if (!root) return [];
+    const qEl = root.querySelector("#quiz-question");
+    const segs = qEl ? segmentsFrom(qEl) : [];
+    const opts = [...root.querySelectorAll<HTMLElement>("[data-narrate='read']")];
+    opts.forEach((el, k) => {
+      const t = (el.textContent ?? "").trim();
+      // "The ninth month" -> "the ninth month", but keep names like "Ramadan" as they are.
+      const lower = /^(The|A|An|To|In|On|At|By|For|With|Being|Saying|Helping|Sharing|Giving|Telling|Eating|Reading)\b/.test(t) ? t.charAt(0).toLowerCase() + t.slice(1) : t;
+      const spoken = toSpoken(k === 0 ? `Is it ${lower},` : k === opts.length - 1 ? `or ${lower}?` : `${lower},`);
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      segs.push({ text: t, spoken, range, block: segs[0]?.block ?? 1 });
+    });
+    return segs;
+  };
+  // Then the gentle feedback after each try.
+  useAutoRead(askScript, `${set.id}:${i}:${qs.length}`, "quiz", !done);
   useAutoRead(feedbackRef, `${i}:${solved}:${wrong.length}`, "quiz", !done && (solved || wrong.length > 0));
 
   const restart = () => {
@@ -65,7 +84,7 @@ export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: n
           <div className="speech">
             <Amina size={72} expression={solved ? "cheer" : "think"} />
             <div className="bubble" style={{ fontSize: "1.2rem", fontWeight: 700 }}>
-              <ListenButton compact target={askRef} narrationKey="quiz" label="Hear the question" className="bubble-listen" />
+              <ListenButton compact build={askScript} narrationKey="quiz" label="Hear the question" className="bubble-listen" />
               <span id="quiz-question">{q.question}</span>
             </div>
           </div>

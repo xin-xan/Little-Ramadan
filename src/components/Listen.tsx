@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, useSyncExternalStore, type RefObject } from "react";
-import { narratingKey, narrate, narrationAvailable, onNarrationChange, segmentsFrom, segmentsFromText, stopNarration } from "@/accessibility/narration";
+import { narratingKey, narrate, narrationAvailable, onNarrationChange, segmentsFrom, segmentsFromText, stopNarration, type Segment } from "@/accessibility/narration";
 import { useApp } from "@/state/AppState";
 import { Icon } from "./Icon";
 
@@ -19,12 +19,18 @@ function useSpeaking(key: string) {
   return useSyncExternalStore(subscribe, () => narratingKey() === key, () => false);
 }
 
-type Target = { target: RefObject<HTMLElement | null>; text?: never } | { text: string; target?: never } | { selector: string; target?: never; text?: never };
+type Target =
+  | { target: RefObject<HTMLElement | null>; text?: never; build?: never }
+  | { text: string; target?: never; build?: never }
+  | { selector: string; target?: never; text?: never; build?: never }
+  /** Custom script, e.g. a quiz question read the way a person would ask it. */
+  | { build: () => Segment[]; target?: never; text?: never };
 
 /** Starts reading a target element (or plain text) aloud. */
 export function readTarget(t: Target, key: string) {
   let segs;
-  if ("text" in t && t.text != null) segs = segmentsFromText(t.text);
+  if ("build" in t && t.build) segs = t.build();
+  else if ("text" in t && t.text != null) segs = segmentsFromText(t.text);
   else {
     const el = "selector" in t ? document.querySelector(t.selector) : t.target?.current;
     if (!el) return Promise.resolve(false);
@@ -72,18 +78,22 @@ export function ListenButton({ label = "Listen", compact = false, className, nar
  * Reads `target` aloud automatically whenever `trigger` changes, if the parent has
  * "Read aloud automatically" on. Returns the key so a ListenButton can share state.
  */
-export function useAutoRead(target: RefObject<HTMLElement | null>, trigger: unknown, key: string, enabled = true) {
+export function useAutoRead(target: RefObject<HTMLElement | null> | (() => Segment[]), trigger: unknown, key: string, enabled = true) {
   const { data } = useApp();
   const on = data.settings.readAloud && enabled;
   const available = useNarrationAvailable();
   const first = useRef(true);
+  const src = useRef(target);
+  useEffect(() => {
+    src.current = target;
+  });
   useEffect(() => {
     if (!on || !available) return;
     // Let the new content render (and the page transition settle) first.
-    const id = window.setTimeout(() => void readTarget({ target }, key), first.current ? 450 : 250);
+    const id = window.setTimeout(() => void readTarget(typeof src.current === "function" ? { build: src.current } : { target: src.current }, key), first.current ? 450 : 250);
     first.current = false;
     return () => window.clearTimeout(id);
-  }, [on, available, trigger, target, key]);
+  }, [on, available, trigger, key]);
   useEffect(() => () => stopNarration(), []);
 }
 

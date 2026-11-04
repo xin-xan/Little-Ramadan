@@ -167,7 +167,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
   // Narration: stop reading when the page changes; follow the parent's speed setting.
   useEffect(() => stopNarration(), [pathname]);
   const slowVoice = data.settings.narrationSpeed === "slow";
-  useEffect(() => setNarrationRate(slowVoice ? 0.78 : 0.92), [slowVoice]);
+  useEffect(() => setNarrationRate(slowVoice ? 0.85 : 0.97), [slowVoice]);
   useEffect(() => {
     // iOS only lets speech start from a tap; the first tap anywhere allows later auto-reading.
     const once = () => unlockNarration();
