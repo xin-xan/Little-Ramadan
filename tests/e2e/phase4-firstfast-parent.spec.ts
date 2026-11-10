@@ -11,6 +11,8 @@ test("fasting journal is off by default, optional, private and earns nothing", a
   await openParentZone(page);
   await page.getByRole("tab", { name: "Fasting journal" }).click();
   await page.getByRole("switch", { name: "Show the journal to my child" }).click();
+  // The switch flips once the setting is saved on the device.
+  await expect(page.getByRole("switch", { name: "Show the journal to my child" })).toHaveAttribute("aria-checked", "true");
 
   await page.goto("/first-fast/");
   for (const option of ["I completed a fast with family guidance", "I did not fast today"]) {

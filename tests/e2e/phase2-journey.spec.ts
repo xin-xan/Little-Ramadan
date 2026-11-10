@@ -54,6 +54,7 @@ test("parent calendar: current day, locked future days, open missed days, 29-day
   await openParentZone(page);
   await page.getByRole("tab", { name: "Calendar" }).click();
   await page.getByRole("button", { name: "29 days" }).click();
+  await expect(page.getByRole("button", { name: "29 days" })).toHaveAttribute("aria-pressed", "true");
   await page.goto("/journey/");
   await expect(page.getByRole("list", { name: "29 journey days" }).getByRole("listitem")).toHaveCount(29);
   await expect(page.getByRole("group", { name: /Day 29: Eid Celebration/ })).toBeVisible();

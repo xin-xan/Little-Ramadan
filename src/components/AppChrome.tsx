@@ -23,7 +23,11 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const NO_PROFILE_ROUTES = ["/welcome", "/style-guide"];
 const NO_NAV_ROUTES = ["/welcome", "/style-guide", "/rewards/certificate"];
 
-const strip = (p: string) => (BASE && p.startsWith(BASE) ? p.slice(BASE.length) || "/" : p);
+const strip = (p: string) => {
+  const s = BASE && p.startsWith(BASE) ? p.slice(BASE.length) || "/" : p;
+  // "/games/quiz/x" and "/games/quiz/x/" are the same page: never remount a page (and lose a game) over a slash.
+  return s.length > 1 && !s.endsWith("/") ? `${s}/` : s;
+};
 
 function useOnline() {
   const [online, setOnline] = useState(true);
