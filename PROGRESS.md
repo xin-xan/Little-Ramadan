@@ -58,3 +58,14 @@ Tests: `tests/e2e/phase5-rewards.spec.ts`.
 - ✅ Spoken re-spellings so Suhoor, Iftar, Laylatul Qadr, dua, Eid, masroshi, gulha etc. are pronounced better (on-screen text unchanged)
 - 🟡 Owner/reviewers: check pronunciation on real iPhone and Android voices; consider commissioning recorded human narration (the engine is built so recordings can replace the device voice later)
 Tests: `tests/unit/narration.test.ts`, `tests/e2e/narration.spec.ts`.
+
+## Learn Dhivehi (owner request, inspired by akurufili.com)
+- ✅ New "Learn Dhivehi" area (Home shortcut, Puzzle Palace entry, and an optional bonus on every journey day)
+- ✅ 12 original games: Meet the letters, Trace the letter, Letter bubbles, Find the word, First letter, Let's count, Colours, Fili sounds, Memory match, Build the word, Add and take away, Ramadan words — all untimed, tap-only, with retries and gentle feedback
+- ✅ Automatic Ramadan plan: one new Thaana letter a day for days 1–24, then review days, ending with Eid words; follows the 29/30-day setting and the parent's calendar (missed days stay open)
+- ✅ Content: 24 letters, 10 fili, 46 words with original pictures, numbers 1–10, 6 colours, 8 Ramadan words; Thaana shown right-to-left in Noto Sans Thaana (self-hosted, OFL)
+- ✅ Rewards: 1 star per Dhivehi day and per game tried; new "Akuru Explorer" badge (10 Dhivehi activities)
+- ✅ Narration reads instructions and romanised words; Thaana itself is not read by English voices
+- 🟡 Dhivehi teacher to review spellings, letter sounds and romanisation (`docs/content-review-record.md`)
+- 🟡 Optional: recorded Dhivehi letter and word sounds by a native speaker
+Tests: `tests/unit/dhivehi.test.ts`, `tests/e2e/dhivehi.spec.ts`.

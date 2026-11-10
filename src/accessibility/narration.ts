@@ -71,7 +71,7 @@ export function splitSentences(text: string): { start: number; end: number }[] {
   return out;
 }
 
-const SKIP = ".pill, .eyebrow, .read-toggle, button, a, input, textarea, select, nav, svg, canvas, [aria-hidden='true'], [hidden], .sr-only, [data-narrate='skip'], details:not([open]) > :not(summary)";
+const SKIP = ".thaana, [lang='dv'], .pill, .eyebrow, .read-toggle, button, a, input, textarea, select, nav, svg, canvas, [aria-hidden='true'], [hidden], .sr-only, [data-narrate='skip'], details:not([open]) > :not(summary)";
 
 function isBlock(el: Element) {
   const d = getComputedStyle(el).display;

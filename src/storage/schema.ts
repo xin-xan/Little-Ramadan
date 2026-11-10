@@ -66,7 +66,7 @@ export const DEFAULT_SETTINGS: Settings = {
 };
 
 /** Activity kinds that can be completed. "journal" is intentionally not one of them. */
-export const COMPLETION_KINDS = ["lesson", "story", "kindness", "quiz", "game", "goal", "reflection", "dayplay"] as const;
+export const COMPLETION_KINDS = ["lesson", "story", "kindness", "quiz", "game", "goal", "reflection", "dayplay", "dhivehi"] as const;
 export type CompletionKind = (typeof COMPLETION_KINDS)[number];
 
 export interface Completion {

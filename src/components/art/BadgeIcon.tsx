@@ -9,6 +9,7 @@ const BADGE_STYLE: Record<string, { a: string; b: string; icon: string }> = {
   "story-lover": { a: "#f2ae6b", b: "#c06a1f", icon: "scroll" },
   "game-explorer": { a: "#7cc67f", b: "#3e8e41", icon: "games" },
   "goal-getter": { a: "#f1cc6b", b: "#b8871f", icon: "target" },
+  "akuru-explorer": { a: "#5cc0c4", b: "#1f7f86", icon: "scroll" },
   "ramadan-star": { a: "#2d6f61", b: "#0b2a25", icon: "star" },
 };
 

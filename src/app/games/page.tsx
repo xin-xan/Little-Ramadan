@@ -21,6 +21,16 @@ export default function GamesPage() {
           Choose a game! There are no timers, so take your time. You can pause or stop whenever you like.
         </div>
       </div>
+      <Link href="/dhivehi/" className="list-link" data-testid="dhivehi-entry">
+        <span className="dv-entry-glyph" aria-hidden="true" lang="dv" dir="rtl">
+          ށ
+        </span>
+        <span className="grow">
+          <strong>Learn Dhivehi</strong>
+          <span className="small muted">12 games for Thaana letters, fili, words and numbers, with one for every day of Ramadan.</span>
+        </span>
+        <Icon name="next" className="chev" />
+      </Link>
       <ul className="grid-2" style={{ listStyle: "none", padding: 0, margin: 0 }}>
         {games.map((g) => {
           const tried = has(data.completions, "game", g.id);

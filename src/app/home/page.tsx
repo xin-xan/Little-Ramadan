@@ -41,6 +41,7 @@ export default function HomePage() {
   const SHORTCUTS = [
     { href: "/learn/", label: "Learn", sub: "Stories & lessons", icon: "book", tone: "sky" },
     { href: "/games/", label: "Play", sub: "Games & quizzes", icon: "games", tone: "lavender" },
+    { href: "/dhivehi/", label: "Learn Dhivehi", sub: "Letters & words", icon: "scroll", tone: "emerald" },
     { href: "/kindness/", label: "Kindness", sub: "Good deeds", icon: "heart", tone: "rose" },
     { href: "/rewards/room/", label: "My Room", sub: "Decorate it", icon: "lantern", tone: "gold" },
     { href: "/goals/", label: "My Goals", sub: "Little steps", icon: "target", tone: "emerald" },

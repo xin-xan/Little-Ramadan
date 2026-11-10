@@ -25,7 +25,7 @@ export function has(completions: Completion[], kind: CompletionKind, contentId: 
 }
 
 /** Learning/participation activities (reflection and dayplay records are bookkeeping, not "activities"). */
-const ACTIVITY_KINDS: CompletionKind[] = ["lesson", "story", "kindness", "quiz", "game", "goal"];
+const ACTIVITY_KINDS: CompletionKind[] = ["lesson", "story", "kindness", "quiz", "game", "goal", "dhivehi"];
 
 export function countKind(completions: Completion[], kind: CompletionKind | "any") {
   if (kind === "any") return completions.filter((c) => ACTIVITY_KINDS.includes(c.kind)).length;

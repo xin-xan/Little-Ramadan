@@ -19,5 +19,7 @@ All artwork is original work created for this project in code, except the items 
 | 3D characters (Noor, Amina, Hilmy) and 3D Ramadan Village | `src/three/characters.ts`, `src/three/village.ts` | Original (built from geometry in code) |
 | Icon set | `src/components/Icon.tsx` | Original |
 | Fonts: Fredoka, Nunito (latin subsets) | `src/styles/fonts/` | **Third-party**, SIL Open Font License 1.1, licences in `src/styles/fonts/LICENSE-*.txt` |
+| Font: Noto Sans Thaana 400/700 (Dhivehi letters; via @fontsource/noto-sans-thaana 5.3.0) | `src/styles/fonts/` | **Third-party**, SIL Open Font License 1.1, `src/styles/fonts/LICENSE-NotoSansThaana.txt` |
+| Learn Dhivehi pictures (fish, coconut, boat, moon …) | `src/components/dhivehi/DvPicture.tsx` | Original SVG, made for this project |
 | RYSE logo | `src/assets/ryse-logo.png` | **Supplied by the project owner (RYSE)** for the footer credit |
 | Three.js 3D library | npm `three` | **Third-party**, MIT licence |

@@ -13,7 +13,8 @@ import { missionById } from "@/content/missions";
 import { quizSetById } from "@/content/quizzes";
 import { storyById } from "@/content/stories";
 import { dateOfDay, daysFor, formatDate, isDayOpen } from "@/storage/calendar";
-import { dayPartsDone } from "@/storage/rewards";
+import { dayPartsDone, has } from "@/storage/rewards";
+import { dhivehiPlan, dvDayId, dvGameById } from "@/content/dhivehi";
 import { useApp } from "@/state/AppState";
 import { Icon } from "@/components/Icon";
 
@@ -64,6 +65,7 @@ export function DayView({ dayId }: { dayId: string }) {
   const mission = missionById(content.kindnessId);
   const game = gameById(content.play.game);
   const quiz = content.play.quizSetId ? quizSetById(content.play.quizSetId) : undefined;
+  const dvDay = inJourney ? dhivehiPlan(cal.length).find((x) => x.day === dayNo) : undefined;
   const allDone = parts.learn && parts.kindness && parts.play;
   const playHref = content.play.game === "quiz" && quiz ? `/games/quiz/${quiz.id}/?day=${dayId}` : `/games/${content.play.game}/?day=${dayId}`;
   const learnHref = content.learn.kind === "lesson" ? `/learn/lesson/${content.learn.id}/?day=${dayId}` : `/learn/story/${content.learn.id}/?day=${dayId}`;
@@ -110,6 +112,29 @@ export function DayView({ dayId }: { dayId: string }) {
           </Link>
         )}
       </Step>
+
+      {dvDay && (
+        <section className="card stack" aria-labelledby="dv-bonus">
+          <div className="spread">
+            <h2 id="dv-bonus" style={{ margin: 0, fontSize: "1.15rem" }}>
+              Bonus: Learn Dhivehi
+            </h2>
+            <span className="pill" data-narrate="skip">
+              Optional
+            </span>
+          </div>
+          <Link href={`/dhivehi/day/${dvDay.day}/`} className="list-link">
+            <span className="dv-entry-glyph" aria-hidden="true" lang="dv" dir="rtl">
+              {dvDay.letter?.char ?? "ޢ"}
+            </span>
+            <span className="grow">
+              <strong>{dvDay.title}</strong>
+              <span className="small muted">{dvGameById(dvDay.game)?.title}</span>
+            </span>
+            {has(data.completions, "dhivehi", dvDayId(dvDay.day)) ? <Icon name="check" className="chev" /> : <Icon name="next" className="chev" />}
+          </Link>
+        </section>
+      )}
 
       <section className="card lav stack" aria-labelledby="reflect-title">
         <h2 id="reflect-title" style={{ fontSize: "1.15rem", margin: 0 }}>

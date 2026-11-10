@@ -4,11 +4,12 @@ import { lessons } from "./lessons";
 import { quizSets } from "./quizzes";
 import { stories } from "./stories";
 import type { Review } from "./types";
+import { dhivehiReview, LETTERS, NUMBERS, WORDS } from "./dhivehi";
 
 export interface ReviewItem {
   id: string;
   title: string;
-  type: "Lesson" | "Story" | "Quiz" | "Vocabulary" | "First Fast page";
+  type: "Lesson" | "Story" | "Quiz" | "Vocabulary" | "First Fast page" | "Dhivehi";
   review: Review;
   sourceNote?: string;
 }
@@ -21,6 +22,8 @@ export function reviewItems(): ReviewItem[] {
     ...quizSets.map((q) => ({ id: q.id, title: `${q.title} (${q.questions.length} questions)`, type: "Quiz" as const, review: q.review })),
     ...vocabulary.map((v) => ({ id: v.id, title: `${v.word} — ${v.meaning}`, type: "Vocabulary" as const, review: v.review })),
     ...firstFastPages.map((p) => ({ id: p.id, title: p.title, type: "First Fast page" as const, review: p.review })),
+    { id: "dv-letters", title: `Learn Dhivehi: ${LETTERS.length} letter names, sounds and fili`, type: "Dhivehi" as const, review: dhivehiReview },
+    { id: "dv-words", title: `Learn Dhivehi: ${WORDS.length} words and ${NUMBERS.length} numbers (spelling and romanisation)`, type: "Dhivehi" as const, review: dhivehiReview },
   ];
 }
 

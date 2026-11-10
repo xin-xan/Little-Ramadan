@@ -11,6 +11,8 @@ export const STAR_VALUES = {
   game: 1,
   reflection: 0,
   dayplay: 0,
+  /** A Learn Dhivehi day, or trying a Dhivehi game for the first time. */
+  dhivehi: 1,
 } as const;
 
 export const ENCOURAGEMENTS = [

@@ -22,6 +22,7 @@ Then run `RELEASE_CONTENT_CHECK=1 npm test`. This test fails until every item is
 | First Fast pages | `src/content/firstFast.ts` | Islamic teacher **and** health professional | Draft |
 | Child health message and parent guidance | `src/content/safety.ts` | Health professional (paediatric if possible) | Draft |
 | Kindness missions and safety notes | `src/content/missions.ts` | Educator / child-safety | Draft |
+| Learn Dhivehi: 24 letters, fili, 46 words, numbers 1–10, Ramadan words, spoken re-spellings | `src/content/dhivehi.ts` | Dhivehi language teacher. Check especially: ރޯދަ ވީލުން (Iftar), letter-sound descriptions, romanisations such as *bai* (ބަތް) and *ai* (އަތް) | Draft |
 
 ## Items flagged for specific checking
 - "Bismillah" = "In the name of Allah"; "Alhamdulillah" = "All praise is for Allah"; "Assalamu alaikum" = "Peace be upon you"; "Eid Mubarak" = "Blessed Eid" — translations to verify.

@@ -52,6 +52,7 @@ describe("fasting never affects rewards", () => {
       ...["q1", "q2", "q3", "q4", "q5"].map((q) => c("quiz", q)),
       ...["quiz", "match-words", "missing-lantern", "mosque-puzzle", "sort-deeds", "memory-cards", "vocab-match"].map((g) => c("game", g)),
       c("goal", "goal-share"),
+      ...Array.from({ length: 10 }, (_, i) => c("dhivehi", `day-${i + 1}`)),
       ...allDays.flatMap((d) => [c(d.learn.kind, d.learn.id), c("kindness", d.kindnessId), c("dayplay", d.id)]),
     ];
     expect(unlockedBadgeIds(all).sort()).toEqual(badges.map((b) => b.id).sort());
