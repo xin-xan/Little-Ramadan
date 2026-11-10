@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { playSound, setSoundEnabled, type SoundName } from "@/accessibility/sound";
-import { setNarrationRate, stopNarration, unlockNarration } from "@/accessibility/narration";
 import { Confetti } from "./Confetti";
 import { Icon } from "./Icon";
 import { SiteFooter } from "./SiteFooter";
@@ -163,17 +162,6 @@ export function AppChrome({ children }: { children: ReactNode }) {
     if (!data.profile && needsProfile) router.replace("/welcome/");
     else if (data.profile && pathname === "/") router.replace("/home/");
   }, [status, data.profile, needsProfile, pathname, router]);
-
-  // Narration: stop reading when the page changes; follow the parent's speed setting.
-  useEffect(() => stopNarration(), [pathname]);
-  const slowVoice = data.settings.narrationSpeed === "slow";
-  useEffect(() => setNarrationRate(slowVoice ? 0.85 : 0.97), [slowVoice]);
-  useEffect(() => {
-    // iOS only lets speech start from a tap; the first tap anywhere allows later auto-reading.
-    const once = () => unlockNarration();
-    document.addEventListener("pointerdown", once, { once: true });
-    return () => document.removeEventListener("pointerdown", once);
-  }, []);
 
   // Soft UI sounds for every button and link (a premium, tactile feel). data-sound="none" opts out.
   const soundOn = data.settings.soundOn;

@@ -7,6 +7,6 @@
 - **iOS storage eviction.** Safari may remove data of sites not used for several weeks unless the app is installed to the home screen. The app requests persistent storage where supported.
 - **Parent gate is not security.** The maths question only keeps young children out. The optional PIN is hashed but stored on the same device.
 - **First visit downloads the whole app (~2.5 MB uncompressed, ~0.6 MB with host compression)** so it works offline afterwards.
-- **Narration uses the device's own voice.** Stories, lessons, quizzes and information pages can be read aloud with the voice built into the phone (Web Speech API, on-device voices only). Voice quality and pronunciation of Arabic-origin words vary by device; some words are re-spelled for the voice, and reviewers should check them. If a device has no on-device English voice, the Listen buttons are hidden and the text is still on screen. Recorded human narration is a future improvement.
+- **No audio narration.** Sounds are short synthesised effects only; all information is on screen. Recorded narration by licensed or commissioned narrators is a possible future feature.
 - **English only.** Content is in data files, ready for a Dhivehi translation later.
 - **Certificate "save as picture"** depends on the browser allowing downloads. In installed iOS web apps, printing or a screenshot may be needed instead.

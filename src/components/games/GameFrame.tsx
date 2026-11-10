@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Hilmy } from "@/characters/Characters";
 import { BackToDay } from "@/components/activities/BackToDay";
 import { Sheet } from "@/components/ui";
@@ -9,7 +9,6 @@ import type { GameId, GameInfo } from "@/content/types";
 import { useApp } from "@/state/AppState";
 import { playSound, type SoundName } from "@/accessibility/sound";
 import { Icon } from "../Icon";
-import { ListenButton, useAutoRead } from "../Listen";
 
 /** Shared frame: title, progress, Pause (resume / how to play / start again / exit). No timers. */
 export function GameFrame({ game, title, progress, dayId, onRestart, children }: { game: GameInfo; title?: string; progress?: string; dayId?: string; onRestart(): void; children: ReactNode }) {
@@ -22,7 +21,6 @@ export function GameFrame({ game, title, progress, dayId, onRestart, children }:
           <Icon name="close" />
         </Link>
         <h1>{title ?? game.title}</h1>
-        <ListenButton compact text={`How to play. ${game.howToPlay.join(" ")}`} label="Hear how to play" />
         <button type="button" className="icon-btn" onClick={() => setPaused(true)} aria-label="Pause">
           <Icon name="pause" />
         </button>
@@ -96,10 +94,8 @@ export function useSfx() {
 }
 
 export function GameDone({ message, onReplay, dayId, children }: { message: string; onReplay(): void; dayId?: string; children?: ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  useAutoRead(ref, message, "game-done");
   return (
-    <div ref={ref} className="card gold stack center" role="status">
+    <div className="card gold stack center" role="status">
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Hilmy size={90} expression="cheer" />
       </div>

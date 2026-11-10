@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
-import { segmentsFromText } from "@/accessibility/narration";
 import { Amina, Hilmy } from "@/characters/Characters";
 import { Feedback, useSfx } from "@/components/games/GameFrame";
 import { Icon } from "@/components/Icon";
-import { ListenButton, useAutoRead } from "@/components/Listen";
 import { LETTERS, wordById, type DvGameId, type DvLetter } from "@/content/dhivehi";
 import { bubbleRound, buildWordRounds, colourQuestions, countQuestions, filiQuestions, findWordQuestions, firstLetterQuestions, memoryCards, ramadanWordQuestions, sumQuestions, type DvQuestion } from "@/game-engine/dhivehi";
 import { shuffle } from "@/game-engine/engine";
@@ -30,10 +28,8 @@ function useClient() {
 }
 
 function Done({ message, onAgain, children }: { message: string; onAgain(): void; children?: ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  useAutoRead(ref, message, "dv-done");
   return (
-    <div ref={ref} className="card gold stack center" role="status">
+    <div className="card gold stack center" role="status">
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Hilmy size={84} expression="cheer" />
       </div>
@@ -77,14 +73,6 @@ function ChoiceGame({ game, focus, onFinish }: { game: DvGameId; focus?: DvLette
   const [done, setDone] = useState(false);
   const sfx = useSfx();
   const q = qs[i];
-  // Asked like a person would: "What is this in Dhivehi? Is it mas, kandu, or rah?"
-  const askScript = () => {
-    const o = q.options.map((x) => x.speak);
-    return segmentsFromText(`${q.ask} Is it ${o.slice(0, -1).join(", ")}, or ${o[o.length - 1]}?`);
-  };
-  useAutoRead(askScript, `${game}:${i}:${done}:${qs[0]?.id}`, "dv-q", !done);
-  const fbRef = useRef<HTMLDivElement>(null);
-  useAutoRead(fbRef, `${i}:${solved}:${wrong.length}`, "dv-q", !done && (solved || wrong.length > 0));
 
   const restart = () => {
     setQs(questionsFor(game, focus));
@@ -124,7 +112,6 @@ function ChoiceGame({ game, focus, onFinish }: { game: DvGameId; focus?: DvLette
           <p style={{ margin: 0, fontWeight: 800, fontSize: "1.1rem" }} id="dv-ask">
             {q.ask}
           </p>
-          <ListenButton compact build={askScript} narrationKey="dv-q" label="Hear the question" />
         </div>
       </div>
       <div className="dv-options" role="group" aria-labelledby="dv-ask" data-testid="dv-answers">
@@ -155,7 +142,7 @@ function ChoiceGame({ game, focus, onFinish }: { game: DvGameId; focus?: DvLette
           );
         })}
       </div>
-      <div ref={fbRef}>
+      <div>
         {wrong.length > 0 && !solved && <Feedback kind="retry">Not quite, that&apos;s okay! Have another go.</Feedback>}
         {solved && (
           <Feedback kind="good">
@@ -203,7 +190,6 @@ function BubblesGame({ focus, onFinish }: { focus?: DvLetter; onFinish(): void }
   const found = bubbles.filter((b) => popped.includes(b.id) && b.char === target.char).length;
   const need = bubbles.filter((b) => b.char === target.char).length;
   const ask = `Pop every bubble with the letter ${target.name}.`;
-  useAutoRead(() => segmentsFromText(ask), `${round}:${done}`, "dv-q", !done);
 
   if (done)
     return (
@@ -226,7 +212,6 @@ function BubblesGame({ focus, onFinish }: { focus?: DvLetter; onFinish(): void }
         <div className="row" style={{ justifyContent: "center" }} data-testid="dv-target" data-name={target.name}>
           <Dv size="3.4rem">{target.char}</Dv>
           <span style={{ fontWeight: 800, fontSize: "1.2rem" }}>{target.name}</span>
-          <ListenButton compact text={ask} narrationKey="dv-q" />
         </div>
         <p style={{ margin: 0 }}>{ask}</p>
       </div>
@@ -283,7 +268,6 @@ function MemoryGame({ focus, onFinish }: { focus?: DvLetter; onFinish(): void })
   const [done, setDone] = useState(false);
   const sfx = useSfx();
   const ask = "Turn over two cards. Find each picture and its Dhivehi word.";
-  useAutoRead(() => segmentsFromText(ask), done, "dv-q", !done);
   if (done)
     return (
       <Done
@@ -300,7 +284,6 @@ function MemoryGame({ focus, onFinish }: { focus?: DvLetter; onFinish(): void })
     <div className="stack">
       <div className="row" style={{ justifyContent: "center" }}>
         <p style={{ margin: 0, fontWeight: 700 }}>{ask}</p>
-        <ListenButton compact text={ask} narrationKey="dv-q" />
       </div>
       <div className="dv-memory" data-testid="dv-memory">
         {cards.map((c) => {
@@ -368,8 +351,6 @@ function BuildWordGame({ focus, onFinish }: { focus?: DvLetter; onFinish(): void
   const sfx = useSfx();
   const round = rounds[r];
   const complete = placed.length === round.pieces.length;
-  const ask = `Build the word ${round.word.roman}, ${round.word.en}. Tap the pieces in order, starting on the right.`;
-  useAutoRead(() => segmentsFromText(complete ? `Well done! ${round.word.roman} means ${round.word.en}.` : ask), `${r}:${complete}:${done}`, "dv-q", !done);
   if (done)
     return (
       <Done
@@ -393,8 +374,10 @@ function BuildWordGame({ focus, onFinish }: { focus?: DvLetter; onFinish(): void
           <p style={{ margin: 0, fontWeight: 800 }}>
             Write “{round.word.roman}” ({round.word.en})
           </p>
-          <ListenButton compact text={ask} narrationKey="dv-q" />
         </div>
+        <p className="small muted" style={{ margin: 0 }}>
+          Tap the pieces in order, starting on the right.
+        </p>
         <div className="dv-slots" dir="rtl" aria-label={`${placed.length} of ${round.pieces.length} pieces placed`}>
           {round.pieces.map((p, k) => (
             <span key={k} className={`dv-slot${k < placed.length ? " filled" : ""}`}>
@@ -662,8 +645,6 @@ function TraceGame({ focus, onFinish }: { focus?: DvLetter; onFinish(): void }) 
   const [done, setDone] = useState(false);
   const letter = LETTERS[idx];
   const goal = 3;
-  const ask = `Trace the letter ${letter.name}. Thaana letters are written from right to left.`;
-  useAutoRead(() => segmentsFromText(ask), `${idx}:${done}`, "dv-q", !done);
   if (done)
     return (
       <Done
@@ -689,6 +670,9 @@ function TraceGame({ focus, onFinish }: { focus?: DvLetter; onFinish(): void }) 
           <Icon name="next" />
         </button>
       </div>
+      <p className="center" style={{ margin: 0 }}>
+        Thaana letters are written from right to left.
+      </p>
       <p className="small muted center" style={{ margin: 0 }}>
         {Math.min(count, goal)} of {goal} letters traced
       </p>
@@ -726,7 +710,6 @@ function TraceGame({ focus, onFinish }: { focus?: DvLetter; onFinish(): void }) 
 /** A letter card: the letter, its name, its sound and a word that uses it. */
 export function LetterCard({ letter }: { letter: DvLetter }) {
   const ex = letter.example ? wordById(letter.example.wordId) : undefined;
-  const say = `This is ${letter.name}. It makes the sound ${letter.sound}.${ex ? ` ${ex.roman} ${letter.example?.contains ? "has" : "starts with"} ${letter.name}. ${ex.roman} means ${ex.en}.` : " It is used in only a few words."}`;
   return (
     <div className="card stack center dv-letter-card" data-testid="dv-letter-card">
       <div className="row" style={{ justifyContent: "center", gap: 14 }}>
@@ -737,7 +720,6 @@ export function LetterCard({ letter }: { letter: DvLetter }) {
           <strong style={{ fontSize: "1.4rem" }}>{letter.name}</strong>
           <span className="muted">Sound: “{letter.sound}”</span>
         </div>
-        <ListenButton compact text={say} label={`Hear ${letter.name}`} />
       </div>
       {ex ? (
         <div className="row" style={{ justifyContent: "center" }}>

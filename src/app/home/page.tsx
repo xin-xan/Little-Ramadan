@@ -1,6 +1,5 @@
 "use client";
 
-import { ListenButton } from "@/components/Listen";
 import Link from "next/link";
 import { Avatar } from "@/characters/Avatars";
 import { Noor } from "@/characters/Characters";
@@ -57,7 +56,6 @@ export default function HomePage() {
           <span className="sr-only">: Noor&apos;s House</span>
         </h1>
         <div className="row" style={{ gap: 8 }}>
-          <ListenButton compact selector="#main" label="Listen to this page" narrationKey="page" />
           <SoundToggle />
           <StarCount stars={stars} />
           <Link href="/rewards/room/" aria-label={`My room. Your avatar is ${profile.avatar}`} className="icon-btn" style={{ padding: 0, overflow: "hidden" }}>

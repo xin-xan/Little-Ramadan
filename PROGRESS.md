@@ -49,15 +49,8 @@ Tests: `tests/e2e/phase5-rewards.spec.ts`.
 - ✅ RYSE credit with logo at the bottom of every page
 - 🟡 Owner to review the new look on real phones (3D performance on older devices especially)
 
-## Voice narration — "Read to me" (owner request)
-- ✅ Stories read aloud page by page, highlighting each sentence as it is read; the child still turns every page
-- ✅ Lessons, quiz questions with their answers, quiz feedback and explanations, game instructions and "well done" messages read aloud
-- ✅ Listen button on every information page (in the page header), on home, and in every character speech bubble
-- ✅ "Read to me" switch on stories and lessons; Parent Zone: "Read aloud automatically" and "Reading speed" (slower)
-- ✅ Uses only voices built into the device (works offline, no download, nothing sent online); hidden when no on-device English voice exists
-- ✅ Spoken re-spellings so Suhoor, Iftar, Laylatul Qadr, dua, Eid, masroshi, gulha etc. are pronounced better (on-screen text unchanged)
-- 🟡 Owner/reviewers: check pronunciation on real iPhone and Android voices; consider commissioning recorded human narration (the engine is built so recordings can replace the device voice later)
-Tests: `tests/unit/narration.test.ts`, `tests/e2e/narration.spec.ts`.
+## Voice narration — removed (owner request)
+- Device-voice narration ("Read to me") was added and then removed at the owner's request. All information stays on screen as text; sound effects remain optional.
 
 ## Learn Dhivehi (owner request, inspired by akurufili.com)
 - ✅ New "Learn Dhivehi" area (Home shortcut, Puzzle Palace entry, and an optional bonus on every journey day)

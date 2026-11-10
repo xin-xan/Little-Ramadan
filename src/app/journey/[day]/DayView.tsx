@@ -119,7 +119,7 @@ export function DayView({ dayId }: { dayId: string }) {
             <h2 id="dv-bonus" style={{ margin: 0, fontSize: "1.15rem" }}>
               Bonus: Learn Dhivehi
             </h2>
-            <span className="pill" data-narrate="skip">
+            <span className="pill">
               Optional
             </span>
           </div>

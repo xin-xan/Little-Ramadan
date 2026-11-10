@@ -1,6 +1,5 @@
 "use client";
 
-import { ListenButton } from "./Listen";
 import Link from "next/link";
 import { useEffect, useRef, type ReactNode } from "react";
 import { playSound, setSoundEnabled } from "@/accessibility/sound";
@@ -8,8 +7,7 @@ import { useApp } from "@/state/AppState";
 import { CharacterById, CHARACTER_NAMES, type Expression } from "@/characters/Characters";
 import { Icon } from "./Icon";
 
-/** `listen` adds a "Listen" button that reads the page's text aloud. */
-export function PageHeader({ title, back, right, listen = true }: { title: string; back?: { href: string; label: string }; right?: ReactNode; listen?: boolean }) {
+export function PageHeader({ title, back, right }: { title: string; back?: { href: string; label: string }; right?: ReactNode }) {
   return (
     <header className="page-header">
       {back && (
@@ -18,25 +16,20 @@ export function PageHeader({ title, back, right, listen = true }: { title: strin
         </Link>
       )}
       <h1>{title}</h1>
-      {listen && <ListenButton compact selector="#main" label={`Listen to ${title}`} narrationKey="page" />}
       {right}
     </header>
   );
 }
 
-export function SpeechBubble({ who, expression = "happy", children, size = 84, listen = true }: { who: "noor" | "amina" | "hilmy"; expression?: Expression; children: ReactNode; size?: number; listen?: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
+export function SpeechBubble({ who, expression = "happy", children, size = 84 }: { who: "noor" | "amina" | "hilmy"; expression?: Expression; children: ReactNode; size?: number }) {
   return (
     <div className="speech">
       <div style={{ flex: "none" }}>
         <CharacterById id={who} expression={expression} size={size} />
       </div>
       <div className="bubble">
-        <span className="who">
-          {CHARACTER_NAMES[who]}
-          {listen && <ListenButton compact target={ref} label={`Hear ${CHARACTER_NAMES[who]}`} className="bubble-listen" />}
-        </span>
-        <div ref={ref}>{children}</div>
+        <span className="who">{CHARACTER_NAMES[who]}</span>
+        {children}
       </div>
     </div>
   );

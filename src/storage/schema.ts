@@ -34,9 +34,6 @@ export interface CalendarSettings {
 
 export interface Settings {
   soundOn: boolean;
-  /** Read stories, lessons and quiz questions aloud automatically (device voice). */
-  readAloud: boolean;
-  narrationSpeed: "slow" | "normal";
   reducedMotion: boolean;
   /** "auto" picks the simple village on low-powered devices. */
   villageMode: "auto" | "scene" | "simple";
@@ -52,8 +49,6 @@ export interface Settings {
 
 export const DEFAULT_SETTINGS: Settings = {
   soundOn: true,
-  readAloud: true,
-  narrationSpeed: "normal",
   reducedMotion: false,
   villageMode: "auto",
   journalEnabled: false,
@@ -156,8 +151,6 @@ export function validateSettings(v: unknown): Settings {
   const minutes = typeof st.minutes === "number" && st.minutes >= 5 && st.minutes <= 120 ? Math.round(st.minutes) : d.screenTime.minutes;
   return {
     soundOn: typeof v.soundOn === "boolean" ? v.soundOn : d.soundOn,
-    readAloud: typeof v.readAloud === "boolean" ? v.readAloud : d.readAloud,
-    narrationSpeed: v.narrationSpeed === "slow" ? "slow" : "normal",
     reducedMotion: typeof v.reducedMotion === "boolean" ? v.reducedMotion : d.reducedMotion,
     villageMode: v.villageMode === "scene" || v.villageMode === "simple" || v.villageMode === "auto" ? v.villageMode : d.villageMode,
     journalEnabled: typeof v.journalEnabled === "boolean" ? v.journalEnabled : d.journalEnabled,
