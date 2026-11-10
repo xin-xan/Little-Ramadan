@@ -1,9 +1,10 @@
 "use client";
 
+import { createPortal } from "react-dom";
 import { VoiceButton } from "./VoiceButton";
 import { rid } from "@/recordings/ids";
 import Link from "next/link";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useSyncExternalStore, type ReactNode } from "react";
 import { playSound, setSoundEnabled } from "@/accessibility/sound";
 import { useApp } from "@/state/AppState";
 import { CharacterById, CHARACTER_NAMES, type Expression } from "@/characters/Characters";
@@ -84,9 +85,16 @@ export function Switch({ checked, onChange, label, id, description }: { checked:
 }
 
 /** Accessible modal sheet: focus moves in, Tab is trapped, Escape closes. */
+const noopSubscribe = () => () => {};
+/** True only in the browser after hydration, so portals never cause a hydration mismatch. */
+export function useIsClient() {
+  return useSyncExternalStore(noopSubscribe, () => true, () => false);
+}
+
 export function Sheet({ open, onClose, labelledBy, children, dismissable = true }: { open: boolean; onClose(): void; labelledBy: string; children: ReactNode; dismissable?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
+  const isClient = useIsClient();
   useEffect(() => {
     onCloseRef.current = onClose;
   });
@@ -123,14 +131,17 @@ export function Sheet({ open, onClose, labelledBy, children, dismissable = true 
       prev?.focus?.();
     };
   }, [open, dismissable]);
-  if (!open) return null;
-  return (
+  if (!open || !isClient) return null;
+  // Portal to <body> so a transformed ancestor (e.g. the .page-enter animation)
+  // can't trap this fixed overlay inside the page box on iOS Safari.
+  const node = (
     <div className="sheet-backdrop" onClick={(e) => dismissable && e.target === e.currentTarget && onClose()}>
       <div className="sheet" role="dialog" aria-modal="true" aria-labelledby={labelledBy} ref={ref} tabIndex={-1}>
         {children}
       </div>
     </div>
   );
+  return createPortal(node, document.body);
 }
 
 export function HealthNotice({ compact = false }: { compact?: boolean }) {

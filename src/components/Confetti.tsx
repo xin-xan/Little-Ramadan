@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
+import { useIsClient } from "./ui";
 
 const COLOURS = ["#E9C66B", "#2F8F6A", "#F3C6D3", "#BBD8E8", "#D9CFF0", "#F59E6B"];
 
 /** A short, gentle confetti burst (no flashing). Not rendered when motion is reduced. */
 export function Confetti({ burst }: { burst: string | null }) {
   const ref = useRef<HTMLCanvasElement>(null);
+  const isClient = useIsClient();
   useEffect(() => {
     if (!burst) return;
     const c = ref.current;
@@ -61,5 +64,7 @@ export function Confetti({ burst }: { burst: string | null }) {
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [burst]);
-  return <canvas ref={ref} className="confetti" aria-hidden="true" style={{ width: "100vw", height: "100vh" }} />;
+  const node = <canvas ref={ref} className="confetti" aria-hidden="true" style={{ width: "100vw", height: "100dvh" }} />;
+  // Portal to <body> so the full-screen canvas isn't trapped by a transformed ancestor.
+  return isClient ? createPortal(node, document.body) : node;
 }
