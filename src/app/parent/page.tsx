@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AVATARS, Avatar } from "@/characters/Avatars";
 import { ParentGate } from "@/components/ParentGate";
+import { RecordingsPanel } from "@/components/parent/RecordingsPanel";
 import { ProgressBar, Sheet, Switch } from "@/components/ui";
 import { badges } from "@/content/badges";
 import { allDays } from "@/content/days";
@@ -25,6 +26,7 @@ const TABS = [
   { id: "progress", label: "Progress" },
   { id: "settings", label: "Settings" },
   { id: "calendar", label: "Calendar" },
+  { id: "recordings", label: "Voice recordings" },
   { id: "journal", label: "Fasting journal" },
   { id: "guidance", label: "Safety guide" },
   { id: "privacy", label: "Privacy" },
@@ -74,6 +76,7 @@ export default function ParentZonePage() {
         {tab === "progress" && <ProgressPanel />}
         {tab === "settings" && <SettingsPanel />}
         {tab === "calendar" && <CalendarPanel />}
+        {tab === "recordings" && <RecordingsPanel />}
         {tab === "journal" && <JournalPanel />}
         {tab === "guidance" && <GuidancePanel />}
         {tab === "privacy" && <PrivacyPanel />}
@@ -357,7 +360,7 @@ function GuidancePanel() {
           <li>No chat, comments, friends, public profiles or leaderboards.</li>
           <li>No ads, purchases, subscriptions or paid rewards — ever.</li>
           <li>No external links in the children&apos;s area.</li>
-          <li>No location, camera, microphone or contacts access.</li>
+          <li>No location, camera or contacts access. The microphone is used only if a grown-up chooses to record their own voice in the Parent Zone.</li>
           <li>No streaks, timers or pressure in games. Missed days are never punished.</li>
         </ul>
       </div>
@@ -374,7 +377,7 @@ function PrivacyPanel() {
         <strong>Who we are:</strong> Little Ramadan is a free educational app for children aged 7–9. It has no accounts and no servers that receive children&apos;s data.
       </p>
       <p>
-        <strong>What is stored:</strong> your child&apos;s nickname and cartoon avatar; app settings; which activities were completed; badges, decorations and goals; optional reflections and optional journal entries.
+        <strong>What is stored:</strong> your child&apos;s nickname and cartoon avatar; app settings; which activities were completed; badges, decorations and goals; optional reflections and optional journal entries; and any voice recordings you make in “Voice recordings”.
       </p>
       <p>
         <strong>Where:</strong> only on this device, in this browser&apos;s storage (IndexedDB). {storageKind === "memory" ? "Right now this browser is not allowing storage, so nothing will be kept after the app closes." : ""}
@@ -383,7 +386,7 @@ function PrivacyPanel() {
         <strong>What leaves the device:</strong> nothing. There are no analytics, advertising, tracking, cookies for tracking, social logins or third-party services. After the first visit, the app works offline.
       </p>
       <p>
-        <strong>What we never ask for:</strong> real names, birth dates, addresses, phone numbers, email, school, location, photos, camera or microphone access.
+        <strong>What we never ask for:</strong> real names, birth dates, addresses, phone numbers, email, school, location, photos or camera access. The microphone is only used when a grown-up taps Record in “Voice recordings”, and it is switched off as soon as they tap Stop. Children are never asked to record anything.
       </p>
       <p>
         <strong>Keeping or removing data:</strong> data stays until you delete it in “Reset &amp; delete”, clear this browser&apos;s data, or remove the app. Changing devices does not move progress.
@@ -478,7 +481,7 @@ function DataPanel() {
       </div>
       <div className="card stack">
         <h2>Delete everything</h2>
-        <p>Permanently removes all Little Ramadan data from this device — profile, settings, progress and journal — and returns to the welcome screen.</p>
+        <p>Permanently removes all Little Ramadan data from this device — profile, settings, progress, journal and voice recordings — and returns to the welcome screen.</p>
         <button className="btn danger" onClick={() => setWhich("delete")}>
           Delete all data
         </button>
@@ -486,7 +489,7 @@ function DataPanel() {
       <ConfirmSheet
         open={which === "reset"}
         title="Reset all progress?"
-        body="Stars, badges, decorations, goals and completed activities will be cleared. This cannot be undone."
+        body="Stars, badges, decorations, goals and completed activities will be cleared. Your voice recordings are kept. This cannot be undone."
         action="Yes, reset progress"
         onCancel={() => setWhich(null)}
         onConfirm={async () => {

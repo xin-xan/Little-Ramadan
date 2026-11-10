@@ -1,5 +1,7 @@
 "use client";
 
+import { VoiceButton } from "@/components/VoiceButton";
+import { rid } from "@/recordings/ids";
 import Link from "next/link";
 import { useState } from "react";
 import { Illustration } from "@/components/art/Illustration";
@@ -42,6 +44,7 @@ export default function FirstFastPage() {
               {t}
             </p>
           ))}
+          <VoiceButton id={rid.firstFast(p.id)} />
         </section>
       ))}
 

@@ -23,6 +23,9 @@ No `fetch` calls, no analytics, no fonts/CDNs. A CSP meta tag restricts `connect
 ## ADR-6 Premium sound via Web Audio synthesis (revised)
 FM bell and marimba tones, shaped-noise sparkles and page sounds, a generated room reverb and a limiter (`src/accessibility/sound.ts`). No audio files, nothing downloaded, works offline. Every button and link gives a soft tactile tap. Sound is offered **on** during setup (the owner asked for a premium feel) and can be switched off on the setup screen, with the speaker button on the home screen, or in Parents → Settings. No information is conveyed only by sound.
 
+## ADR-9 Parent voice recordings (owner-approved microphone exception)
+Parents can record their own voice for any story page, lesson part, quiz question and explanation, kindness mission, game instructions, health message, First Fast page, and Dhivehi letter or word (`src/recordings/catalog.ts`, stable IDs in `src/recordings/ids.ts`). Recording uses `MediaRecorder` (Opus/WebM where the browser can play it, otherwise AAC/MP4 on iPhone) and is only started from the Parent Zone, behind the parent gate; the microphone is released when recording stops. Audio is stored as ArrayBuffers in a separate IndexedDB database (`little-ramadan-voices`) so it can never affect progress data. Children see a Listen button only where a recording exists; playback uses prepared blob URLs so iPhone allows it from a tap (CSP adds `media-src 'self' blob:`). Backups are a JSON file with base64 audio kept by the parent. A unit test enforces that only `src/recordings/recorder.ts` touches the microphone and only the Parent Zone panel starts recording.
+
 ## ADR-7 Testing
 Vitest + Testing Library + fake-indexeddb for unit/component tests; Playwright (Chromium, iPhone/Android viewports) for end-to-end, including offline reopen and persistence. Real-device testing is a Phase 6 owner task.
 

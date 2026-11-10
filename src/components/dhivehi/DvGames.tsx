@@ -1,10 +1,12 @@
 "use client";
 
+import { VoiceButton } from "@/components/VoiceButton";
+import { rid } from "@/recordings/ids";
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { Amina, Hilmy } from "@/characters/Characters";
 import { Feedback, useSfx } from "@/components/games/GameFrame";
 import { Icon } from "@/components/Icon";
-import { LETTERS, wordById, type DvGameId, type DvLetter } from "@/content/dhivehi";
+import { LETTERS, WORDS, wordById, type DvGameId, type DvLetter } from "@/content/dhivehi";
 import { bubbleRound, buildWordRounds, colourQuestions, countQuestions, filiQuestions, findWordQuestions, firstLetterQuestions, memoryCards, ramadanWordQuestions, sumQuestions, type DvQuestion } from "@/game-engine/dhivehi";
 import { shuffle } from "@/game-engine/engine";
 import { ColourSwatch, DvPicture } from "./DvPicture";
@@ -108,6 +110,7 @@ function ChoiceGame({ game, focus, onFinish }: { game: DvGameId; focus?: DvLette
             {q.dvSub && <span className="small muted" style={{ display: "block" }}>{q.dvSub}</span>}
           </p>
         )}
+        {q.dv && WORDS.some((w) => w.dv === q.dv) && <VoiceButton id={rid.dvWord(WORDS.find((w) => w.dv === q.dv)!.id)} label="Hear the word" />}
         <div className="row" style={{ justifyContent: "center", gap: 8 }}>
           <p style={{ margin: 0, fontWeight: 800, fontSize: "1.1rem" }} id="dv-ask">
             {q.ask}
@@ -720,6 +723,7 @@ export function LetterCard({ letter }: { letter: DvLetter }) {
           <strong style={{ fontSize: "1.4rem" }}>{letter.name}</strong>
           <span className="muted">Sound: “{letter.sound}”</span>
         </div>
+        <VoiceButton compact id={rid.dvLetter(letter.name)} label={`Hear ${letter.name}`} />
       </div>
       {ex ? (
         <div className="row" style={{ justifyContent: "center" }}>
@@ -731,6 +735,7 @@ export function LetterCard({ letter }: { letter: DvLetter }) {
             </span>
             {letter.example?.contains && <span className="small muted">({letter.name} is inside this word)</span>}
           </div>
+          <VoiceButton compact id={rid.dvWord(ex.id)} label={`Hear ${ex.roman}`} />
         </div>
       ) : (
         <p className="small muted" style={{ margin: 0 }}>

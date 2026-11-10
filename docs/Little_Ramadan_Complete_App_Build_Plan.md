@@ -785,6 +785,7 @@ This is a core product requirement, not a later enhancement.
 -   No precise location.
 -   No contact list access.
 -   No camera or microphone access.
+    *Owner-approved exception (November 2026): a parent may choose to record their own voice in the Parent Zone ("Voice recordings") so their child can hear it. The microphone opens only while a grown-up is recording, children are never asked to record, and recordings stay on the device.*
 -   No public profile.
 -   No chat or messaging.
 -   No behavioural advertising.

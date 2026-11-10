@@ -1,5 +1,7 @@
 "use client";
 
+import { VoiceButton } from "./VoiceButton";
+import { rid } from "@/recordings/ids";
 import Link from "next/link";
 import { useEffect, useRef, type ReactNode } from "react";
 import { playSound, setSoundEnabled } from "@/accessibility/sound";
@@ -138,6 +140,7 @@ export function HealthNotice({ compact = false }: { compact?: boolean }) {
         <Icon name="heart" size={18} fill strokeWidth={1.5} /> Your health comes first!
       </strong>{" "}
       {compact ? "If you feel unwell, tell a grown-up straight away." : "If you feel dizzy, very weak or unwell, tell your parent or another trusted adult straight away. You can stop fasting whenever you need to. Your Ramadan adventure is still special!"}
+      {!compact && <VoiceButton id={rid.health()} className="mt" />}
     </div>
   );
 }

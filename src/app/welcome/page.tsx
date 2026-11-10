@@ -177,7 +177,7 @@ export default function WelcomePage() {
             <li>Optional private reflections and journal notes, only if your child writes them.</li>
           </ul>
           <h2>Where it is stored</h2>
-          <p>Only on this device, in this browser&apos;s storage. Nothing is uploaded. There are no accounts, no analytics, no advertising, no chat and no location tracking. The app never asks for an email, phone number, address, school or birth date, and never uses the camera or microphone.</p>
+          <p>Only on this device, in this browser&apos;s storage. Nothing is uploaded. There are no accounts, no analytics, no advertising, no chat and no location tracking. The app never asks for an email, phone number, address, school or birth date, and never uses the camera. The microphone is used only if you choose to record your own voice for your child in the Parent Zone, and recordings stay on this device.</p>
           <p className="notice warn">Clearing browser data, removing the app or changing devices may remove progress.</p>
           <h2>Reset and delete</h2>
           <p>Open <strong>Parents</strong> (bottom menu) at any time to reset progress or delete everything from this device.</p>

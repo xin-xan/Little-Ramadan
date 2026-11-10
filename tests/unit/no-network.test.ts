@@ -14,7 +14,17 @@ const src = files(join(__dirname, "../../src")).map((f) => ({ f, text: readFileS
 
 describe("no network, tracking or monetisation", () => {
   it("does not call the network", () => {
-    for (const { f, text } of src) expect(text, f).not.toMatch(/\bfetch\(|XMLHttpRequest|WebSocket|sendBeacon|EventSource|navigator\.geolocation|getUserMedia/);
+    for (const { f, text } of src) expect(text, f).not.toMatch(/\bfetch\(|XMLHttpRequest|WebSocket|sendBeacon|EventSource|navigator\.geolocation/);
+  });
+
+  it("uses the microphone only in the Parent Zone recorder, and never the camera", () => {
+    const users = src.filter(({ text }) => /getUserMedia|MediaRecorder\(/.test(text)).map(({ f }) => f.replace(/\\/g, "/").split("/src/")[1]);
+    expect(users).toEqual(["recordings/recorder.ts"]);
+    const recorder = src.find(({ f }) => f.replace(/\\/g, "/").endsWith("recordings/recorder.ts"))!.text;
+    expect(recorder).not.toMatch(/video\s*:/);
+    // Only the Parent Zone's recordings panel starts a recording.
+    const starters = src.filter(({ text }) => /startRecording\(/.test(text)).map(({ f }) => f.replace(/\\/g, "/").split("/src/")[1]);
+    expect(starters.sort()).toEqual(["components/parent/RecordingsPanel.tsx", "recordings/recorder.ts"]);
   });
 
   it("has no external URLs (other than the SVG namespace)", () => {

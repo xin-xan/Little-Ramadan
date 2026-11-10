@@ -1,5 +1,7 @@
 "use client";
 
+import { VoiceButton } from "@/components/VoiceButton";
+import { rid } from "@/recordings/ids";
 import { useState } from "react";
 import { Illustration } from "@/components/art/Illustration";
 import type { Mission } from "@/content/types";
@@ -23,6 +25,7 @@ export function MissionCard({ mission, day }: { mission: Mission; day?: number }
         <div style={{ flex: 1 }}>
           <h3 style={{ marginBottom: 4 }}>{mission.title}</h3>
           <p style={{ margin: 0 }}>{mission.description}</p>
+          <VoiceButton id={rid.mission(mission.id)} className="mt" />
         </div>
       </div>
       {mission.adultHelpRequired && (

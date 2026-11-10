@@ -1,5 +1,7 @@
 "use client";
 
+import { VoiceButton } from "@/components/VoiceButton";
+import { rid } from "@/recordings/ids";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { Hilmy } from "@/characters/Characters";
@@ -21,6 +23,7 @@ export function GameFrame({ game, title, progress, dayId, onRestart, children }:
           <Icon name="close" />
         </Link>
         <h1>{title ?? game.title}</h1>
+        <VoiceButton compact id={rid.howToPlay(game.id)} label="Hear how to play" />
         <button type="button" className="icon-btn" onClick={() => setPaused(true)} aria-label="Pause">
           <Icon name="pause" />
         </button>
@@ -36,6 +39,7 @@ export function GameFrame({ game, title, progress, dayId, onRestart, children }:
           <h2 id="pause-title">Paused</h2>
           <p className="muted">Take your time. There&apos;s no timer!</p>
           <h3>How to play</h3>
+          <VoiceButton id={rid.howToPlay(game.id)} />
           <ol style={{ margin: 0 }}>
             {game.howToPlay.map((h) => (
               <li key={h}>{h}</li>
@@ -66,6 +70,7 @@ export function HowToPlay({ game }: { game: GameInfo }) {
   return (
     <details className="card sky">
       <summary style={{ fontWeight: 700, cursor: "pointer", minHeight: 32 }}>How to play</summary>
+      <VoiceButton id={rid.howToPlay(game.id)} className="mt" />
       <ol style={{ marginBottom: 0 }}>
         {game.howToPlay.map((h) => (
           <li key={h}>{h}</li>

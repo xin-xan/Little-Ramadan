@@ -1,5 +1,7 @@
 "use client";
 
+import { VoiceButton } from "@/components/VoiceButton";
+import { rid } from "@/recordings/ids";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { BackToDay } from "@/components/activities/BackToDay";
@@ -42,6 +44,7 @@ export function StoryReader({ id }: { id: string }) {
             <div ref={textRef} tabIndex={-1} aria-live="polite" className="reader-text" style={{ outline: "none" }}>
               {story.pages[page].text}
             </div>
+            <VoiceButton id={rid.storyPage(story.id, page)} />
           </div>
           <p className="center small muted" aria-hidden="true">
             Page {page + 1} of {story.pages.length}

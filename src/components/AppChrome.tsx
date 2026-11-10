@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { playSound, setSoundEnabled, type SoundName } from "@/accessibility/sound";
 import { Confetti } from "./Confetti";
+import { stopRecordingPlayback } from "@/recordings/player";
 import { Icon } from "./Icon";
 import { SiteFooter } from "./SiteFooter";
 import { badges } from "@/content/badges";
@@ -162,6 +163,9 @@ export function AppChrome({ children }: { children: ReactNode }) {
     if (!data.profile && needsProfile) router.replace("/welcome/");
     else if (data.profile && pathname === "/") router.replace("/home/");
   }, [status, data.profile, needsProfile, pathname, router]);
+
+  // A grown-up's recording stops when the page changes.
+  useEffect(() => stopRecordingPlayback(), [pathname]);
 
   // Soft UI sounds for every button and link (a premium, tactile feel). data-sound="none" opts out.
   const soundOn = data.settings.soundOn;

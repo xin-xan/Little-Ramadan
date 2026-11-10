@@ -28,6 +28,11 @@ Stars come only from learning, kindness, games and goals. They are never taken a
 Open **Parents** in the bottom menu. By default it asks a grown-up maths question (this keeps young children out but is not security). You can set a 4–6 digit PIN under Settings; it is stored only as a secure hash.
 From there you can see progress and reflections, change sound and motion, set a gentle break reminder, read the privacy notice and content review status, reset progress or delete everything.
 
+## Record your own voice
+In **Parents → Voice recordings** you can read stories, lessons, quiz questions, kindness missions and Dhivehi letters aloud in your own voice. Tap **Record**, read the words shown, then tap **Stop**. Your child will see a **Listen** button on everything you have recorded; anything you haven't recorded stays as text. You don't need to record everything — start with a favourite story or the Dhivehi letter sounds.
+
+The phone will ask for microphone permission the first time. Recordings stay only on this phone. Use **Save a backup** to keep a copy, and **Load a backup** to restore it (for example on a new phone). "Reset progress" keeps your recordings; "Delete everything" removes them.
+
 ## Important to know
 - Progress is saved only in this browser on this device. Clearing browser data, uninstalling, or switching devices or browsers will lose it.
 - The religious-learning content is being reviewed by qualified reviewers. Please guide your child with your family's own teachers and scholars.

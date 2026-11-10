@@ -1,5 +1,7 @@
 "use client";
 
+import { stopRecordingPlayback } from "@/recordings/player";
+import { deleteAllRecordings } from "@/recordings/store";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { badges } from "@/content/badges";
 import { decorations } from "@/content/decorations";
@@ -303,7 +305,8 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
   }, [commit]);
 
   const deleteEverything = useCallback(async () => {
-    await store().destroy();
+    stopRecordingPlayback();
+    await Promise.all([store().destroy(), deleteAllRecordings()]);
     storageRef.current = null;
     setCelebration(null);
     commit(emptyData());

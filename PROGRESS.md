@@ -62,3 +62,11 @@ Tests: `tests/e2e/phase5-rewards.spec.ts`.
 - 🟡 Dhivehi teacher to review spellings, letter sounds and romanisation (`docs/content-review-record.md`)
 - 🟡 Optional: recorded Dhivehi letter and word sounds by a native speaker
 Tests: `tests/unit/dhivehi.test.ts`, `tests/e2e/dhivehi.spec.ts`.
+
+## Parent voice recordings (owner request, microphone exception approved)
+- ✅ Parent Zone → Voice recordings: record, play, re-record and delete your own voice for 422 items (story pages, lesson parts, quiz questions and explanations, kindness missions, game instructions, health and First Fast, Dhivehi letters and words), with progress per section
+- ✅ Children see a Listen button only on recorded items (stories, lessons, quizzes, games, missions, safety, First Fast, Dhivehi letter cards and words)
+- ✅ Recordings stay on the device in a separate database; backup/restore file; "Delete all recordings"; "Delete everything" removes them; "Reset progress" keeps them
+- ✅ Microphone used only in the Parent Zone recorder (enforced by a unit test); spec 11.1 updated with the approved exception; privacy notice and parent guide updated
+- 🟡 Owner: test recording and playback on a real iPhone and Android phone
+Tests: `tests/unit/recordings.test.ts`, `tests/unit/no-network.test.ts`, `tests/e2e/recordings.spec.ts`.
