@@ -13,12 +13,20 @@ async function openRecordings(page: Page) {
   await expect(page.getByRole("heading", { name: "Record your voice" })).toBeVisible();
 }
 
-async function recordItem(page: Page, label: string) {
+async function recordItem(page: Page, label: string, fullText?: string) {
+  // Record opens a full-screen view with the whole text to read from.
   await page.getByRole("button", { name: `Record ${label}`, exact: true }).click();
-  const stop = page.getByRole("button", { name: `Stop recording ${label}` });
+  const studio = page.getByRole("dialog", { name: label });
+  await expect(studio).toBeVisible();
+  if (fullText) await expect(studio.getByTestId("studio-text")).toContainText(fullText);
+  await studio.getByRole("button", { name: `Start recording ${label}` }).click();
+  const stop = studio.getByRole("button", { name: `Stop recording ${label}` });
   await expect(stop).toBeVisible();
   await page.waitForTimeout(1500);
   await stop.click();
+  await expect(studio.getByRole("button", { name: `Play your recording of ${label}` })).toBeVisible();
+  await studio.getByRole("button", { name: "Close" }).click();
+  await expect(studio).toHaveCount(0);
   await expect(page.getByRole("button", { name: `Play your recording of ${label}` })).toBeVisible();
 }
 
@@ -35,7 +43,15 @@ test("a parent records a story page and the child hears it; backup and delete wo
 
   await openRecordings(page);
   await page.getByText("Noor's First Suhoor").click();
-  await recordItem(page, "Page 1");
+  await recordItem(page, "Page 1", "It was still dark outside when Mum gently woke Noor. \"It's time for Suhoor,\" she whispered.");
+
+  // The full-screen view steps through the story: Next shows page 2's whole text.
+  await page.getByRole("button", { name: "Record Page 2", exact: true }).click();
+  const studio = page.getByRole("dialog", { name: "Page 2" });
+  await expect(studio.getByTestId("studio-text")).toContainText("The kitchen smelled of warm roshi and tea.");
+  await studio.getByRole("button", { name: /Next/ }).click();
+  await expect(page.getByRole("dialog", { name: "Page 3" }).getByTestId("studio-text")).toContainText("Can I try fasting today?");
+  await page.getByRole("dialog", { name: "Page 3" }).getByRole("button", { name: "Close" }).click();
   await expect(page.getByText(/^1$/).first()).toBeVisible();
 
   // Dhivehi letter sounds, like the parent's "Letter sounds" list.

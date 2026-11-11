@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Icon } from "@/components/Icon";
 import { Sheet } from "@/components/ui";
 import { ALL_RECORDING_ITEMS, RECORDING_SECTIONS, type RecItem } from "@/recordings/catalog";
@@ -32,6 +33,8 @@ export function RecordingsPanel() {
   const [message, setMessage] = useState<string | null>(null);
   const [confirmAll, setConfirmAll] = useState(false);
   const [supported] = useState(() => typeof window === "undefined" || recordingSupported());
+  /** The full-screen "read and record" view: the whole text, large, with Record / Stop. */
+  const [studio, setStudio] = useState<{ title: string; items: RecItem[]; index: number } | null>(null);
   const activeRef = useRef(active);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -45,6 +48,39 @@ export function RecordingsPanel() {
     const t = window.setInterval(() => setElapsed(clock() - active.started), 250);
     return () => window.clearInterval(t);
   }, [active]);
+
+  useEffect(() => {
+    if (!studio) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [studio]);
+
+  // Move focus into the recording view when it opens or changes item (keyboard and screen readers).
+  const studioKey = studio ? `${studio.title}:${studio.index}` : "";
+  useEffect(() => {
+    if (!studioKey) return;
+    document.querySelector<HTMLElement>(".rec-studio .rec-btn, .rec-studio button")?.focus();
+  }, [studioKey]);
+
+  const openStudio = (title: string, items: RecItem[], index: number) => {
+    setError(null);
+    setMessage(null);
+    setStudio({ title, items, index });
+  };
+  const closeStudio = async () => {
+    if (activeRef.current) await stop();
+    stopRecordingPlayback();
+    setStudio(null);
+  };
+  const goTo = (index: number) => {
+    stopRecordingPlayback();
+    setError(null);
+    setMessage(null);
+    setStudio((st) => (st ? { ...st, index } : st));
+  };
 
   const stop = async () => {
     const a = activeRef.current;
@@ -85,7 +121,8 @@ export function RecordingsPanel() {
   const current = RECORDING_SECTIONS.find((s) => s.id === section)!;
   const total = ALL_RECORDING_ITEMS.length;
 
-  const row = (item: RecItem) => {
+  const row = (item: RecItem, groupTitle: string, items: RecItem[], index: number) => {
+    const open = () => openStudio(groupTitle, items, index);
     const isRec = active?.id === item.id;
     const has = recorded.has(item.id);
     const isPlaying = playing === item.id;
@@ -96,21 +133,17 @@ export function RecordingsPanel() {
             {item.dv}
           </span>
         )}
-        <div className="rec-text">
+        <button type="button" className="rec-text" onClick={open} aria-label={`Read the full text of ${item.label}`} data-sound="none">
           <strong>{item.label}</strong>
           <span className="small muted rec-script">{item.script}</span>
-        </div>
+        </button>
         <div className="rec-actions">
-          {isRec ? (
-            <button type="button" className="btn rec-btn stop" onClick={() => void stop()} data-sound="none" aria-label={`Stop recording ${item.label}`}>
-              <Icon name="stop" size={16} /> Stop {fmt(elapsed)}
-            </button>
-          ) : has ? (
+          {has ? (
             <>
               <button type="button" className="icon-btn" onClick={() => (isPlaying ? stopRecordingPlayback() : void playRecording(item.id))} aria-label={isPlaying ? `Stop playing ${item.label}` : `Play your recording of ${item.label}`} data-sound="none">
                 <Icon name={isPlaying ? "stop" : "play"} />
               </button>
-              <button type="button" className="icon-btn" onClick={() => void record(item.id)} disabled={!!starting || !supported} aria-label={`Record ${item.label} again`} data-sound="none">
+              <button type="button" className="icon-btn" onClick={open} disabled={!supported} aria-label={`Record ${item.label} again`} data-sound="none">
                 <Icon name="mic" />
               </button>
               <button type="button" className="icon-btn" onClick={() => void deleteRecording(item.id)} aria-label={`Delete recording of ${item.label}`}>
@@ -118,8 +151,8 @@ export function RecordingsPanel() {
               </button>
             </>
           ) : (
-            <button type="button" className="btn rec-btn" onClick={() => void record(item.id)} disabled={!!starting || !supported} aria-label={`Record ${item.label}`} data-sound="none">
-              <span className="rec-dot" aria-hidden="true" /> {starting === item.id ? "Starting…" : "Record"}
+            <button type="button" className="btn rec-btn" onClick={open} disabled={!supported} aria-label={`Record ${item.label}`} data-sound="none">
+              <span className="rec-dot" aria-hidden="true" /> Record
             </button>
           )}
         </div>
@@ -177,7 +210,7 @@ export function RecordingsPanel() {
               </span>
             </summary>
             <ul className="rec-list">
-              {g.items.map(row)}
+              {g.items.map((item, i) => row(item, g.title, g.items, i))}
             </ul>
           </details>
         );
@@ -231,6 +264,81 @@ export function RecordingsPanel() {
           </button>
         </div>
       </div>
+
+      {studio &&
+        (() => {
+          const item = studio.items[studio.index];
+          const isRec = active?.id === item.id;
+          const has = recorded.has(item.id);
+          const isPlaying = playing === item.id;
+          const last = studio.items.length - 1;
+          return (
+            createPortal(<div className="rec-studio" role="dialog" aria-modal="true" aria-labelledby="studio-title" onKeyDown={(e) => e.key === "Escape" && !isRec && void closeStudio()}>
+              <header className="rec-studio-head">
+                <div style={{ minWidth: 0 }}>
+                  <p className="small muted" style={{ margin: 0 }}>
+                    {studio.title} · {studio.index + 1} of {studio.items.length}
+                  </p>
+                  <h2 id="studio-title" style={{ margin: 0 }}>
+                    {item.label}
+                  </h2>
+                </div>
+                <button type="button" className="icon-btn" onClick={() => void closeStudio()} aria-label={isRec ? "Stop, save and close" : "Close"}>
+                  <Icon name="close" />
+                </button>
+              </header>
+
+              <div className="rec-studio-body" data-testid="studio-text">
+                {item.dv && (
+                  <p className="thaana rec-studio-dv" lang="dv" dir="rtl">
+                    {item.dv}
+                  </p>
+                )}
+                <p className="rec-studio-script">{item.script}</p>
+              </div>
+
+              <footer className="rec-studio-foot">
+                {(error || message) && (
+                  <p role="status" className={`notice${error ? " warn" : ""}`} style={{ margin: 0 }}>
+                    {error ?? message}
+                  </p>
+                )}
+                {isRec ? (
+                  <>
+                    <p className="rec-live" role="status">
+                      <span className="rec-live-dot" aria-hidden="true" /> Recording… {fmt(elapsed)}
+                    </p>
+                    <button type="button" className="btn block rec-btn stop" onClick={() => void stop()} data-sound="none" aria-label={`Stop recording ${item.label}`} data-autofocus>
+                      <Icon name="stop" size={18} /> Stop
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {!has && <p className="small muted center" style={{ margin: 0 }}>Read the text above first if you like. Tap Start, read it aloud, then tap Stop.</p>}
+                    <div className="row">
+                      {has && (
+                        <button type="button" className="btn ghost" style={{ flex: 1 }} onClick={() => (isPlaying ? stopRecordingPlayback() : void playRecording(item.id))} aria-label={isPlaying ? `Stop playing ${item.label}` : `Play your recording of ${item.label}`} data-sound="none">
+                          <Icon name={isPlaying ? "stop" : "play"} size={18} /> {isPlaying ? "Stop" : "Play"}
+                        </button>
+                      )}
+                      <button type="button" className="btn rec-btn" style={{ flex: 2 }} onClick={() => void record(item.id)} disabled={!!starting || !supported} aria-label={has ? `Start recording ${item.label} again` : `Start recording ${item.label}`} data-sound="none">
+                        <span className="rec-dot" aria-hidden="true" /> {starting === item.id ? "Starting…" : has ? "Record again" : "Start recording"}
+                      </button>
+                    </div>
+                  </>
+                )}
+                <div className="row">
+                  <button type="button" className="btn ghost" style={{ flex: 1 }} disabled={isRec || studio.index === 0} onClick={() => goTo(studio.index - 1)}>
+                    <Icon name="back" size={18} /> Previous
+                  </button>
+                  <button type="button" className="btn ghost" style={{ flex: 1 }} disabled={isRec || studio.index === last} onClick={() => goTo(studio.index + 1)}>
+                    Next <Icon name="next" size={18} />
+                  </button>
+                </div>
+              </footer>
+            </div>, document.body)
+          );
+        })()}
 
       <Sheet open={confirmAll} onClose={() => setConfirmAll(false)} labelledBy="rec-del-title">
         <div className="stack">

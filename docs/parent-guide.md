@@ -29,7 +29,7 @@ Open **Parents** in the bottom menu. By default it asks a grown-up maths questio
 From there you can see progress and reflections, change sound and motion, set a gentle break reminder, read the privacy notice and content review status, reset progress or delete everything.
 
 ## Record your own voice
-In **Parents → Voice recordings** you can read stories, lessons, quiz questions, kindness missions and Dhivehi letters aloud in your own voice. Tap **Record**, read the words shown, then tap **Stop**. Your child will see a **Listen** button on everything you have recorded; anything you haven't recorded stays as text. You don't need to record everything — start with a favourite story or the Dhivehi letter sounds.
+In **Parents → Voice recordings** you can read stories, lessons, quiz questions, kindness missions and Dhivehi letters aloud in your own voice. Tap **Record** to open the full text in large print (read it through first if you like), tap **Start recording**, read it aloud from the screen, then tap **Stop**. Use **Next** to move straight on to the next page or item. Your child will see a **Listen** button on everything you have recorded; anything you haven't recorded stays as text. You don't need to record everything — start with a favourite story or the Dhivehi letter sounds.
 
 The phone will ask for microphone permission the first time. Recordings stay only on this phone. Use **Save a backup** to keep a copy, and **Load a backup** to restore it (for example on a new phone). "Reset progress" keeps your recordings; "Delete everything" removes them.
 
