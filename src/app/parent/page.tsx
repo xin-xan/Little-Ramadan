@@ -440,7 +440,7 @@ function ContentPanel() {
       </div>
       <div className="card stack">
         <h2>Credits</h2>
-        <p className="small">All characters, illustrations and sounds are original artwork created for Little Ramadan. No third-party images, fonts or sounds are used.</p>
+        <p className="small">All characters, illustrations and sounds are original artwork created for Little Ramadan. No third-party images or sounds are used. Fonts: Fredoka, Nunito and Noto Sans Thaana (SIL Open Font License); Dhivehi letters use Faruma (© The President&apos;s Office, Maldives; created by Ibrahim Yasir, calligraphy by Musthafa Mohamed).</p>
       </div>
     </>
   );

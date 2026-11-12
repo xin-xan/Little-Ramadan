@@ -13,6 +13,14 @@
   font-display: swap;
 }
 
+/* Dhivehi: Faruma (Thaana letters only; owner-supplied), with Noto Sans Thaana as the fallback. */
+@font-face {
+  font-family: "Faruma Thaana";
+  src: url("./fonts/faruma-thaana.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+  unicode-range: U+0780-07BF, U+060C, U+061B, U+061F, U+FDF2, U+FDFD;
+}
 @font-face {
   font-family: "Noto Sans Thaana";
   src: url("./fonts/noto-sans-thaana-400.woff2") format("woff2");
@@ -29,6 +37,7 @@
 }
 
 :root {
+  --thaana-font: "Faruma Thaana", "Noto Sans Thaana", "MV Boli", sans-serif;
   /* brand */
   --emerald-900: #0b2a25;
   --emerald: #123c35;
@@ -67,8 +76,8 @@
   --shadow-2: 0 2px 4px rgba(16, 42, 37, 0.05), 0 10px 28px rgba(16, 42, 37, 0.1);
   --shadow-3: 0 6px 12px rgba(16, 42, 37, 0.08), 0 24px 48px rgba(16, 42, 37, 0.16);
   --edge: 0 4px 0 rgba(8, 30, 26, 0.28);
-  --display: "Fredoka", ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
-  --font: "Nunito", ui-rounded, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Fredoka", ui-rounded, "SF Pro Rounded", system-ui, "Faruma Thaana", "Noto Sans Thaana", sans-serif;
+  --font: "Nunito", ui-rounded, system-ui, -apple-system, "Segoe UI", "Faruma Thaana", "Noto Sans Thaana", sans-serif;
   --nav-h: 68px;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-top: env(safe-area-inset-top, 0px);
@@ -1349,8 +1358,9 @@ html[data-reduced-motion="true"] *::after {
 }
 
 /* ---------- Learn Dhivehi ---------- */
+[lang="dv"],
 .thaana {
-  font-family: "Noto Sans Thaana", "MV Boli", "Faruma", sans-serif;
+  font-family: var(--thaana-font);
   font-weight: 700;
   line-height: 1.6;
   unicode-bidi: isolate;
@@ -1365,7 +1375,7 @@ html[data-reduced-motion="true"] *::after {
   border-radius: 18px;
   background: var(--mint);
   color: var(--teal);
-  font-family: "Noto Sans Thaana", sans-serif;
+  font-family: var(--thaana-font);
   font-weight: 700;
   font-size: 1.9rem;
 }

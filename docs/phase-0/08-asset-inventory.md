@@ -19,7 +19,8 @@ All artwork is original work created for this project in code, except the items 
 | 3D characters (Noor, Amina, Hilmy) and 3D Ramadan Village | `src/three/characters.ts`, `src/three/village.ts` | Original (built from geometry in code) |
 | Icon set | `src/components/Icon.tsx` | Original |
 | Fonts: Fredoka, Nunito (latin subsets) | `src/styles/fonts/` | **Third-party**, SIL Open Font License 1.1, licences in `src/styles/fonts/LICENSE-*.txt` |
-| Font: Noto Sans Thaana 400/700 (Dhivehi letters; via @fontsource/noto-sans-thaana 5.3.0) | `src/styles/fonts/` | **Third-party**, SIL Open Font License 1.1, `src/styles/fonts/LICENSE-NotoSansThaana.txt` |
+| Font: Faruma (Thaana letters only, subset to 9 KB WOFF2; primary Dhivehi font) | `src/styles/fonts/faruma-thaana.woff2` | **Third-party, supplied by the owner.** © The President's Office (Maldives) 2002, created by Ibrahim Yasir, calligraphy by Musthafa Mohamed; marked "All rights reserved" with restricted (print & preview) embedding. The Latin letters (Times New Roman, Monotype) were removed. **Owner to confirm permission for web use before public launch**; if not confirmed, delete the file and its `@font-face` and the app falls back to Noto Sans Thaana (OFL). |
+| Font: Noto Sans Thaana 400/700 (fallback for Dhivehi letters; via @fontsource/noto-sans-thaana 5.3.0) | `src/styles/fonts/` | **Third-party**, SIL Open Font License 1.1, `src/styles/fonts/LICENSE-NotoSansThaana.txt` |
 | Learn Dhivehi pictures (fish, coconut, boat, moon …) | `src/components/dhivehi/DvPicture.tsx` | Original SVG, made for this project |
 | RYSE logo | `src/assets/ryse-logo.png` | **Supplied by the project owner (RYSE)** for the footer credit |
 | Three.js 3D library | npm `three` | **Third-party**, MIT licence |

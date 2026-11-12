@@ -23,6 +23,8 @@ export function Dv({ children, size, className = "" }: { children: ReactNode; si
   );
 }
 
+/** Dhivehi font for canvas drawing (the same as the .thaana CSS class). */
+const DV_FONT = `"Faruma Thaana", "Noto Sans Thaana", sans-serif`;
 const noop = () => () => {};
 /** Games are shuffled on the device, so they render only after the page has loaded. */
 function useClient() {
@@ -479,7 +481,7 @@ export function TraceBoard({ letter, onTraced }: { letter: DvLetter; onTraced():
     let cancelled = false;
     const paintGuide = async () => {
       try {
-        await document.fonts?.load('700 200px "Noto Sans Thaana"', letter.char);
+        await document.fonts?.load(`700 200px ${DV_FONT}`, letter.char);
       } catch {
         /* the system font is used */
       }
@@ -496,13 +498,13 @@ export function TraceBoard({ letter, onTraced }: { letter: DvLetter; onTraced():
       // Size the letter so it fills most of the pad, whatever its shape.
       ctx.textAlign = "left";
       ctx.textBaseline = "alphabetic";
-      ctx.font = `700 100px "Noto Sans Thaana", sans-serif`;
+      ctx.font = `700 100px ${DV_FONT}`;
       const m0 = ctx.measureText(letter.char);
       const gw = Math.max(1, m0.actualBoundingBoxLeft + m0.actualBoundingBoxRight);
       const gh = Math.max(1, m0.actualBoundingBoxAscent + m0.actualBoundingBoxDescent);
       const scale = Math.min((w * 0.7) / gw, (h * 0.7) / gh);
       const px = Math.round(100 * scale);
-      const font = `700 ${px}px "Noto Sans Thaana", sans-serif`;
+      const font = `700 ${px}px ${DV_FONT}`;
       const x = w / 2 - ((m0.actualBoundingBoxRight - m0.actualBoundingBoxLeft) / 2) * scale;
       const y = h / 2 + ((m0.actualBoundingBoxAscent - m0.actualBoundingBoxDescent) / 2) * scale;
       ctx.font = font;
