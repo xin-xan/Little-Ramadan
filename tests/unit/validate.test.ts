@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- tests deliberately break content */
 /** The shared content validator: the shipped content passes, and common editing mistakes are caught. */
+import { readdirSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { BUNDLED_CONTENT } from "@/content/bundle";
 import { validateContent, type ContentBundle } from "@/content/validate";
@@ -54,8 +56,9 @@ describe("validateContent", () => {
   it("accepts uploaded pictures only when the file exists", () => {
     const c = clone() as any;
     c.stories[0].pages[0].illustration = "img:boat.webp";
-    expect(messages(c, new Set(["boat.webp"]))).toEqual([]);
-    expect(messages(c, new Set()).join()).toMatch(/has not been uploaded/);
+    const uploaded = readdirSync(join(__dirname, "../../public/content-images"));
+    expect(messages(c, new Set([...uploaded, "boat.webp"]))).toEqual([]);
+    expect(messages(c, new Set(uploaded)).join()).toMatch(/boat\.webp" has not been uploaded/);
     c.stories[0].pages[0].illustration = "img:../../evil.svg";
     expect(messages(c).join()).toMatch(/not a valid picture name/);
   });

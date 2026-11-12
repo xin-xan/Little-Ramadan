@@ -18,7 +18,8 @@ class FakeGitHub {
   published: { message: string; files: Record<string, string> }[] = [];
   constructor() {
     const entries = readdirSync(DATA).map((f) => ({ path: `src/content/data/${f}`, sha: this.blob(readFileSync(path.join(DATA, f)).toString("base64")) }));
-    entries.push({ path: "public/content-images/existing-boat.webp", sha: this.blob(Buffer.from("x").toString("base64")) });
+    const IMAGES = path.join(__dirname, "../../public/content-images");
+    for (const f of readdirSync(IMAGES)) entries.push({ path: `public/content-images/${f}`, sha: this.blob(readFileSync(path.join(IMAGES, f)).toString("base64")) });
     this.trees.set("t0", entries);
     this.commits.set("c0", { tree: "t0", message: "initial", parents: [] });
   }

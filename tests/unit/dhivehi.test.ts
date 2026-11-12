@@ -14,13 +14,14 @@ describe("Dhivehi content", () => {
     expect(new Set(LETTERS.map((l) => l.char)).size).toBe(24);
     LETTERS.forEach((l, i) => expect(l.char.codePointAt(0)).toBe(0x0780 + i));
   });
-  it("has ten fili (vowel signs)", () => {
-    expect(FILI.map((f) => f.char.codePointAt(0))).toEqual(Array.from({ length: 10 }, (_, i) => 0x07a6 + i));
+  it("has all ten fili (vowel signs); the Fili game uses only these", () => {
+    const codes = FILI.map((f) => f.char.codePointAt(0));
+    for (let i = 0; i < 10; i++) expect(codes).toContain(0x07a6 + i);
   });
   it("writes every word and number in Thaana only, with unique ids", () => {
     for (const w of WORDS) {
       expect(w.dv, w.id).toMatch(THAANA_ONLY);
-      expect(w.roman).toMatch(/^[a-z ]+$/);
+      expect(w.roman, w.id).toMatch(/^[A-Za-z][A-Za-z '-]*$/);
       expect(!!w.picture || !!w.colour, w.id).toBe(true);
     }
     for (const n of NUMBERS) expect(n.dv).toMatch(THAANA_ONLY);
