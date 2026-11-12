@@ -39,6 +39,8 @@ test("explore mode shows 30 open days without inventing a current day", async ({
 
 test("parent calendar: current day, locked future days, open missed days, 29-day month", async ({ page }) => {
   await onboard(page);
+  await page.goto("/journey/");
+  await expect(page.getByTestId("calendar-hint")).toContainText("no Ramadan start date is set");
   await openParentZone(page);
   await page.getByRole("tab", { name: "Calendar" }).click();
   await page.getByLabel("First day of Ramadan").fill(isoDaysFromToday(-4));
@@ -50,6 +52,7 @@ test("parent calendar: current day, locked future days, open missed days, 29-day
   await expect(page.getByRole("link", { name: /Day 1: Welcome Ramadan/ })).toBeVisible(); // missed day still open
   await expect(page.getByRole("link", { name: /Day 5: Patience.*today/ })).toBeVisible();
   await expect(page.getByRole("group", { name: /Day 6: Kindness, opens/ })).toBeVisible();
+  await expect(page.getByTestId("calendar-hint")).toHaveCount(0);
 
   await openParentZone(page);
   await page.getByRole("tab", { name: "Calendar" }).click();

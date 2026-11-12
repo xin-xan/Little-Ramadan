@@ -32,6 +32,11 @@ export default function JourneyPage() {
       </div>
       <ProgressBar value={complete} max={days.length} label="Days completed" />
       <p className="small muted">Missed a day? That&apos;s okay! Days stay open, so you can come back any time.</p>
+      {status.mode === "explore" && (
+        <p className="notice small" style={{ margin: 0 }} data-testid="calendar-hint">
+          <strong>For grown-ups:</strong> all days are open because no Ramadan start date is set. Set the start date in <strong>Parents → Calendar</strong> and a new day will open on each day of Ramadan.
+        </p>
+      )}
       <ol className="grid-3 wide-4" style={{ listStyle: "none", padding: 0, margin: 0 }} aria-label={`${days.length} journey days`}>
         {days.map((d, i) => {
           const open = isDayOpen(cal, d.day);
