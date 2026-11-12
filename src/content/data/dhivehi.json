@@ -17,8 +17,8 @@
       "name": "shaviyani",
       "sound": "sh",
       "example": {
-        "wordId": "coconut",
-        "contains": true
+        "wordId": "shaviyani",
+        "contains": false
       }
     },
     {
@@ -50,7 +50,7 @@
       "name": "lhaviyani",
       "sound": "lh",
       "example": {
-        "wordId": "cat",
+        "wordId": "lhaanbu",
         "contains": true
       }
     },
@@ -129,7 +129,11 @@
     {
       "char": "ޏ",
       "name": "gnaviyani",
-      "sound": "gn"
+      "sound": "gn",
+      "example": {
+        "wordId": "gnamgnam",
+        "contains": true
+      }
     },
     {
       "char": "ސ",
@@ -144,7 +148,7 @@
       "name": "daviyani",
       "sound": "d",
       "example": {
-        "wordId": "sea",
+        "wordId": "doctor",
         "contains": true
       }
     },
@@ -159,14 +163,18 @@
     {
       "char": "ޓ",
       "name": "taviyani",
-      "sound": "t"
+      "sound": "t",
+      "example": {
+        "wordId": "tv",
+        "contains": false
+      }
     },
     {
       "char": "ޔ",
       "name": "yaa",
       "sound": "y",
       "example": {
-        "wordId": "banana",
+        "wordId": "yoyo",
         "contains": true
       }
     },
@@ -181,12 +189,20 @@
     {
       "char": "ޖ",
       "name": "javiyani",
-      "sound": "j"
+      "sound": "j",
+      "example": {
+        "wordId": "jagu",
+        "contains": false
+      }
     },
     {
       "char": "ޗ",
       "name": "chaviyani",
-      "sound": "ch"
+      "sound": "ch",
+      "example": {
+        "wordId": "chalk",
+        "contains": false
+      }
     }
   ],
   "fili": [
@@ -239,6 +255,11 @@
       "char": "ޯ",
       "name": "oaboafili",
       "vowel": "oa"
+    },
+    {
+      "char": "ް",
+      "name": "sukun",
+      "vowel": "s"
     }
   ],
   "filiConsonants": [
@@ -663,6 +684,70 @@
       "en": "thank you",
       "picture": "thanks",
       "topic": "ramadan"
+    },
+    {
+      "id": "shaviyani",
+      "dv": "ށަވިޔަނި",
+      "roman": "Shaviyani",
+      "en": "Shaviyani",
+      "picture": "img:shaviyani-featured-k1cwk.webp",
+      "topic": "nature"
+    },
+    {
+      "id": "lhaanbu",
+      "dv": "ޅާނބު",
+      "roman": "Lhaanbu",
+      "en": "Lhaanbu",
+      "picture": "img:images-kfkd1.webp",
+      "topic": "home"
+    },
+    {
+      "id": "gnamgnam",
+      "dv": "ޏަމްޏަމް",
+      "roman": "Gnamgnam",
+      "en": "nam-nam fruit",
+      "picture": "img:picture-knupa.webp",
+      "topic": "nature"
+    },
+    {
+      "id": "doctor",
+      "dv": "ޑޮކްޓަރު",
+      "roman": "doctor",
+      "en": "Doctor",
+      "picture": "img:doc-krl4h.webp",
+      "topic": "nature"
+    },
+    {
+      "id": "tv",
+      "dv": "ޓީވީ",
+      "roman": "teevee",
+      "en": "TV",
+      "picture": "img:tv-kvxss.webp",
+      "topic": "home"
+    },
+    {
+      "id": "yoyo",
+      "dv": "ޔޯޔޯ",
+      "roman": "yoyo",
+      "en": "yoyo",
+      "picture": "img:yoyo-kxbpf.webp",
+      "topic": "home"
+    },
+    {
+      "id": "jagu",
+      "dv": "ޖަގު",
+      "roman": "jagu",
+      "en": "jug",
+      "picture": "img:jar-l0kum.webp",
+      "topic": "home"
+    },
+    {
+      "id": "chalk",
+      "dv": "ޗޯކު",
+      "roman": "choak",
+      "en": "Chalk",
+      "picture": "img:chalk-illustration-free-vector-l3dx6.webp",
+      "topic": "nature"
     }
   ],
   "numbers": [
