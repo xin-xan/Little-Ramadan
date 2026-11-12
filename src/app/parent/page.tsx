@@ -318,7 +318,7 @@ function SalahPanel() {
     <div className="card stack">
       <h2>Salah tracker</h2>
       <p className="small">
-        Your child taps each prayer on the home screen after praying it, and earns 1 star for a prayer prayed in its time or ½ star after its time has passed. If a prayer&apos;s time passes, a gentle reminder explains why prayer matters and that it is not too late to pray. There are no streaks or "missed" counts, the home screen only shows today, and only you can see the week below. Children are still learning; please guide them as your family and teachers advise.
+        Your child taps each prayer on the home screen after praying it, and earns 1 star for a prayer prayed in its time or ½ star after its time has passed. If a prayer&apos;s time passes, a gentle reminder explains why prayer matters and that it is not too late to pray. There are no streaks or missed-prayer counts, the home screen only shows today, and only you can see the week below. Children are still learning; please guide them as your family and teachers advise.
       </p>
       <Switch id="salah-on" label="Show the Salah tracker on the home screen" checked={data.settings.salahTracker} onChange={(v) => updateSettings({ salahTracker: v })} />
       <PrayerIslandPicker />

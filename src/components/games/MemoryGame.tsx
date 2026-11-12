@@ -14,6 +14,8 @@ export function MemoryGame({ day }: { day: { id: string; day: number } | null })
   const [pairs, setPairs] = useState(6);
   const [s, setS] = useState(() => newGame(6));
   const [finished, setFinished] = useState(false);
+  /** One free peek per game: every card shows for two seconds. */
+  const [peek, setPeek] = useState<"ready" | "on" | "used">("ready");
   const finish = useFinishGame("memory-cards", { day });
   const sfx = useSfx();
   const info = (id: string) => memoryCards.find((c) => c.id === id)!;
@@ -23,9 +25,11 @@ export function MemoryGame({ day }: { day: { id: string; day: number } | null })
     setPairs(n);
     setS(newGame(n));
     setFinished(false);
+    setPeek("ready");
   };
 
   const tap = async (key: number) => {
+    if (peek === "on") return;
     const next = flipCard(s, key);
     if (next === s) return;
     setS(next);
@@ -55,7 +59,7 @@ export function MemoryGame({ day }: { day: { id: string; day: number } | null })
           </div>
           <div className="grid-3 wide-4" style={{ gridTemplateColumns: pairs === 8 ? "repeat(4, minmax(0,1fr))" : undefined }}>
             {s.deck.map((c, idx) => {
-              const faceUp = c.matched || s.open.includes(c.key);
+              const faceUp = c.matched || s.open.includes(c.key) || peek === "on";
               const it = info(c.pairId);
               return (
                 <button
@@ -84,6 +88,19 @@ export function MemoryGame({ day }: { day: { id: string; day: number } | null })
               );
             })}
           </div>
+          {peek === "ready" && !finished && (
+            <button
+              type="button"
+              className="link-btn"
+              onClick={() => {
+                setPeek("on");
+                sfx("flip");
+                window.setTimeout(() => setPeek("used"), 2000);
+              }}
+            >
+              <Icon name="eye" size={16} /> Peek at all the cards (once)
+            </button>
+          )}
           {pairOpen && <Feedback kind="retry">Not a match this time. Tap another card to keep going.</Feedback>}
         </div>
       )}

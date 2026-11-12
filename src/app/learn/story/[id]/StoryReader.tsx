@@ -6,7 +6,9 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { BackToDay } from "@/components/activities/BackToDay";
 import { useDayParam } from "@/components/activities/useDayParam";
-import { Illustration } from "@/components/art/Illustration";
+import { CheckQuiz } from "@/components/activities/CheckQuiz";
+import { FeelingsCheck } from "@/components/activities/FeelingsCheck";
+import { TapPicture } from "@/components/activities/TapPicture";
 import { NotFound, PageHeader } from "@/components/ui";
 import { STAR_VALUES } from "@/content/copy";
 import { storyById } from "@/content/stories";
@@ -39,7 +41,7 @@ export function StoryReader({ id }: { id: string }) {
         <>
           <div className="card stack center" style={{ minHeight: 320 }}>
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <Illustration name={story.pages[page].illustration} size={170} />
+              <TapPicture key={page} name={story.pages[page].illustration} size={170} label={`Picture for page ${page + 1}`} />
             </div>
             <div ref={textRef} tabIndex={-1} aria-live="polite" className="reader-text" style={{ outline: "none" }}>
               {story.pages[page].text}
@@ -59,6 +61,9 @@ export function StoryReader({ id }: { id: string }) {
           </div>
         </>
       ) : (
+        <>
+        {story.questions && story.questions.length > 0 && <CheckQuiz title="Story check" questions={story.questions} testId="story-check" />}
+        <FeelingsCheck />
         <div className="card gold stack center">
           <h2>The end!</h2>
           <p>
@@ -82,6 +87,7 @@ export function StoryReader({ id }: { id: string }) {
             </Link>
           )}
         </div>
+        </>
       )}
     </article>
   );

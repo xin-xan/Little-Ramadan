@@ -2036,3 +2036,66 @@ button.rec-text {
 .tracker-now { background: #fff7df; border: 1px solid var(--gold); border-radius: 14px; padding: 10px 12px; font-weight: 700; color: #6b4e00; }
 .tracker-reminder { background: #fff3e2; border: 1px solid #f0c48a; border-radius: 14px; padding: 10px 12px; font-size: 0.92rem; line-height: 1.5; }
 .fast-stars { color: var(--gold-600); white-space: nowrap; }
+
+/* ---------- Interactive learning ---------- */
+.check-option {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 8px 12px;
+  border-radius: 16px;
+  border: 2px solid var(--line);
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.check-option.right { border-color: var(--success-text); background: var(--success-bg); }
+.check-option.wrong { color: var(--muted); background: #f3f0ea; }
+.flip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.flip-card { appearance: none; border: 0; padding: 0; background: none; perspective: 700px; min-height: 104px; cursor: pointer; font: inherit; }
+.flip-inner { position: relative; display: block; width: 100%; height: 100%; min-height: 104px; transition: transform 0.45s ease; transform-style: preserve-3d; }
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-front, .flip-back {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px;
+  border-radius: 18px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: var(--shadow-1);
+  text-align: center;
+}
+.flip-front { background: linear-gradient(160deg, #fff7df, #fdeab0); color: var(--emerald); font-size: 1.1rem; }
+.flip-back { background: var(--emerald); color: #fff; transform: rotateY(180deg); font-size: 0.92rem; font-weight: 600; line-height: 1.35; }
+.feelings { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.feeling { appearance: none; display: flex; flex-direction: column; align-items: center; gap: 4px; min-height: 76px; padding: 8px 4px; border-radius: 16px; border: 2px solid var(--line); background: #fff; font: inherit; font-weight: 700; font-size: 0.85rem; color: var(--emerald); cursor: pointer; }
+.feeling.on { border-color: var(--emerald); background: #e9f5ef; }
+.feeling-face { font-size: 1.8rem; line-height: 1; }
+.tap-picture { appearance: none; border: 0; background: none; padding: 0; position: relative; cursor: pointer; border-radius: 24px; display: inline-flex; }
+.tap-picture.boing > svg, .tap-picture.boing > img { animation: boing 0.6s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.tap-sparkles { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
+.tap-sparkles i { position: absolute; width: 12px; height: 12px; margin: -6px; border-radius: 50%; background: var(--gold); animation: sparkle-out 0.7s ease-out forwards; }
+@keyframes boing { 0% { transform: scale(1); } 30% { transform: scale(1.12) rotate(-3deg); } 60% { transform: scale(0.96) rotate(2deg); } 100% { transform: scale(1); } }
+@keyframes sparkle-out { 0% { opacity: 1; scale: 0.4; } 100% { opacity: 0; scale: 1.4; } }
+.lesson-steps { display: flex; gap: 6px; justify-content: center; }
+.lesson-steps i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+.lesson-steps i.on { background: var(--emerald); }
+.lesson-part { animation: fade-up 0.35s ease-out; }
+@keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.companion { position: sticky; top: 8px; z-index: 5; display: flex; align-items: center; gap: 8px; align-self: center; padding: 6px 14px 6px 6px; border-radius: 999px; background: #fff; box-shadow: var(--shadow-2); font-weight: 800; color: var(--emerald); animation: fade-up 0.25s ease-out; }
+.companion.retry { color: #7a4b00; }
+@media (prefers-reduced-motion: reduce) {
+  .flip-inner, .tap-picture.boing > svg, .tap-picture.boing > img, .tap-sparkles i, .lesson-part, .companion { transition: none; animation: none; }
+}
+[data-reduced-motion="true"] .flip-inner, [data-reduced-motion="true"] .tap-picture.boing > svg, [data-reduced-motion="true"] .tap-sparkles i, [data-reduced-motion="true"] .lesson-part, [data-reduced-motion="true"] .companion { transition: none; animation: none; }
+.link-btn { appearance: none; background: none; border: 0; color: var(--teal); text-decoration: underline; font: inherit; font-weight: 700; cursor: pointer; min-height: 44px; align-self: center; }

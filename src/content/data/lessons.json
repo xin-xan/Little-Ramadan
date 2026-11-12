@@ -43,7 +43,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "Why can Ramadan have 29 or 30 days?",
+        "options": [
+          "Because Islamic months follow the moon",
+          "Because it always rains",
+          "Because people choose"
+        ],
+        "answer": 0,
+        "explanation": "Islamic months follow the moon. A new month begins when the thin crescent moon is seen."
+      }
+    ]
   },
   {
     "id": "why-fast",
@@ -89,7 +101,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "What does fasting mean?",
+        "options": [
+          "Eating lots of snacks",
+          "Not eating or drinking from dawn until sunset",
+          "Running very fast"
+        ],
+        "answer": 1,
+        "explanation": "Fasting means not eating or drinking from dawn until sunset. In Arabic it is called sawm."
+      }
+    ]
   },
   {
     "id": "suhoor",
@@ -131,7 +155,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "When do people eat Suhoor?",
+        "options": [
+          "At lunchtime",
+          "Before dawn, while it is still dark",
+          "After Isha"
+        ],
+        "answer": 1,
+        "explanation": "Suhoor is the meal before dawn, before a day of fasting begins."
+      }
+    ]
   },
   {
     "id": "iftar",
@@ -173,7 +209,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "What do many Muslims like to begin Iftar with?",
+        "options": [
+          "Ice cream",
+          "Dates and water",
+          "Nothing at all"
+        ],
+        "answer": 1,
+        "explanation": "Many Muslims like to begin Iftar with dates and water."
+      }
+    ]
   },
   {
     "id": "quran",
@@ -215,7 +263,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "What is a chapter of the Quran called?",
+        "options": [
+          "A surah",
+          "A page",
+          "A minaret"
+        ],
+        "answer": 0,
+        "explanation": "The Quran has 114 chapters, and each chapter is called a surah."
+      }
+    ]
   },
   {
     "id": "salah",
@@ -257,7 +317,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "How many times a day do Muslims pray Salah?",
+        "options": [
+          "Two times",
+          "Five times",
+          "Ten times"
+        ],
+        "answer": 1,
+        "explanation": "Muslims pray five times a day: Fajr, Dhuhr, Asr, Maghrib and Isha."
+      }
+    ]
   },
   {
     "id": "five-pillars",
@@ -307,7 +379,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "Which of these is one of the five pillars of Islam?",
+        "options": [
+          "Sawm, fasting in Ramadan",
+          "Playing football",
+          "Going to school"
+        ],
+        "answer": 0,
+        "explanation": "The five pillars are Shahada, Salah, Zakat, Sawm and Hajj."
+      }
+    ]
   },
   {
     "id": "charity",
@@ -349,7 +433,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "What is giving you choose to do called in Islam?",
+        "options": [
+          "Sadaqah",
+          "Suhoor",
+          "Sabr"
+        ],
+        "answer": 0,
+        "explanation": "Giving you choose to do is called sadaqah. It can be big or small."
+      }
+    ]
   },
   {
     "id": "zakat",
@@ -391,7 +487,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "What special charity do families give at the end of Ramadan?",
+        "options": [
+          "Zakat al-Fitr",
+          "A birthday present",
+          "Nothing"
+        ],
+        "answer": 0,
+        "explanation": "Families give Zakat al-Fitr so that everyone can enjoy Eid."
+      }
+    ]
   },
   {
     "id": "dua",
@@ -433,7 +541,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "In which language can you make a dua?",
+        "options": [
+          "Only in English",
+          "In any language, in your own words",
+          "Only in a whisper"
+        ],
+        "answer": 1,
+        "explanation": "You can make a dua in your own words and in any language, at any time."
+      }
+    ]
   },
   {
     "id": "mosque",
@@ -479,7 +599,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "What is the call to prayer called?",
+        "options": [
+          "The adhan",
+          "The minaret",
+          "The dome"
+        ],
+        "answer": 0,
+        "explanation": "The adhan is the call to prayer. It lets people know it is time to pray."
+      }
+    ]
   },
   {
     "id": "good-manners",
@@ -521,7 +653,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "What is the reply to \"Assalamu alaikum\"?",
+        "options": [
+          "Good night",
+          "Wa alaikum assalam",
+          "Eid Mubarak"
+        ],
+        "answer": 1,
+        "explanation": "\"Assalamu alaikum\" means \"Peace be upon you\". The reply is \"Wa alaikum assalam\"."
+      }
+    ]
   },
   {
     "id": "honesty",
@@ -559,7 +703,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "You find a toy that is not yours. What is the honest thing to do?",
+        "options": [
+          "Keep it",
+          "Give it to a grown-up so it can go back to its owner",
+          "Hide it"
+        ],
+        "answer": 1,
+        "explanation": "Give it to a grown-up so it can go back to its owner."
+      }
+    ]
   },
   {
     "id": "patience",
@@ -597,7 +753,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "What is patience called in Arabic?",
+        "options": [
+          "Shukr",
+          "Sabr",
+          "Salah"
+        ],
+        "answer": 1,
+        "explanation": "Patience is called sabr. It means waiting calmly, even when it is hard."
+      }
+    ]
   },
   {
     "id": "gratitude",
@@ -639,7 +807,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "What does \"Alhamdulillah\" mean?",
+        "options": [
+          "All praise is for Allah",
+          "Good morning",
+          "See you soon"
+        ],
+        "answer": 0,
+        "explanation": "Muslims say \"Alhamdulillah\", which means \"All praise is for Allah\", to thank Allah."
+      }
+    ]
   },
   {
     "id": "helping-neighbours",
@@ -673,7 +853,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "Before sharing food with a neighbour, what should you do?",
+        "options": [
+          "Go on your own",
+          "Ask a grown-up first and go together",
+          "Leave it outside"
+        ],
+        "answer": 1,
+        "explanation": "Always ask a grown-up first and go together."
+      }
+    ]
   },
   {
     "id": "laylatul-qadr",
@@ -711,7 +903,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "When is Laylatul Qadr?",
+        "options": [
+          "On the first night of Ramadan",
+          "One of the last ten nights of Ramadan",
+          "On Eid day"
+        ],
+        "answer": 1,
+        "explanation": "Muslims believe it is one of the last ten nights of Ramadan. Nobody knows for sure which night it is."
+      }
+    ]
   },
   {
     "id": "eid-al-fitr",
@@ -757,7 +961,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "What do many people in the Maldives call Eid al-Fitr?",
+        "options": [
+          "Kuda Eid",
+          "Big Eid",
+          "Moon Day"
+        ],
+        "answer": 0,
+        "explanation": "In the Maldives, many people call Eid al-Fitr \"Kuda Eid\"."
+      }
+    ]
   },
   {
     "id": "sharing-generosity",
@@ -791,7 +1007,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "Which of these is a way to share?",
+        "options": [
+          "Sharing a snack, a toy or a turn",
+          "Keeping everything for yourself",
+          "Hiding your toys"
+        ],
+        "answer": 0,
+        "explanation": "Sharing does not have to be big. You can share a snack, a toy, a turn or a smile."
+      }
+    ]
   },
   {
     "id": "caring-family-community",
@@ -825,7 +1053,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "Which is a way to help at home?",
+        "options": [
+          "Setting the table",
+          "Leaving toys everywhere",
+          "Shouting"
+        ],
+        "answer": 0,
+        "explanation": "You can help at home by tidying up, setting the table or helping a younger brother or sister."
+      }
+    ]
   },
   {
     "id": "cleanliness",
@@ -859,7 +1099,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "How do Muslims wash before prayer?",
+        "options": [
+          "With wudu",
+          "With paint",
+          "They don't"
+        ],
+        "answer": 0,
+        "explanation": "Muslims wash in a special way called wudu before prayer."
+      }
+    ]
   },
   {
     "id": "kind-words",
@@ -893,7 +1145,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "Which of these are kind words?",
+        "options": [
+          "\"Go away!\"",
+          "\"Can I help?\"",
+          "\"You can't play.\""
+        ],
+        "answer": 1,
+        "explanation": "Kind words like \"Can I help?\" and \"Well done!\" can make people feel happy."
+      }
+    ]
   },
   {
     "id": "forgiveness",
@@ -927,7 +1191,19 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "What can we do when we make a mistake?",
+        "options": [
+          "Say sorry and try to make things better",
+          "Blame someone else",
+          "Run away"
+        ],
+        "answer": 0,
+        "explanation": "When we make a mistake, we can say sorry and try to make things better."
+      }
+    ]
   },
   {
     "id": "respect",
@@ -961,6 +1237,18 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting qualified Islamic content reviewer."
-    }
+    },
+    "quickCheck": [
+      {
+        "question": "Which is a way to show respect to elders?",
+        "options": [
+          "Offer your seat",
+          "Talk over them",
+          "Ignore them"
+        ],
+        "answer": 0,
+        "explanation": "We can offer our seat, help carry something light and say thank you."
+      }
+    ]
   }
 ]

@@ -126,6 +126,20 @@ export function validateContent(c: ContentBundle, opts: { images?: Set<string> }
     for (const re of BANNED_CHILD_WORDING) if (re.test(s)) err(path, `Wording not allowed for children: matches ${re}.`);
   };
 
+  const checks = (v: unknown, path: string) => {
+    if (v === undefined) return;
+    list(v, path).forEach((q, j) => {
+      const qp = `${path}[${j}]`;
+      text(q.question, `${qp}.question`);
+      const opts = Array.isArray(q.options) ? q.options : [];
+      if (opts.length !== 3) err(`${qp}.options`, "Needs exactly 3 answers.");
+      opts.forEach((o, k) => text(o, `${qp}.options[${k}]`));
+      if (new Set(opts).size !== opts.length) err(`${qp}.options`, "The answers must all be different.");
+      if (![0, 1, 2].includes(q.answer as number)) err(`${qp}.answer`, "Choose which answer is right.");
+      text(q.explanation, `${qp}.explanation`, 10);
+    });
+  };
+
   // ---- Lessons
   file = "lessons";
   const lessons = list(c.lessons, "lessons", 1);
@@ -150,6 +164,7 @@ export function validateContent(c: ContentBundle, opts: { images?: Set<string> }
     });
     text(l.tryThis, `${p}.tryThis`);
     if (typeof l.sourceNote !== "string") err(`${p}.sourceNote`, "Add a source note for the reviewer (can be short).");
+    checks(l.quickCheck, `${p}.quickCheck`);
     review(l.review, `${p}.review`);
     childSafe(l, p);
   });
@@ -169,6 +184,7 @@ export function validateContent(c: ContentBundle, opts: { images?: Set<string> }
       text(pg.text, `${p}.pages[${j}].text`);
       illustration(pg.illustration, `${p}.pages[${j}].illustration`);
     });
+    checks(s.questions, `${p}.questions`);
     review(s.review, `${p}.review`);
     childSafe(s, p);
   });

@@ -43,7 +43,29 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting educator and Islamic content review."
-    }
+    },
+    "questions": [
+      {
+        "question": "What did Noor do when he felt wobbly?",
+        "options": [
+          "He kept it a secret",
+          "He told Mum",
+          "He went to sleep"
+        ],
+        "answer": 1,
+        "explanation": "Noor listened to his body and told Mum. That was exactly right, because health comes first."
+      },
+      {
+        "question": "What did Noor eat for Suhoor?",
+        "options": [
+          "Warm roshi, fruit and tea",
+          "Ice cream",
+          "Nothing"
+        ],
+        "answer": 0,
+        "explanation": "The kitchen smelled of warm roshi and tea, and Dad put fruit on the table."
+      }
+    ]
   },
   {
     "id": "amina-iftar-helper",
@@ -85,7 +107,29 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting educator and Islamic content review."
-    }
+    },
+    "questions": [
+      {
+        "question": "Who did Amina and Grandma share a plate with?",
+        "options": [
+          "Aunty Mariyam next door",
+          "A teacher",
+          "Nobody"
+        ],
+        "answer": 0,
+        "explanation": "They shared a plate with their neighbour Aunty Mariyam, who lives alone."
+      },
+      {
+        "question": "How did sharing make Amina feel?",
+        "options": [
+          "Warm inside",
+          "Cross",
+          "Bored"
+        ],
+        "answer": 0,
+        "explanation": "Amina felt warm inside. Sharing made the food taste even better."
+      }
+    ]
   },
   {
     "id": "harbour-wait",
@@ -127,7 +171,29 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting educator and Islamic content review."
-    }
+    },
+    "questions": [
+      {
+        "question": "What helped Noor feel calm while waiting?",
+        "options": [
+          "Taking three slow breaths",
+          "Shouting",
+          "Running away"
+        ],
+        "answer": 0,
+        "explanation": "Noor took three slow breaths, and waiting felt easier when he was calm."
+      },
+      {
+        "question": "What did the children count in the water?",
+        "options": [
+          "Fish, crabs and a turtle",
+          "Boats",
+          "Clouds"
+        ],
+        "answer": 0,
+        "explanation": "They counted seven little fish, two crabs and one sleepy turtle."
+      }
+    ]
   },
   {
     "id": "grandmas-stories",
@@ -169,7 +235,29 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting educator and Islamic content review."
-    }
+    },
+    "questions": [
+      {
+        "question": "What did Grandma's island have instead of bright lights?",
+        "options": [
+          "Lamps",
+          "Fireworks",
+          "Torches"
+        ],
+        "answer": 0,
+        "explanation": "They had lamps instead of bright lights, so they could see so many stars."
+      },
+      {
+        "question": "What did Grandma say stays the same?",
+        "options": [
+          "The kindness of Ramadan",
+          "The weather",
+          "The food"
+        ],
+        "answer": 0,
+        "explanation": "\"Some things change, but the kindness of Ramadan stays the same.\""
+      }
+    ]
   },
   {
     "id": "lost-lantern",
@@ -207,7 +295,29 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting educator and Islamic content review."
-    }
+    },
+    "questions": [
+      {
+        "question": "Why did Amina decide not to keep the lantern?",
+        "options": [
+          "Someone might be sad that they lost it",
+          "It was broken",
+          "It was too big"
+        ],
+        "answer": 0,
+        "explanation": "Amina thought about how the owner might feel, and gave it to her dad to find its owner."
+      },
+      {
+        "question": "Who had lost the lantern?",
+        "options": [
+          "A little boy near the mosque",
+          "Grandma",
+          "Noor"
+        ],
+        "answer": 0,
+        "explanation": "A little boy near the mosque had lost it. His eyes went wide with joy!"
+      }
+    ]
   },
   {
     "id": "thank-you-letters",
@@ -245,7 +355,29 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting educator and Islamic content review."
-    }
+    },
+    "questions": [
+      {
+        "question": "What did Amina make for the people who help her island?",
+        "options": [
+          "Thank-you cards",
+          "Sandcastles",
+          "Kites"
+        ],
+        "answer": 0,
+        "explanation": "Amina made colourful thank-you cards with stars and crescent moons."
+      },
+      {
+        "question": "What did the nurse say?",
+        "options": [
+          "\"This made my day!\"",
+          "\"Go away!\"",
+          "Nothing"
+        ],
+        "answer": 0,
+        "explanation": "The nurse smiled: \"This made my day!\" A small thank you can be a big gift."
+      }
+    ]
   },
   {
     "id": "hilmy-journey",
@@ -283,7 +415,29 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting educator and Islamic content review."
-    }
+    },
+    "questions": [
+      {
+        "question": "How did Hilmy the moon look in the middle of the month?",
+        "options": [
+          "Round and bright",
+          "Thin and tiny",
+          "Square"
+        ],
+        "answer": 0,
+        "explanation": "In the middle of the month, Hilmy was round and bright, shining over the sea."
+      },
+      {
+        "question": "What did Hilmy say made Ramadan shine?",
+        "options": [
+          "Every kind thing you did",
+          "Lots of toys",
+          "Staying up late"
+        ],
+        "answer": 0,
+        "explanation": "\"Every kind thing you did made Ramadan shine.\""
+      }
+    ]
   },
   {
     "id": "eid-morning",
@@ -321,6 +475,28 @@
     "review": {
       "status": "draft",
       "notes": "Awaiting educator and Islamic content review."
-    }
+    },
+    "questions": [
+      {
+        "question": "What do people say to each other on Eid?",
+        "options": [
+          "\"Eid Mubarak!\"",
+          "\"Good night!\"",
+          "\"Happy birthday!\""
+        ],
+        "answer": 0,
+        "explanation": "Everyone smiled and said \"Eid Mubarak!\", which means \"Blessed Eid\"."
+      },
+      {
+        "question": "What colour was Noor's new shirt?",
+        "options": [
+          "Green like the sea",
+          "Red",
+          "Purple"
+        ],
+        "answer": 0,
+        "explanation": "Noor's new shirt was green like the sea."
+      }
+    ]
   }
 ]

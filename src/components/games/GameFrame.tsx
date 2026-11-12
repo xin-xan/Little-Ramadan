@@ -3,8 +3,8 @@
 import { VoiceButton } from "@/components/VoiceButton";
 import { rid } from "@/recordings/ids";
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
-import { Hilmy } from "@/characters/Characters";
+import { useEffect, useState, type ReactNode } from "react";
+import { Hilmy, HilmyFlat } from "@/characters/Characters";
 import { BackToDay } from "@/components/activities/BackToDay";
 import { Sheet } from "@/components/ui";
 import type { GameId, GameInfo } from "@/content/types";
@@ -28,6 +28,7 @@ export function GameFrame({ game, title, progress, dayId, onRestart, children }:
           <Icon name="pause" />
         </button>
       </header>
+      <GameCompanion />
       {progress && (
         <p className="small muted center" aria-live="polite" style={{ margin: "-8px 0 0" }}>
           {progress}
@@ -95,7 +96,41 @@ export function useSfx() {
   const { data } = useApp();
   return (name: SoundName) => {
     if (data.settings.soundOn) playSound(name);
+    // Lets the game companion react to right and wrong answers in every game.
+    if (name === "correct" || name === "try-again") window.dispatchEvent(new CustomEvent("lr-game-feedback", { detail: name }));
   };
+}
+
+const CHEERS = ["Brilliant!", "MashaAllah, well done!", "You got it!", "Super!", "Great thinking!", "Yes! Keep going!"];
+const NUDGES = ["Nice try! Have another go.", "Almost! You can do it.", "Keep trying, you're learning!", "Good guess! Try again."];
+
+/** Hilmy pops up to cheer right answers and encourage after a wrong one (every game, sound or not). */
+export function GameCompanion() {
+  const [say, setSay] = useState<{ text: string; good: boolean; n: number } | null>(null);
+  useEffect(() => {
+    let n = 0;
+    let timer = 0;
+    const onFeedback = (e: Event) => {
+      const good = (e as CustomEvent<string>).detail === "correct";
+      n++;
+      const list = good ? CHEERS : NUDGES;
+      setSay({ text: list[n % list.length], good, n });
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => setSay(null), 1800);
+    };
+    window.addEventListener("lr-game-feedback", onFeedback);
+    return () => {
+      window.removeEventListener("lr-game-feedback", onFeedback);
+      window.clearTimeout(timer);
+    };
+  }, []);
+  if (!say) return null;
+  return (
+    <div key={say.n} className={`companion${say.good ? "" : " retry"}`} role="status" aria-live="polite" data-testid="game-companion">
+      <HilmyFlat size={40} expression={say.good ? "cheer" : "happy"} title="" />
+      {say.text}
+    </div>
+  );
 }
 
 export function GameDone({ message, onReplay, dayId, children }: { message: string; onReplay(): void; dayId?: string; children?: ReactNode }) {

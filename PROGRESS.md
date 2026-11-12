@@ -106,3 +106,10 @@ Tests: `tests/unit/stickers.test.ts`, `tests/e2e/phase5-rewards.spec.ts`.
 - ✅ Half stars shown as ½; badges never depend on prayers or fasting
 - 🟡 Owner: verify the timetable with MoIA and confirm permission (docs/prayer-times.md); Islamic review of reminder wording
 Tests: `tests/unit/prayer-times.test.ts`, `tests/unit/salah.test.ts`, `tests/e2e/salah-tracker.spec.ts`, `tests/e2e/phase4-firstfast-parent.spec.ts`.
+
+## More interactive learning (owner request)
+- ✅ Stories: tap any picture (bounce + sparkle + sound); "Story check" questions at the end (2 per story); "How did the story make you feel?" check-in
+- ✅ Lessons: learn one part at a time ("Tap to learn more", progress dots, "Show the whole lesson"); "Words to know" flip cards; "Quick check" question (1 per lesson)
+- ✅ Games: Hilmy companion reacts to every right/wrong answer in all games (incl. Dhivehi); quiz "Help me" hint removes one wrong answer; Memory Cards one-time peek
+- ✅ Questions are content data, editable in the admin (Story check / Quick check fields) and validated at build
+Tests: `tests/e2e/interactive.spec.ts`.

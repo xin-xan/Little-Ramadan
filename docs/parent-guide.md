@@ -38,6 +38,9 @@ The home screen has a gentle **Salah tracker**: your child can tap Fajr, Dhuhr, 
 
 When you switch on the **fasting journal**, the same card also asks "Fasting today?" (practised with family, part of the day, a full fast with family guidance, or not fasting). The choice is saved privately in the journal, earns nothing, and always appears with the health message.
 
+## Learning that talks back
+Stories have pictures to tap, a short "Story check" and a feelings check-in at the end. Lessons open one part at a time, with flip cards for new words and a "Quick check" question. In games, Hilmy cheers right answers and encourages after a wrong one, the quiz has a free hint, and Memory Cards has a one-time peek. None of these have timers or scores.
+
 ## Important to know
 - Progress is saved only in this browser on this device. Clearing browser data, uninstalling, or switching devices or browsers will lose it.
 - The religious-learning content is being reviewed by qualified reviewers. Please guide your child with your family's own teachers and scholars.

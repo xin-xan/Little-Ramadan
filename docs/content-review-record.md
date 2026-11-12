@@ -38,3 +38,8 @@ Then run `RELEASE_CONTENT_CHECK=1 npm test`. This test fails until every item is
 - Home Salah & fasting card: "Try to pray each prayer on time…" and "If you feel well and your family says it is okay, you could try fasting…".
 - Parent fasting guidance, first point, updated to match.
 - Unchanged by design (CLAUDE.md non-negotiables): no stars, badges, streaks or status for praying or fasting; children who don't fast are never made to feel bad; stopping is always okay.
+
+## November 2026: new draft wording to review
+- **Quick check questions** (one per lesson, 24) and **Story check questions** (two per story, 16): written only from facts already in each lesson or story; editable in the admin dashboard. Islamic reviewer to check the lesson questions.
+- **Salah reminders** (home card): "Salah is how Muslims talk to Allah and thank Him, five times every day… it is not too late: pray now…", "MashaAllah! You prayed … on time." Islamic reviewer to check.
+- **Fasting reminder** on a day without a fast: "Fasting in Ramadan is one of the five pillars of Islam, and when Muslims grow up it becomes a duty for everyone who is healthy… Your health always comes first." Islamic and health reviewers to check.

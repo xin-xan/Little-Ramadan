@@ -6,6 +6,9 @@ import Link from "next/link";
 import { CharacterById } from "@/characters/Characters";
 import { BackToDay } from "@/components/activities/BackToDay";
 import { useDayParam } from "@/components/activities/useDayParam";
+import { CheckQuiz } from "@/components/activities/CheckQuiz";
+import { FlipCards } from "@/components/activities/FlipCards";
+import { useState } from "react";
 import { Illustration } from "@/components/art/Illustration";
 import { NotFound, PageHeader } from "@/components/ui";
 import { STAR_VALUES } from "@/content/copy";
@@ -18,6 +21,8 @@ export function LessonReader({ id }: { id: string }) {
   const { data, complete } = useApp();
   const from = useDayParam();
   const lesson = lessonById(id);
+  // Learn one part at a time (tap to learn more); grown-ups can show everything at once.
+  const [shown, setShown] = useState(1);
   if (!lesson) return <NotFound what="lesson" back={{ href: "/learn/", label: "Knowledge Garden" }} />;
   const done = has(data.completions, "lesson", lesson.id);
 
@@ -34,27 +39,47 @@ export function LessonReader({ id }: { id: string }) {
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Illustration name={lesson.illustration} size={140} label={lesson.title} />
       </div>
-      {lesson.sections.map((s, i) => (
-        <section key={s.heading} className="stack" style={{ gap: 4 }}>
+      <div className="lesson-steps" aria-hidden="true">
+        {lesson.sections.map((s, i) => (
+          <i key={s.heading} className={i < shown ? "on" : undefined} />
+        ))}
+      </div>
+      {lesson.sections.slice(0, shown).map((s, i) => (
+        <section key={s.heading} className="stack lesson-part" style={{ gap: 4 }}>
           <h2>{s.heading}</h2>
           <p className="reader-text">{s.text}</p>
           <VoiceButton id={rid.lessonSection(lesson.id, i)} />
         </section>
       ))}
-      <section className="stack" aria-labelledby="kw">
-        <h2 id="kw">Words to know</h2>
-        <VoiceButton id={rid.lessonWords(lesson.id)} />
-        {lesson.keyWords.map((k) => (
-          <p key={k.word} className="keyword" style={{ margin: 0 }}>
-            <strong>{k.word}</strong> — {k.meaning}
-          </p>
-        ))}
-      </section>
-      <div className="card sky">
-        <h2>Try this with your family</h2>
-        <p style={{ margin: 0 }}>{lesson.tryThis}</p>
-        <VoiceButton id={rid.lessonTry(lesson.id)} className="mt" />
-      </div>
+      {shown < lesson.sections.length ? (
+        <div className="stack" style={{ gap: 6 }}>
+          <button className="btn block" onClick={() => setShown(shown + 1)} data-sound="page">
+            Tap to learn more ({shown} of {lesson.sections.length}) <Icon name="arrowRight" size={20} />
+          </button>
+          <button className="link-btn small" onClick={() => setShown(lesson.sections.length)}>
+            Show the whole lesson
+          </button>
+        </div>
+      ) : (
+        <>
+          {lesson.keyWords.length > 0 && (
+            <section className="stack lesson-part" aria-labelledby="kw">
+              <h2 id="kw">Words to know</h2>
+              <p className="small muted" style={{ margin: 0 }}>
+                Tap a card to see what the word means.
+              </p>
+              <VoiceButton id={rid.lessonWords(lesson.id)} />
+              <FlipCards words={lesson.keyWords} />
+            </section>
+          )}
+          <div className="card sky lesson-part">
+            <h2>Try this with your family</h2>
+            <p style={{ margin: 0 }}>{lesson.tryThis}</p>
+            <VoiceButton id={rid.lessonTry(lesson.id)} className="mt" />
+          </div>
+          {lesson.quickCheck && lesson.quickCheck.length > 0 && <CheckQuiz title="Quick check" questions={lesson.quickCheck} testId="quick-check" />}
+        </>
+      )}
       {done ? (
         <p className="pill done" style={{ alignSelf: "center", fontSize: "1rem" }}>
           <Icon name="check" size={14} strokeWidth={3} /> Lesson complete. You learned something new!

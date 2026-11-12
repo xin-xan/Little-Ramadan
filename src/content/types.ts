@@ -16,6 +16,14 @@ export interface Review {
 
 export type CharacterId = "noor" | "amina" | "hilmy";
 
+/** A short "check your understanding" question (no stars; just for fun and learning). */
+export interface CheckQuestion {
+  question: string;
+  options: [string, string, string];
+  answer: 0 | 1 | 2;
+  explanation: string;
+}
+
 export interface Lesson {
   id: string;
   title: string;
@@ -30,6 +38,8 @@ export interface Lesson {
   tryThis: string;
   /** What kind of reliable reference the reviewer should check this against. */
   sourceNote: string;
+  /** Quick check at the end of the lesson. */
+  quickCheck?: CheckQuestion[];
   review: Review;
 }
 
@@ -47,6 +57,8 @@ export interface Story {
   value: string;
   minutes: number;
   pages: StoryPage[];
+  /** Story check questions at the end. */
+  questions?: CheckQuestion[];
   review: Review;
 }
 

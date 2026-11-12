@@ -1,6 +1,7 @@
 "use client";
 
 import { DvGamePlayer } from "@/components/dhivehi/DvGames";
+import { GameCompanion } from "@/components/games/GameFrame";
 import { NotFound, PageHeader } from "@/components/ui";
 import { dvGameById, dvPlayId } from "@/content/dhivehi";
 import { useApp } from "@/state/AppState";
@@ -15,6 +16,7 @@ export function DvPlayView({ id }: { id: string }) {
       <p className="small muted" style={{ margin: 0 }}>
         {game.howToPlay.join(" ")} No timer. Take your time!
       </p>
+      <GameCompanion />
       <DvGamePlayer game={game.id} onFinish={() => complete("dhivehi", dvPlayId(game.id))} />
     </div>
   );

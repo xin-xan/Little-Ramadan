@@ -18,6 +18,9 @@ test("lessons and stories display, are readable and complete", async ({ page }) 
   await page.goto("/learn/");
   await expect(page.getByRole("heading", { name: "Stories" })).toBeVisible();
   await page.getByRole("link", { name: /What is the Quran\?/ }).click();
+  // Lessons open one part at a time; reveal the rest step by step.
+  await expect(page.getByRole("button", { name: /Tap to learn more/ })).toBeVisible();
+  while (await page.getByRole("button", { name: /Tap to learn more/ }).isVisible()) await page.getByRole("button", { name: /Tap to learn more/ }).click();
   await expect(page.getByRole("heading", { name: "Words to know" })).toBeVisible();
   const size = await page.locator(".reader-text").first().evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
   expect(size).toBeGreaterThanOrEqual(18);

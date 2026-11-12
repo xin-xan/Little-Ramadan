@@ -59,6 +59,22 @@ const idsOf = (c: ContentBundle, key: ContentKey, label: (x: Obj) => string): Op
 
 const reviewField: Field = { key: "review", label: "Review status", type: "review", help: "Religious, educational and safety content must be checked by a qualified reviewer before launch." };
 
+const checkFields = (key: string, label: string): Field => ({
+  key,
+  label,
+  type: "list",
+  itemLabel: "question",
+  help: "Short questions with 3 answers, shown at the end. They are for fun and learning (no stars).",
+  titleOf: (x, i) => s(x.question) || `Question ${i + 1}`,
+  newItem: () => ({ question: "", options: ["", "", ""], answer: 0, explanation: "" }),
+  fields: [
+    { key: "question", label: "Question", type: "text", multiline: true },
+    { key: "options", label: "Answers (exactly 3)", type: "textList", itemLabel: "answer" },
+    { key: "answer", label: "Right answer", type: "answer" },
+    { key: "explanation", label: "Explanation", type: "text", multiline: true },
+  ],
+});
+
 export const COLLECTIONS: Collection[] = [
   // ---------------- Learning
   {
@@ -86,6 +102,7 @@ export const COLLECTIONS: Collection[] = [
         { key: "text", label: "Text", type: "text", multiline: true },
         { key: "illustration", label: "Picture", type: "illustration" },
       ] },
+      checkFields("questions", "Story check questions"),
       reviewField,
     ],
   },
@@ -120,6 +137,7 @@ export const COLLECTIONS: Collection[] = [
       ] },
       { key: "tryThis", label: "Try this with your family", type: "text", multiline: true },
       { key: "sourceNote", label: "Source note for the reviewer", type: "text", multiline: true, help: "Which reliable reference should the reviewer check this against? Shown in the Parent Zone." },
+      checkFields("quickCheck", "Quick check questions"),
       reviewField,
     ],
   },

@@ -16,6 +16,8 @@ export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: n
   const [i, setI] = useState(0);
   const [wrong, setWrong] = useState<number[]>([]);
   const [solved, setSolved] = useState(false);
+  /** A free hint: one wrong answer is taken away (once per question). */
+  const [hinted, setHinted] = useState<number | null>(null);
   const [done, setDone] = useState(false);
   const finish = useFinishGame("quiz", { quizSetId: set.id, day });
   const sfx = useSfx();
@@ -26,11 +28,12 @@ export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: n
     setI(0);
     setWrong([]);
     setSolved(false);
+    setHinted(null);
     setDone(false);
   };
 
   const choose = (idx: number) => {
-    if (solved || wrong.includes(idx)) return;
+    if (solved || wrong.includes(idx) || idx === hinted) return;
     if (idx === q.correct) {
       setSolved(true);
       sfx("correct");
@@ -45,6 +48,7 @@ export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: n
       setI(i + 1);
       setWrong([]);
       setSolved(false);
+      setHinted(null);
     } else {
       setDone(true);
       await finish();
@@ -67,7 +71,7 @@ export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: n
           <div className="stack" role="group" aria-labelledby="quiz-question" data-testid="answers">
             {q.shown.map((opt, idx) => {
               const isRight = solved && idx === q.correct;
-              const isWrong = wrong.includes(idx);
+              const isWrong = wrong.includes(idx) || hinted === idx;
               return (
                 <button
                   key={opt}
@@ -93,6 +97,18 @@ export function QuizGame({ set, day }: { set: QuizSet; day: { id: string; day: n
               );
             })}
           </div>
+          {!solved && hinted === null && (
+            <button
+              type="button"
+              className="link-btn"
+              onClick={() => {
+                const options = q.shown.map((_, k) => k).filter((k) => k !== q.correct && !wrong.includes(k));
+                if (options.length) setHinted(options[0]);
+              }}
+            >
+              <Icon name="sparkle" size={16} /> Help me: take away a wrong answer
+            </button>
+          )}
           {wrong.length > 0 && !solved && <Feedback kind="retry">Not quite — that&apos;s okay! Have another go.</Feedback>}
           {solved && (
             <>
