@@ -51,7 +51,7 @@ export default function DhivehiPage() {
             {doneCount} of {plan.length} done
           </span>
         </div>
-        <ol className="dv-days" data-testid="dv-days">
+        <ol className="dv-days" data-testid="dv-days" dir="rtl">
           {plan.map((d) => {
             const open = isDayOpen(cal, d.day);
             const isDone = done(d.day);
@@ -60,7 +60,7 @@ export default function DhivehiPage() {
               <li key={d.day}>
                 {open ? (
                   <Link href={`/dhivehi/day/${d.day}/`} className={`dv-day${isDone ? " done" : ""}`} aria-label={label}>
-                    <span className="dv-day-n">{d.day}</span>
+                    <span className="dv-day-n" dir="ltr">{d.day}</span>
                     <span className="dv-day-glyph">{d.letter ? <Dv>{d.letter.char}</Dv> : <Icon name="star" size={20} />}</span>
                     {isDone && <Icon name="check" size={14} strokeWidth={3} className="dv-day-tick" />}
                   </Link>

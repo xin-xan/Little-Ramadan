@@ -1597,12 +1597,16 @@ html[data-reduced-motion="true"] *::after {
   overflow: hidden;
 }
 .dv-trace-bar span { display: block; height: 100%; background: var(--success-text); transition: width 0.3s; }
+/* The alphabet reads right to left in rows of five (haa at the top right); the last row is centred. */
 .dv-letter-grid {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 6px;
 }
-@media (max-width: 360px) { .dv-letter-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.dv-letter-grid > .dv-letter {
+  flex: 0 0 calc((100% - 4 * 6px) / 5);
+}
 .dv-letter {
   min-height: 52px;
   border-radius: 14px;

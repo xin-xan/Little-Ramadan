@@ -664,14 +664,15 @@ function TraceGame({ focus, onFinish }: { focus?: DvLetter; onFinish(): void }) 
   return (
     <div className="stack">
       <div className="row" style={{ justifyContent: "space-between" }}>
-        <button type="button" className="icon-btn" aria-label="Previous letter" onClick={() => { setIdx((idx + LETTERS.length - 1) % LETTERS.length); setTraced(false); }}>
+        {/* Thaana reads right to left, so the next letter is on the left. */}
+        <button type="button" className="icon-btn" aria-label="Next letter" onClick={() => { setIdx((idx + 1) % LETTERS.length); setTraced(false); }}>
           <Icon name="back" />
         </button>
         <div className="stack center" style={{ gap: 0 }}>
           <Dv size="2rem">{letter.char}</Dv>
           <strong>{letter.name}</strong>
         </div>
-        <button type="button" className="icon-btn" aria-label="Next letter" onClick={() => { setIdx((idx + 1) % LETTERS.length); setTraced(false); }}>
+        <button type="button" className="icon-btn" aria-label="Previous letter" onClick={() => { setIdx((idx + LETTERS.length - 1) % LETTERS.length); setTraced(false); }}>
           <Icon name="next" />
         </button>
       </div>
