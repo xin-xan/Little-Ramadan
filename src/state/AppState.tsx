@@ -4,12 +4,10 @@ import { stopRecordingPlayback } from "@/recordings/player";
 import { deleteAllRecordings } from "@/recordings/store";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { badges } from "@/content/badges";
-import { decorations } from "@/content/decorations";
 import { MemoryStorage, openStorage, requestPersistence, type Storage } from "@/storage/db";
-import { completionId, starsFor, unlockedBadgeIds, unlockedDecorationIds } from "@/storage/rewards";
+import { completionId, starsFor, unlockedBadgeIds } from "@/storage/rewards";
 import {
   DEFAULT_SETTINGS,
-  EMPTY_ROOM,
   KV_KEYS,
   STORES,
   cleanNickname,
@@ -27,13 +25,11 @@ import {
   type Settings,
 } from "@/storage/schema";
 import { playSound } from "@/accessibility/sound";
-import type { RoomSlot } from "@/content/types";
 
 export interface Celebration {
   id: string;
   stars: number;
   badgeIds: string[];
-  decorationIds: string[];
 }
 
 type Status = "loading" | "ready" | "error";
@@ -60,13 +56,12 @@ interface AppState {
   chooseGoal(id: string): Promise<void>;
   removeGoal(id: string): Promise<void>;
   completeGoal(id: string): Promise<void>;
-  setRoomSlot(slot: RoomSlot, decorationId: string | null): Promise<void>;
   resetProgress(): Promise<void>;
   deleteEverything(): Promise<void>;
   retry(): void;
 }
 
-const emptyData = (): AppData => ({ profile: null, settings: structuredClone(DEFAULT_SETTINGS), completions: [], journal: [], goals: [], room: structuredClone(EMPTY_ROOM), salah: {} });
+const emptyData = (): AppData => ({ profile: null, settings: structuredClone(DEFAULT_SETTINGS), completions: [], journal: [], goals: [], salah: {} });
 
 const Ctx = createContext<AppState | null>(null);
 
@@ -123,7 +118,6 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
         const d = dataRef.current;
         if (d.profile) await mem.putKv(KV_KEYS.profile, d.profile);
         await mem.putKv(KV_KEYS.settings, d.settings);
-        await mem.putKv(KV_KEYS.room, d.room);
         await mem.putKv(KV_KEYS.salah, d.salah);
         for (const c of d.completions) await mem.put(STORES.completions, c);
         for (const j of d.journal) await mem.put(STORES.journal, j);
@@ -204,13 +198,11 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
       for (const c of fresh) await store().put(STORES.completions, c);
       const completions = [...cur.completions, ...fresh];
       const beforeBadges = new Set(unlockedBadgeIds(cur.completions));
-      const beforeDecor = new Set(unlockedDecorationIds(cur.completions));
       const newBadges = unlockedBadgeIds(completions).filter((b) => !beforeBadges.has(b));
-      const newDecor = unlockedDecorationIds(completions).filter((d) => !beforeDecor.has(d));
       commit({ ...cur, completions });
       const stars = fresh.reduce((n, c) => n + starsFor(c.kind), 0);
-      if (!opts.silent && (stars > 0 || newBadges.length || newDecor.length)) {
-        setCelebration({ id: fresh.map((c) => c.id).join("+"), stars, badgeIds: newBadges, decorationIds: newDecor });
+      if (!opts.silent && (stars > 0 || newBadges.length)) {
+        setCelebration({ id: fresh.map((c) => c.id).join("+"), stars, badgeIds: newBadges });
         if (cur.settings.soundOn) playSound(newBadges.length ? "badge" : "star");
       }
       return fresh.length;
@@ -303,27 +295,14 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
     [commit, complete],
   );
 
-  const setRoomSlot = useCallback(
-    async (slot: RoomSlot, decorationId: string | null) => {
-      const slots = { ...dataRef.current.room.slots };
-      if (decorationId) slots[slot] = decorationId;
-      else delete slots[slot];
-      const room = { slots };
-      await store().putKv(KV_KEYS.room, room);
-      commit({ ...dataRef.current, room });
-    },
-    [commit],
-  );
-
   const resetProgress = useCallback(async () => {
     const s = store();
     await s.clear(STORES.completions);
     await s.clear(STORES.goals);
-    await s.putKv(KV_KEYS.room, EMPTY_ROOM);
-    const settings = validateSettings({ ...dataRef.current.settings, seenBadges: [], seenDecorations: [] });
+    const settings = validateSettings({ ...dataRef.current.settings, seenBadges: [] });
     await s.putKv(KV_KEYS.settings, settings);
     setCelebration(null);
-    commit({ ...dataRef.current, completions: [], goals: [], room: structuredClone(EMPTY_ROOM), settings });
+    commit({ ...dataRef.current, completions: [], goals: [], settings });
   }, [commit]);
 
   const deleteEverything = useCallback(async () => {
@@ -359,7 +338,6 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
       chooseGoal,
       removeGoal,
       completeGoal,
-      setRoomSlot,
       resetProgress,
       deleteEverything,
       retry: () => {
@@ -367,7 +345,7 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
         setAttempt((a) => a + 1);
       },
     }),
-    [status, error, storageKind, data, celebration, createProfile, updateProfile, updateSettings, complete, completeMany, saveReflection, addJournalEntry, deleteJournalEntry, togglePrayer, clearSalahLog, clearJournal, chooseGoal, removeGoal, completeGoal, setRoomSlot, resetProgress, deleteEverything],
+    [status, error, storageKind, data, celebration, createProfile, updateProfile, updateSettings, complete, completeMany, saveReflection, addJournalEntry, deleteJournalEntry, togglePrayer, clearSalahLog, clearJournal, chooseGoal, removeGoal, completeGoal, resetProgress, deleteEverything],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
@@ -380,4 +358,3 @@ export function useApp(): AppState {
 }
 
 export const badgeById = (id: string) => badges.find((b) => b.id === id);
-export const decorationInfo = (id: string) => decorations.find((d) => d.id === id);

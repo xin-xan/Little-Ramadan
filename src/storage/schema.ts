@@ -46,7 +46,6 @@ export interface Settings {
   parentPin: { hash: string; salt: string } | null;
   consentAt: string | null;
   seenBadges: string[];
-  seenDecorations: string[];
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -60,7 +59,6 @@ export const DEFAULT_SETTINGS: Settings = {
   parentPin: null,
   consentAt: null,
   seenBadges: [],
-  seenDecorations: [],
 };
 
 /** Activity kinds that can be completed. "journal" is intentionally not one of them. */
@@ -97,12 +95,6 @@ export interface GoalRecord {
   completedAt?: string;
 }
 
-export interface RoomLayout {
-  /** slot id -> decoration id */
-  slots: Record<string, string>;
-}
-
-export const EMPTY_ROOM: RoomLayout = { slots: {} };
 
 /** The five daily prayers, in order. */
 export const PRAYERS = ["fajr", "dhuhr", "asr", "maghrib", "isha"] as const;
@@ -133,11 +125,10 @@ export interface AppData {
   completions: Completion[];
   journal: JournalEntry[];
   goals: GoalRecord[];
-  room: RoomLayout;
   salah: SalahLog;
 }
 
-export const KV_KEYS = { profile: "profile", settings: "settings", room: "room", meta: "meta", salah: "salah" } as const;
+export const KV_KEYS = { profile: "profile", settings: "settings", meta: "meta", salah: "salah" } as const;
 
 // ---------- validation (defensive: stored data may be old, partial or corrupted) ----------
 
@@ -191,7 +182,6 @@ export function validateSettings(v: unknown): Settings {
     parentPin: pin,
     consentAt: isStr(v.consentAt) ? v.consentAt : null,
     seenBadges: Array.isArray(v.seenBadges) ? v.seenBadges.filter(isStr) : [],
-    seenDecorations: Array.isArray(v.seenDecorations) ? v.seenDecorations.filter(isStr) : [],
   };
 }
 
@@ -230,19 +220,12 @@ export function validateGoal(v: unknown): GoalRecord | null {
   return g;
 }
 
-export function validateRoom(v: unknown): RoomLayout {
-  if (!isObj(v) || !isObj(v.slots)) return { slots: {} };
-  const slots: Record<string, string> = {};
-  for (const [k, val] of Object.entries(v.slots)) if (isStr(val)) slots[k] = val;
-  return { slots };
-}
-
 /**
  * Record-shape migrations, applied in order to raw data loaded from older
  * versions. Each receives the raw kv/meta data and returns the upgraded data.
  * Version 1 is the first release, so the list is currently empty.
  */
-export type RawData = { profile?: unknown; settings?: unknown; room?: unknown; salah?: unknown; completions: unknown[]; journal: unknown[]; goals: unknown[] };
+export type RawData = { profile?: unknown; settings?: unknown; salah?: unknown; completions: unknown[]; journal: unknown[]; goals: unknown[] };
 export const MIGRATIONS: { to: number; migrate: (d: RawData) => RawData }[] = [];
 
 export function migrate(raw: RawData, fromVersion: number): RawData {
@@ -260,7 +243,6 @@ export function normalise(raw: RawData): AppData {
   return {
     profile: validateProfile(raw.profile),
     settings: validateSettings(raw.settings),
-    room: validateRoom(raw.room),
     salah: validateSalahLog(raw.salah),
     completions: dedupe(raw.completions.map(validateCompletion)),
     journal: dedupe(raw.journal.map(validateJournalEntry)),

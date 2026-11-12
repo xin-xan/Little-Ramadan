@@ -19,7 +19,7 @@ import { stories } from "@/content/stories";
 import { contentReviewSummary, reviewItems } from "@/content/review";
 import { hashPin, PIN_PATTERN } from "@/safety/parentGate";
 import { calendarStatus, dateOfDay, daysFor, formatDate, localISODate } from "@/storage/calendar";
-import { countKind, completedDayIds, totalStars, unlockedBadgeIds, unlockedDecorationIds } from "@/storage/rewards";
+import { countKind, completedDayIds, totalStars, unlockedBadgeIds } from "@/storage/rewards";
 import { nicknameProblem, NICKNAME_MAX, PRAYERS } from "@/storage/schema";
 import { useApp } from "@/state/AppState";
 
@@ -120,7 +120,7 @@ function ProgressPanel() {
         <ProgressBar value={countKind(c, "quiz")} max={quizSets.length} label="Quizzes" />
         <ProgressBar value={countKind(c, "game")} max={games.length} label="Games tried" />
         <p style={{ margin: 0 }}>
-          {totalStars(c)} stars · {unlockedBadgeIds(c).length} of {badges.length} badges · {unlockedDecorationIds(c).length} decorations · {goalsDone} goals finished
+          {totalStars(c)} stars · {unlockedBadgeIds(c).length} of {badges.length} badges · {goalsDone} goals finished
         </p>
         <p className="small muted">Stars come only from learning, kindness, games and goals. Fasting never affects stars or badges.</p>
       </div>
@@ -447,7 +447,7 @@ function PrivacyPanel() {
         <strong>Who we are:</strong> Little Ramadan is a free educational app for children aged 7–9. It has no accounts and no servers that receive children&apos;s data.
       </p>
       <p>
-        <strong>What is stored:</strong> your child&apos;s nickname and cartoon avatar; app settings; which activities were completed; badges, decorations and goals; optional reflections and optional journal entries; and any voice recordings you make in “Voice recordings”.
+        <strong>What is stored:</strong> your child&apos;s nickname and cartoon avatar; app settings; which activities were completed; badges and goals; optional reflections and optional journal entries; and any voice recordings you make in “Voice recordings”.
       </p>
       <p>
         <strong>Where:</strong> only on this device, in this browser&apos;s storage (IndexedDB). {storageKind === "memory" ? "Right now this browser is not allowing storage, so nothing will be kept after the app closes." : ""}
@@ -543,7 +543,7 @@ function DataPanel() {
     <>
       <div className="card stack">
         <h2>Reset progress</h2>
-        <p>Clears completed activities, stars, badges, decorations, room layout, goals and reflections. Keeps the nickname, avatar, settings and journal.</p>
+        <p>Clears completed activities, stars, badges, goals and reflections. Keeps the nickname, avatar, settings and journal.</p>
         <button className="btn danger" onClick={() => setWhich("reset")}>
           Reset progress
         </button>
@@ -559,7 +559,7 @@ function DataPanel() {
       <ConfirmSheet
         open={which === "reset"}
         title="Reset all progress?"
-        body="Stars, badges, decorations, goals and completed activities will be cleared. Your voice recordings are kept. This cannot be undone."
+        body="Stars, badges, goals and completed activities will be cleared. Your voice recordings are kept. This cannot be undone."
         action="Yes, reset progress"
         onCancel={() => setWhich(null)}
         onConfirm={async () => {

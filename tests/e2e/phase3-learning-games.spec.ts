@@ -153,7 +153,7 @@ test("cached lessons and games work offline", async ({ page, context }) => {
   await page.waitForFunction(() => !!navigator.serviceWorker.controller);
   // wait for precache to finish (install completes before the worker controls the page)
   await context.setOffline(true);
-  for (const path of ["/learn/lesson/zakat/", "/learn/story/eid-morning/", "/games/memory-cards/", "/games/quiz/knowledge/", "/journey/d21/", "/rewards/room/"]) {
+  for (const path of ["/learn/lesson/zakat/", "/learn/story/eid-morning/", "/games/memory-cards/", "/games/quiz/knowledge/", "/journey/d21/"]) {
     await page.goto(path);
     await expect(page.locator("h1").first()).toBeVisible();
     await expect(page.getByText("You're offline")).toBeVisible();

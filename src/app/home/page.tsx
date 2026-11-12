@@ -43,7 +43,7 @@ export default function HomePage() {
     { href: "/games/", label: "Play", sub: "Games & quizzes", icon: "games", tone: "lavender" },
     { href: "/dhivehi/", label: "Learn Dhivehi", sub: "Letters & words", icon: "scroll", tone: "emerald" },
     { href: "/kindness/", label: "Kindness", sub: "Good deeds", icon: "heart", tone: "rose" },
-    { href: "/rewards/room/", label: "My Room", sub: "Decorate it", icon: "lantern", tone: "gold" },
+    { href: "/dhivehi/", label: "Dhivehi", sub: "Letters & words", icon: "book", tone: "gold" },
     { href: "/goals/", label: "My Goals", sub: "Little steps", icon: "target", tone: "emerald" },
     { href: "/first-fast/", label: "My First Fast", sub: "Learn gently", icon: "moon", tone: "sky" },
   ] as const;
@@ -59,7 +59,7 @@ export default function HomePage() {
         <div className="row" style={{ gap: 8 }}>
           <SoundToggle />
           <StarCount stars={stars} />
-          <Link href="/rewards/room/" aria-label={`My room. Your avatar is ${profile.avatar}`} className="icon-btn" style={{ padding: 0, overflow: "hidden" }}>
+          <Link href="/rewards/" aria-label={`My rewards. Your avatar is ${profile.avatar}`} className="icon-btn" style={{ padding: 0, overflow: "hidden" }}>
             <Avatar id={profile.avatar} size={42} decorative />
           </Link>
         </div>

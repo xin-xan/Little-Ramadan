@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { gzipSync } from "node:zlib";
 import { onboard } from "./helpers";
 
-const ROUTES = ["/home/", "/journey/", "/journey/d01/", "/learn/", "/learn/lesson/salah/", "/learn/story/harbour-wait/", "/kindness/", "/kindness/give-food/", "/games/", "/games/quiz/", "/games/quiz/manners/", "/games/match-words/", "/games/missing-lantern/", "/games/mosque-puzzle/", "/games/sort-deeds/", "/games/memory-cards/", "/games/vocab-match/", "/rewards/", "/rewards/room/", "/rewards/certificate/", "/rewards/eid/", "/goals/", "/first-fast/", "/safety/", "/dhivehi/", "/dhivehi/day/1/", "/dhivehi/day/30/", "/dhivehi/play/fili/", "/dhivehi/play/build-word/", "/dhivehi/play/letters/"];
+const ROUTES = ["/home/", "/journey/", "/journey/d01/", "/learn/", "/learn/lesson/salah/", "/learn/story/harbour-wait/", "/kindness/", "/kindness/give-food/", "/games/", "/games/quiz/", "/games/quiz/manners/", "/games/match-words/", "/games/missing-lantern/", "/games/mosque-puzzle/", "/games/sort-deeds/", "/games/memory-cards/", "/games/vocab-match/", "/rewards/", "/rewards/certificate/", "/rewards/eid/", "/goals/", "/first-fast/", "/safety/", "/dhivehi/", "/dhivehi/day/1/", "/dhivehi/day/30/", "/dhivehi/play/fili/", "/dhivehi/play/build-word/", "/dhivehi/play/letters/"];
 
 test("every screen loads without errors and every internal link works", async ({ page, request }) => {
   const errors: string[] = [];
@@ -23,7 +23,7 @@ test("every screen loads without errors and every internal link works", async ({
 
 test("touch targets are at least 44×44 CSS pixels", async ({ page }) => {
   await onboard(page);
-  for (const r of ["/home/", "/journey/", "/journey/d05/", "/games/", "/games/memory-cards/", "/games/mosque-puzzle/", "/rewards/room/", "/first-fast/"]) {
+  for (const r of ["/home/", "/journey/", "/journey/d05/", "/games/", "/games/memory-cards/", "/games/mosque-puzzle/", "/first-fast/"]) {
     await page.goto(r);
     await expect(page.locator("h1").first()).toBeVisible();
     const small = await page.locator("main button:visible, main a:visible, nav a:visible, main [role=switch]:visible, main input:visible, main textarea:visible").evaluateAll((els) =>

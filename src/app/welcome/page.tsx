@@ -135,7 +135,7 @@ export default function WelcomePage() {
               <IconChip name="games" tone="lavender" size={40} /> Play gentle games and quizzes
             </li>
             <li className="row">
-              <IconChip name="star" tone="gold" size={40} /> Collect stars and decorate your own Ramadan Room
+              <IconChip name="star" tone="gold" size={40} /> Collect stars and badges for learning and kindness
             </li>
           </ul>
           <SpeechBubble who="amina">You can enjoy your Ramadan adventure whether or not you are fasting!</SpeechBubble>
@@ -173,7 +173,7 @@ export default function WelcomePage() {
           <ul>
             <li>A nickname (not a real name) and a cartoon avatar.</li>
             <li>Settings you choose (sound, motion, calendar, optional fasting journal).</li>
-            <li>Which activities are completed, stars, badges, room decorations and goals.</li>
+            <li>Which activities are completed, stars, badges and goals.</li>
             <li>Optional private reflections and journal notes, only if your child writes them.</li>
           </ul>
           <h2>Where it is stored</h2>

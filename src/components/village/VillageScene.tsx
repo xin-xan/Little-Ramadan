@@ -7,7 +7,7 @@ import { playSound } from "@/accessibility/sound";
 import { Icon, IconChip } from "@/components/Icon";
 import type { DestinationId, VillageHandle } from "@/three/village";
 import { CrescentArt, LanternArt, MosqueArt, PalmArt, StarArt } from "@/components/art/Illustration";
-import { countKind, unlockedBadgeIds, unlockedDecorationIds } from "@/storage/rewards";
+import { completedDayIds, countKind, unlockedBadgeIds } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
 
 export const DESTINATIONS = [
@@ -123,7 +123,7 @@ function SceneArt({ lanterns, flowers, stars, animate }: { lanterns: number; flo
         <circle cx="38" cy="18" r="7" fill="#F3C6D3" />
         <rect x="16" y="10" width="16" height="12" rx="2" fill="#286356" />
       </g>
-      {/* lantern string: one lantern lights up for each unlocked decoration */}
+      {/* lantern string: one more lantern lights up for each journey day finished */}
       <path d="M0 140 Q200 176 400 140" stroke="#8A5A3B" strokeWidth="1.5" fill="none" />
       {Array.from({ length: 12 }, (_, i) => {
         const x = 18 + i * 33;
@@ -158,7 +158,8 @@ function Village3D({ animate, lowPower }: { animate: boolean; lowPower: boolean 
   const handle = useRef<VillageHandle | null>(null);
   const [state, setState] = useState<"loading" | "ready" | "fallback">("loading");
   const c = data.completions;
-  const lanterns = unlockedDecorationIds(c).length;
+  // One lantern glows to start, then one more for each journey day finished.
+  const lanterns = Math.min(12, 1 + completedDayIds(c).length);
   const flowers = countKind(c, "kindness");
   const init = useRef({ animate, lanterns, flowers, router, sound: data.settings.soundOn });
   useEffect(() => {

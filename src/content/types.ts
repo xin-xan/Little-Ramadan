@@ -1,6 +1,5 @@
 /**
- * Content contracts. All stories, lessons, missions, quizzes, badges and
- * decorations are data so reviewers can update them without touching UI code.
+ * Content contracts. All stories, lessons, missions, quizzes and badges are data so reviewers can update them without touching UI code.
  * IDs are stable across releases — never rename an ID that has shipped.
  */
 import type { CompletionKind } from "@/storage/schema";
@@ -139,12 +138,3 @@ export interface Badge {
   hint: string;
 }
 
-export type RoomSlot = "wall" | "window" | "ceiling" | "floor" | "cushion" | "shelf" | "plant" | "garland";
-
-export interface Decoration {
-  id: string;
-  title: string;
-  slot: RoomSlot;
-  rule: UnlockRule;
-  hint: string;
-}

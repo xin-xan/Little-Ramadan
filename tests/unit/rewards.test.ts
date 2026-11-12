@@ -1,10 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { badges } from "@/content/badges";
 import { allDays } from "@/content/days";
-import { decorations } from "@/content/decorations";
 import { lessons } from "@/content/lessons";
 import { missions } from "@/content/missions";
-import { completedDayIds, dayPartsDone, isDayComplete, ruleMet, totalStars, unlockedBadgeIds, unlockedDecorationIds } from "@/storage/rewards";
+import { completedDayIds, dayPartsDone, isDayComplete, ruleMet, totalStars, unlockedBadgeIds } from "@/storage/rewards";
 import { normalise, type Completion, type CompletionKind } from "@/storage/schema";
 
 const c = (kind: CompletionKind, contentId: string): Completion => ({ id: `${kind}:${contentId}`, kind, contentId, completedAt: "2026-03-01T00:00:00Z" });
@@ -35,11 +34,10 @@ describe("fasting never affects rewards", () => {
     const none = normalise({ completions: [c("lesson", "quran")], journal: [], goals: [] });
     expect(totalStars(data.completions)).toBe(totalStars(none.completions));
     expect(unlockedBadgeIds(data.completions)).toEqual(unlockedBadgeIds(none.completions));
-    expect(unlockedDecorationIds(data.completions)).toEqual(unlockedDecorationIds(none.completions));
   });
 
-  it("no badge or decoration rule mentions fasting", () => {
-    for (const r of [...badges, ...decorations]) {
+  it("no badge rule mentions fasting", () => {
+    for (const r of badges) {
       expect(JSON.stringify(r).toLowerCase()).not.toMatch(/fast|journal/);
     }
   });
@@ -56,7 +54,6 @@ describe("fasting never affects rewards", () => {
       ...allDays.flatMap((d) => [c(d.learn.kind, d.learn.id), c("kindness", d.kindnessId), c("dayplay", d.id)]),
     ];
     expect(unlockedBadgeIds(all).sort()).toEqual(badges.map((b) => b.id).sort());
-    expect(unlockedDecorationIds(all).sort()).toEqual(decorations.map((d) => d.id).sort());
   });
 });
 
@@ -81,7 +78,4 @@ describe("journey days", () => {
     expect(ruleMet(hero.rule, missions.slice(0, 5).map((m) => c("kindness", m.id)))).toBe(true);
   });
 
-  it("starter decorations are available immediately", () => {
-    expect(unlockedDecorationIds([])).toEqual(decorations.filter((d) => d.rule.type === "start").map((d) => d.id));
-  });
 });

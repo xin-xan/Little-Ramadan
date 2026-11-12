@@ -1,37 +1,20 @@
 import { expect, test } from "@playwright/test";
 import { isoDaysFromToday, onboard, openParentZone, seedCompletions } from "./helpers";
 
-test("decorations unlock from activities and room choices persist", async ({ page }) => {
+test("the Room feature is gone: no room page, no decoration rewards", async ({ page }) => {
   await onboard(page);
-  await page.goto("/rewards/room/");
-  await page.getByRole("tab", { name: "Lantern" }).click();
-  await expect(page.getByRole("radio", { name: /Gold lantern, locked/ })).toBeVisible();
-
   await page.goto("/kindness/tidy-toys/");
   await page.getByRole("button", { name: /I did it!/ }).click();
-  await expect(page.getByText("New decoration: Gold lantern")).toBeVisible();
-  await page.getByRole("link", { name: "Decorate my room" }).click();
-  await page.getByRole("tab", { name: "Lantern" }).click();
-  await page.getByRole("radio", { name: "Gold lantern", exact: true }).click();
-  await expect(page.getByRole("radio", { name: "Gold lantern", exact: true })).toHaveAttribute("aria-checked", "true");
-  await page.getByRole("tab", { name: "Wall" }).click();
-  await page.getByRole("radio", { name: "Empty" }).click();
-  await page.reload();
-  await page.getByRole("tab", { name: "Lantern" }).click();
-  await expect(page.getByRole("radio", { name: "Gold lantern", exact: true })).toHaveAttribute("aria-checked", "true");
-  await page.getByRole("tab", { name: "Wall" }).click();
-  await expect(page.getByRole("radio", { name: "Empty" })).toHaveAttribute("aria-checked", "true");
+  await expect(page.getByRole("heading", { name: "You earned 3 stars!" })).toBeVisible();
+  await expect(page.getByText(/New decoration|Decorate my room/)).toHaveCount(0);
+  await page.getByRole("button", { name: "Yay! Continue" }).click();
+  await page.goto("/rewards/");
+  await expect(page.getByRole("link", { name: /Ramadan Room/ })).toHaveCount(0);
+  const res = await page.goto("/rewards/room/");
+  expect(res?.status()).toBe(404);
 });
 
-test("locked decorations cannot be selected", async ({ page }) => {
-  await onboard(page);
-  await page.goto("/rewards/room/");
-  await page.getByRole("tab", { name: "Plant" }).click();
-  await page.getByRole("radio", { name: /Little palm, locked/ }).click({ force: true });
-  await expect(page.getByRole("radio", { name: /Little palm, locked/ })).toHaveAttribute("aria-checked", "false");
-});
-
-test("badge gallery and star-based decorations reflect seeded progress", async ({ page }) => {
+test("badge gallery reflects seeded progress", async ({ page }) => {
   await onboard(page);
   await seedCompletions(page, [
     ...["tidy-toys", "say-thank-you", "set-table", "share-sibling", "help-family", "kind-card", "family-time", "water-plants"].map((id) => ({ kind: "kindness", contentId: id })),
@@ -39,13 +22,12 @@ test("badge gallery and star-based decorations reflect seeded progress", async (
   await page.goto("/rewards/");
   await expect(page.getByRole("region", { name: "24 stars collected" })).toBeVisible();
   await expect(page.getByRole("listitem").filter({ hasText: "Kindness Hero" }).getByText("Earned", { exact: true })).toBeVisible();
-  await expect(page.getByRole("listitem").filter({ hasText: "Star garland" }).getByText("Unlocked", { exact: true })).toBeVisible();
   await expect(page.getByRole("listitem").filter({ hasText: "Little Scholar" }).getByText(/% there/)).toBeVisible();
 });
 
 test("no purchase, ad or random reward mechanics anywhere in rewards", async ({ page }) => {
   await onboard(page);
-  for (const path of ["/rewards/", "/rewards/room/", "/games/", "/home/"]) {
+  for (const path of ["/rewards/", "/games/", "/home/"]) {
     await page.goto(path);
     const text = await page.locator("body").innerText();
     expect(text).not.toMatch(/\bbuy\b|purchase|\bprice\b|\$\d|coins?\b|loot|mystery box|spin|upgrade|premium|advert/i);

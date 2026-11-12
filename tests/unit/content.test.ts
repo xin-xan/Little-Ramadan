@@ -8,7 +8,6 @@ import { ILLUSTRATION_KEYS } from "@/components/art/illustrationKeys";
 import { badges } from "@/content/badges";
 import * as copy from "@/content/copy";
 import { allDays } from "@/content/days";
-import { decorations, ROOM_SLOTS } from "@/content/decorations";
 import { firstFastPages, JOURNAL_OPTIONS } from "@/content/firstFast";
 import { games, memoryCards, pictureWords, sortCards, vocabulary } from "@/content/games";
 import { goals } from "@/content/goals";
@@ -19,7 +18,7 @@ import { reviewItems } from "@/content/review";
 import * as safety from "@/content/safety";
 import { stories } from "@/content/stories";
 
-const ALL = { lessons, stories, missions, quizSets, vocabulary, sortCards, goals, badges, decorations, firstFastPages, allDays, games, pictureWords, memoryCards, JOURNAL_OPTIONS, copy, safety };
+const ALL = { lessons, stories, missions, quizSets, vocabulary, sortCards, goals, badges, firstFastPages, allDays, games, pictureWords, memoryCards, JOURNAL_OPTIONS, copy, safety };
 const allText = JSON.stringify(ALL);
 const illus = new Set<string>(ILLUSTRATION_KEYS);
 
@@ -29,7 +28,7 @@ function unique(ids: string[], label: string) {
 
 describe("structure", () => {
   it("ids are unique and kebab-case", () => {
-    for (const [label, list] of Object.entries({ lessons, stories, missions, quizSets, vocabulary, sortCards, goals, badges, decorations, firstFastPages })) {
+    for (const [label, list] of Object.entries({ lessons, stories, missions, quizSets, vocabulary, sortCards, goals, badges, firstFastPages })) {
       const ids = (list as { id: string }[]).map((x) => x.id);
       unique(ids, label);
       for (const id of ids) expect(id).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
@@ -81,9 +80,7 @@ describe("structure", () => {
     for (const s of stories) expect(s.pages.length).toBeGreaterThanOrEqual(5);
   });
 
-  it("every decoration slot exists and every badge has a hint", () => {
-    const slots = new Set(ROOM_SLOTS.map((s) => s.id));
-    for (const d of decorations) expect(slots.has(d.slot)).toBe(true);
+  it("every badge has a hint", () => {
     for (const b of badges) expect(b.hint.length).toBeGreaterThan(3);
   });
 });
@@ -92,7 +89,7 @@ describe("child safety wording", () => {
   const banned = [/you failed/i, /lost your streak/i, /\bstreak\b(?!s? for)/i, /real champions/i, /must finish/i, /you must fast/i, /don't tell/i, /shame/i, /naughty/i, /\bbad (boy|girl|child)\b/i, /hell(fire)?\b/i, /punish/i, /buy\b/i, /purchase/i, /\bshop\b/i];
 
   it("no shame, pressure, fear or purchase wording in child content", () => {
-    const childText = JSON.stringify({ lessons, stories, missions, quizSets, vocabulary, sortCards, goals, badges, decorations, firstFastPages, allDays, games, JOURNAL_OPTIONS });
+    const childText = JSON.stringify({ lessons, stories, missions, quizSets, vocabulary, sortCards, goals, badges, firstFastPages, allDays, games, JOURNAL_OPTIONS });
     for (const re of banned) expect(childText, String(re)).not.toMatch(re);
   });
 

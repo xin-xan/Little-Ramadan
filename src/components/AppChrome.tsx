@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { playSound, setSoundEnabled, type SoundName } from "@/accessibility/sound";
@@ -9,12 +8,10 @@ import { stopRecordingPlayback } from "@/recordings/player";
 import { Icon } from "./Icon";
 import { SiteFooter } from "./SiteFooter";
 import { badges } from "@/content/badges";
-import { decorations } from "@/content/decorations";
 import { STOPPING_MESSAGE } from "@/content/copy";
 import { Hilmy } from "@/characters/Characters";
 import { useApp } from "@/state/AppState";
 import { BadgeIcon } from "./art/BadgeIcon";
-import { DecorationThumb } from "./room/DecorationArt";
 import { BottomNav } from "./BottomNav";
 import { LogoMark } from "./Logo";
 import { Sheet } from "./ui";
@@ -88,24 +85,7 @@ function CelebrationLayer() {
               </div>
             ) : null;
           })}
-          {celebration.decorationIds.map((id) => {
-            const d = decorations.find((x) => x.id === id);
-            return d ? (
-              <div key={id} className="card lav row celebrate-item">
-                <DecorationThumb id={id} size={48} />
-                <div>
-                  <strong>New decoration: {d.title}</strong>
-                  <div className="small">Put it in your Ramadan Room!</div>
-                </div>
-              </div>
-            ) : null;
-          })}
           <div className="stack">
-            {celebration.decorationIds.length > 0 && (
-              <Link href="/rewards/room/" className="btn gold block" onClick={dismissCelebration}>
-                Decorate my room
-              </Link>
-            )}
             <button className="btn block" onClick={dismissCelebration} data-autofocus>
               Yay! Continue
             </button>

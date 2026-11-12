@@ -12,11 +12,10 @@ import lanternDesigns from "./data/lantern-designs.json";
 import memoryCards from "./data/memory-cards.json";
 import goals from "./data/goals.json";
 import badges from "./data/badges.json";
-import decorations from "./data/decorations.json";
 import firstFast from "./data/first-fast.json";
 import safety from "./data/safety.json";
 import copy from "./data/copy.json";
 import dhivehi from "./data/dhivehi.json";
 import type { ContentBundle } from "./validate";
 
-export const BUNDLED_CONTENT: ContentBundle = { lessons, stories, missions, quizzes, days, games, vocabulary, pictureWords, sortCards, lanternDesigns, memoryCards, goals, badges, decorations, firstFast, safety, copy, dhivehi };
+export const BUNDLED_CONTENT: ContentBundle = { lessons, stories, missions, quizzes, days, games, vocabulary, pictureWords, sortCards, lanternDesigns, memoryCards, goals, badges, firstFast, safety, copy, dhivehi };

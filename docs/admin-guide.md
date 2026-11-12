@@ -12,7 +12,7 @@ From it you can change **every piece of content** and add new content:
 | Word meanings, Match the Words, Sort the Good Deeds, Memory cards, Lanterns | ✅ | ✅ | ✅ |
 | Kindness missions, Ramadan goals, Badges | ✅ | ✅ | ✅ |
 | Journey days 1–30 (theme, mission, which lesson/story/game/quiz) | ✅ | — (always 30) | — |
-| Game names and instructions; Room decorations; Journal choices | ✅ | — (each has its own screen or artwork in code) | ✅ |
+| Game names and instructions; Journal choices | ✅ | — (each has its own screen or artwork in code) | ✅ |
 | My First Fast pages | ✅ | ✅ | ✅ |
 | Health & safety messages, app messages, journal saved message | ✅ | — | — |
 | Dhivehi letters (alphabet order), words, fili, numbers, games, review status | ✅ | ✅ (not numbers or games) | ✅ |

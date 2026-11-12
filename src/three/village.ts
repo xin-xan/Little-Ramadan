@@ -1,7 +1,7 @@
 /**
  * The Ramadan Village as an interactive 3D island at night: gentle sea, palms, a fictional
  * village mosque, the five destinations, Noor and Amina, Hilmy in the sky and a string of
- * lanterns that light up as the child earns decorations. Built from code — no model files.
+ * lanterns that light up as the child finishes journey days. Built from code — no model files.
  * Not a depiction of any real island or mosque.
  */
 import * as THREE from "three";

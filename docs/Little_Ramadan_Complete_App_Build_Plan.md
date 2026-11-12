@@ -447,6 +447,8 @@ Reduced-motion support. - Correct answers should include explanations.
 
 ## 6.8 My Little Ramadan Room
 
+*Removed at the owner's request (November 2026): the app no longer has a room or decorations. Stars and badges remain.*
+
 A personal decoration space.
 
 Unlockable items: - Lanterns. - Rugs and cushions. - Stars. - Crescent

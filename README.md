@@ -46,7 +46,7 @@ The service worker requires HTTPS (or localhost). See `docs/deployment.md` once 
 src/app/            Routes (welcome, home, journey, learn, kindness, games, rewards, goals, first-fast, safety, parent)
 src/components/     UI components, village scene, room, games, art
 src/characters/     Noor, Amina, Hilmy and avatars (original SVG art)
-src/content/        All stories, lessons, missions, quizzes, badges, decorations (data, with review status)
+src/content/        All stories, lessons, missions, quizzes, badges (data, with review status)
 src/storage/        IndexedDB wrapper, versioned schema + validation, rewards engine, calendar logic
 src/state/          App state provider
 src/safety/         Parent gate and PIN hashing

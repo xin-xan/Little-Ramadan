@@ -121,12 +121,11 @@ class IdbStorage implements Storage {
   }
 
   async loadAll(): Promise<AppData> {
-    const [profile, settings, room, meta, salah, completions, journal, goals] = await this.run([STORES.kv, STORES.completions, STORES.journal, STORES.goals], "readonly", (tx) => {
+    const [profile, settings, meta, salah, completions, journal, goals] = await this.run([STORES.kv, STORES.completions, STORES.journal, STORES.goals], "readonly", (tx) => {
       const kv = tx.objectStore(STORES.kv);
       return Promise.all([
         req(kv.get(KV_KEYS.profile)),
         req(kv.get(KV_KEYS.settings)),
-        req(kv.get(KV_KEYS.room)),
         req(kv.get(KV_KEYS.meta)),
         req(kv.get(KV_KEYS.salah)),
         req(tx.objectStore(STORES.completions).getAll()),
@@ -134,7 +133,7 @@ class IdbStorage implements Storage {
         req(tx.objectStore(STORES.goals).getAll()),
       ]);
     });
-    const raw: RawData = { profile, settings, room, salah, completions, journal, goals };
+    const raw: RawData = { profile, settings, salah, completions, journal, goals };
     const fromVersion = typeof (meta as { schemaVersion?: number } | undefined)?.schemaVersion === "number" ? (meta as { schemaVersion: number }).schemaVersion : SCHEMA_VERSION;
     const data = normalise(migrate(raw, fromVersion));
     if (fromVersion !== SCHEMA_VERSION || meta === undefined) await this.putKv(KV_KEYS.meta, { schemaVersion: SCHEMA_VERSION });
@@ -184,7 +183,6 @@ export class MemoryStorage implements Storage {
     return normalise({
       profile: this.kv.get(KV_KEYS.profile),
       settings: this.kv.get(KV_KEYS.settings),
-      room: this.kv.get(KV_KEYS.room),
       salah: this.kv.get(KV_KEYS.salah),
       completions: [...this.stores.completions.values()],
       journal: [...this.stores.journal.values()],

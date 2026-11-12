@@ -1,12 +1,11 @@
 /**
  * Derived rewards. Pure functions over `completions` only.
  * Fasting-journal entries are not an input — fasting can never affect stars,
- * badges or decorations (CLAUDE.md §6.4, §6.11).
+ * badges (CLAUDE.md §6.4, §6.11).
  */
 import { badges } from "@/content/badges";
 import { STAR_VALUES } from "@/content/copy";
 import { allDays } from "@/content/days";
-import { decorations } from "@/content/decorations";
 import type { UnlockRule } from "@/content/types";
 import type { Completion, CompletionKind } from "./schema";
 
@@ -104,7 +103,3 @@ export function unlockedBadgeIds(completions: Completion[]): string[] {
   return badges.filter((b) => ruleMet(b.rule, completions, p)).map((b) => b.id);
 }
 
-export function unlockedDecorationIds(completions: Completion[]): string[] {
-  const p = progressOf(completions);
-  return decorations.filter((d) => ruleMet(d.rule, completions, p)).map((d) => d.id);
-}

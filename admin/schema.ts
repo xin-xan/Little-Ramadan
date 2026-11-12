@@ -5,7 +5,7 @@
 import { ILLUSTRATION_KEYS } from "@/components/art/illustrationKeys";
 import { PICTURE_KEYS } from "@/content/dhivehi";
 import type { ContentBundle, ContentKey } from "@/content/validate";
-import { DV_GAME_TONES, LANTERN_SHAPES, REVIEW_STATUSES, ROOM_SLOT_IDS, WORD_TOPICS } from "@/content/validate";
+import { DV_GAME_TONES, LANTERN_SHAPES, REVIEW_STATUSES, WORD_TOPICS } from "@/content/validate";
 import { COMPLETION_KINDS } from "@/storage/schema";
 
 export type Obj = Record<string, unknown>;
@@ -364,24 +364,6 @@ export const COLLECTIONS: Collection[] = [
       { key: "id", label: "ID", type: "id" },
       { key: "title", label: "Name", type: "text" },
       { key: "description", label: "Description", type: "text" },
-      { key: "hint", label: "Hint while locked", type: "text" },
-      ruleField(),
-    ],
-  },
-  {
-    id: "decorations",
-    title: "Room decorations",
-    group: "Rewards",
-    file: "decorations",
-    path: [],
-    kind: "list",
-    description: "Decorations for My Little Ramadan Room. Each one has its own artwork, so they can be renamed and their unlock rules changed, but not added.",
-    itemTitle: (x) => s(x.title),
-    itemSubtitle: (x) => s(x.hint),
-    canReorder: true,
-    fields: [
-      { key: "title", label: "Name", type: "text" },
-      { key: "slot", label: "Where it goes", type: "select", options: opts(ROOM_SLOT_IDS) },
       { key: "hint", label: "Hint while locked", type: "text" },
       ruleField(),
     ],

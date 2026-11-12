@@ -22,7 +22,6 @@ export const CONTENT_FILES = {
   memoryCards: "memory-cards.json",
   goals: "goals.json",
   badges: "badges.json",
-  decorations: "decorations.json",
   firstFast: "first-fast.json",
   safety: "safety.json",
   copy: "copy.json",
@@ -42,7 +41,6 @@ export interface Issue {
 export const GAME_IDS = ["quiz", "match-words", "missing-lantern", "mosque-puzzle", "sort-deeds", "memory-cards", "vocab-match"];
 export const DV_GAME_IDS = ["letters", "trace", "bubbles", "find-word", "first-letter", "count", "colours", "fili", "memory", "build-word", "sums", "ramadan-words"];
 export const JOURNAL_VALUES = ["practice", "partial", "full", "not_fast", "memory"];
-export const ROOM_SLOT_IDS = ["wall", "window", "ceiling", "floor", "cushion", "shelf", "plant", "garland"];
 export const REVIEW_STATUSES = ["draft", "in_review", "reviewed"];
 export const WORD_TOPICS = ["nature", "animals", "home", "food", "body", "colours", "ramadan"];
 export const DV_GAME_TONES = ["sky", "lavender", "rose", "gold", "emerald", "mint"];
@@ -296,7 +294,7 @@ export function validateContent(c: ContentBundle, opts: { images?: Set<string> }
     childSafe(d, p);
   });
 
-  // ---- Goals, badges, decorations
+  // ---- Goals and badges
   file = "goals";
   const goals = list(c.goals, "goals", 1);
   ids(goals, "goals");
@@ -306,15 +304,14 @@ export function validateContent(c: ContentBundle, opts: { images?: Set<string> }
     illustration(g.illustration, `goals[${i}].illustration`);
     childSafe(g, `goals[${i}]`);
   });
-  for (const key of ["badges", "decorations"] as const) {
+  for (const key of ["badges"] as const) {
     file = key;
     const items = list(c[key], key, 1);
     ids(items, key);
     items.forEach((b, i) => {
       text(b.title, `${key}[${i}].title`);
       text(b.hint, `${key}[${i}].hint`, 4);
-      if (key === "badges") text(b.description, `${key}[${i}].description`);
-      else oneOf(b.slot, ROOM_SLOT_IDS, `${key}[${i}].slot`);
+      text(b.description, `${key}[${i}].description`);
       rule(b.rule, `${key}[${i}].rule`);
       // Rewards never depend on fasting.
       if (/fast|journal/i.test(JSON.stringify(b.rule ?? ""))) err(`${key}[${i}].rule`, "Rewards can never depend on fasting or the journal.");

@@ -6,9 +6,7 @@ import { BadgeIcon } from "@/components/art/BadgeIcon";
 import { Illustration } from "@/components/art/Illustration";
 import { ILLUSTRATION_KEYS } from "@/components/art/illustrationKeys";
 import { LogoMark } from "@/components/Logo";
-import { DecorationThumb } from "@/components/room/DecorationArt";
 import { badges } from "@/content/badges";
-import { decorations } from "@/content/decorations";
 
 const EXPRESSIONS: Expression[] = ["happy", "wave", "think", "cheer", "calm"];
 const COLOURS = [
@@ -100,18 +98,10 @@ export default function StyleGuidePage() {
         </div>
       </section>
       <section className="card stack">
-        <h2>Badges and decorations</h2>
+        <h2>Badges</h2>
         <div className="row wrap">
           {badges.map((b) => (
             <BadgeIcon key={b.id} id={b.id} size={72} label={b.title} />
-          ))}
-        </div>
-        <div className="row wrap">
-          {decorations.map((d) => (
-            <figure key={d.id} className="center" style={{ margin: 0, width: 84 }}>
-              <DecorationThumb id={d.id} size={64} />
-              <figcaption className="small">{d.title}</figcaption>
-            </figure>
           ))}
         </div>
       </section>

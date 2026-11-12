@@ -86,10 +86,11 @@ describe("validation of stored data", () => {
   });
 
   it("drops invalid records and de-duplicates", () => {
+    const legacy = { room: { slots: { wall: "banner-ramadan" } } }; // saved by the removed Room feature: ignored
     const d = normalise({
+      ...legacy,
       profile: { nickname: "x" }, // invalid
       settings: undefined,
-      room: { slots: { wall: "banner-ramadan", bad: 3 } },
       completions: [
         { kind: "lesson", contentId: "quran" },
         { kind: "lesson", contentId: "quran" },
@@ -104,7 +105,7 @@ describe("validation of stored data", () => {
     expect(d.completions.map((c) => c.id)).toEqual(["lesson:quran"]);
     expect(d.journal.map((j) => j.id)).toEqual(["a"]);
     expect(d.goals.map((g) => g.id)).toEqual(["goal-share"]);
-    expect(d.room.slots).toEqual({ wall: "banner-ramadan" });
+    expect("room" in d).toBe(false);
   });
 
   it("memory storage behaves like IndexedDB storage", async () => {

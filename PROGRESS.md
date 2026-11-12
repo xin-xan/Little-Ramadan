@@ -86,3 +86,8 @@ Tests: `tests/unit/validate.test.ts`, `tests/unit/admin-github.test.ts`, `tests/
 - ✅ Parent Zone → Salah & fasting journal: switch the tracker on/off, 7-day view for parents only, clear the log
 Tests: `tests/unit/salah.test.ts`, `tests/e2e/salah-tracker.spec.ts`.
 - ✅ Gentle encouragement (owner request): try to pray on time; try fasting when well and the family agrees; new First Fast page "Growing up with Salah and fasting" (draft, needs Islamic and health review)
+
+## Room feature removed (owner request)
+- ✅ Removed My Little Ramadan Room, room decorations, the "New decoration / Decorate my room" celebration, room links and shortcuts, and the admin's Room decorations section; `/rewards/room/` is gone
+- ✅ Stars, badges and progress unchanged; saved room layouts on devices are simply ignored
+- ✅ Home shortcut "My Room" replaced with "Dhivehi"; the village lanterns now light up one per finished journey day

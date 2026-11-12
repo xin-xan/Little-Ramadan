@@ -4,10 +4,8 @@ import Link from "next/link";
 import { Hilmy } from "@/characters/Characters";
 import { Icon, IconChip } from "@/components/Icon";
 import { BadgeIcon } from "@/components/art/BadgeIcon";
-import { DecorationThumb } from "@/components/room/DecorationArt";
 import { PageHeader } from "@/components/ui";
 import { badges } from "@/content/badges";
-import { decorations } from "@/content/decorations";
 import { STAR_VALUES } from "@/content/copy";
 import { countKind, progressOf, ruleMet, ruleProgress } from "@/storage/rewards";
 import { useApp } from "@/state/AppState";
@@ -34,7 +32,7 @@ export default function RewardsPage() {
       <div className="grid-2">
         {(
           [
-            ["/rewards/room/", "My Ramadan Room", "lantern", "gold"],
+            ["/journey/", "My Ramadan Journey", "journey", "gold"],
             ["/goals/", "My Goals", "target", "emerald"],
             ["/rewards/certificate/", "My Certificate", "scroll", "sky"],
             ["/rewards/eid/", "Eid Celebration", "moon", "lavender"],
@@ -96,24 +94,6 @@ export default function RewardsPage() {
         </ul>
       </section>
 
-      <section className="stack" aria-labelledby="decor-h">
-        <h2 id="decor-h">Decorations</h2>
-        <p className="small muted">Earn decorations by learning, being kind and playing. They are never bought.</p>
-        <ul className="grid-3 wide-4" style={{ listStyle: "none", padding: 0, margin: 0 }}>
-          {decorations.map((d) => {
-            const got = ruleMet(d.rule, c, p);
-            return (
-              <li key={d.id} className="card stack center" style={{ gap: 2, padding: 8 }}>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <DecorationThumb id={d.id} size={56} locked={!got} />
-                </div>
-                <span className="small" style={{ fontWeight: 700 }}>{d.title}</span>
-                <span className="small muted">{got ? "Unlocked" : d.hint}</span>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
 
       <section className="card sky stack" aria-labelledby="how-h">
         <h2 id="how-h">How do I earn stars?</h2>
