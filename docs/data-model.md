@@ -23,3 +23,6 @@ Add `{ to: N, migrate(raw) }` to `MIGRATIONS` and bump `SCHEMA_VERSION`. For str
 
 ## Salah log (KV key `salah`)
 `Record<YYYY-MM-DD, ("fajr"|"dhuhr"|"asr"|"maghrib"|"isha")[]>` — prayers a child marked on the home screen. Validated on load (unknown values dropped, prayers kept in order), and days older than 60 days are forgotten. Shown to children for today only; parents see 7 days. Never read by rewards (unit-tested). Setting `salahTracker` (default on) shows or hides it; "Fasting today?" on the same card writes ordinary journal entries and only appears when `journalEnabled` is on.
+
+## Stickers
+Not stored separately: the Sticker Album is derived from `completions` (`src/storage/stickers.ts`). Each lesson, story and kindness mission has one sticker whose id equals its completion id (e.g. `lesson:salah`). Stickers for content removed later are simply not shown.

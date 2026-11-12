@@ -16,7 +16,7 @@ Without dates, your child sees "Explore Ramadan" with every day open. Days never
 A short story or lesson, one real-life kindness mission ("I did it!"), and a gentle game or quiz. Optional private reflections. A full day takes about 10–15 minutes, and the app suggests a natural stopping point afterwards.
 
 ## Stars, badges and the room
-Stars come only from learning, kindness, games and goals. They are never taken away and are never linked to fasting. Badges unlock from the same activities.
+Stars come only from learning, kindness, games and goals. They are never taken away and are never linked to fasting. Badges unlock from the same activities, and every lesson, story and kindness mission earns its own sticker for the **Sticker Album** (Rewards → My Sticker Album). Stickers are never random, never bought and never linked to fasting.
 
 ## Fasting
 - The app never rewards or counts fasting and has no streaks or timers.

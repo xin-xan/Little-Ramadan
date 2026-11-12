@@ -6,6 +6,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { badges } from "@/content/badges";
 import { MemoryStorage, openStorage, requestPersistence, type Storage } from "@/storage/db";
 import { completionId, starsFor, unlockedBadgeIds } from "@/storage/rewards";
+import { newStickerIds } from "@/storage/stickers";
 import {
   DEFAULT_SETTINGS,
   KV_KEYS,
@@ -30,6 +31,8 @@ export interface Celebration {
   id: string;
   stars: number;
   badgeIds: string[];
+  /** Stickers for the Sticker Album earned by this batch. */
+  stickerIds: string[];
 }
 
 type Status = "loading" | "ready" | "error";
@@ -201,8 +204,9 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
       const newBadges = unlockedBadgeIds(completions).filter((b) => !beforeBadges.has(b));
       commit({ ...cur, completions });
       const stars = fresh.reduce((n, c) => n + starsFor(c.kind), 0);
-      if (!opts.silent && (stars > 0 || newBadges.length)) {
-        setCelebration({ id: fresh.map((c) => c.id).join("+"), stars, badgeIds: newBadges });
+      const stickerIds = newStickerIds(fresh);
+      if (!opts.silent && (stars > 0 || newBadges.length || stickerIds.length)) {
+        setCelebration({ id: fresh.map((c) => c.id).join("+"), stars, badgeIds: newBadges, stickerIds });
         if (cur.settings.soundOn) playSound(newBadges.length ? "badge" : "star");
       }
       return fresh.length;

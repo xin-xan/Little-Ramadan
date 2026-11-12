@@ -1,13 +1,13 @@
 [
   {
     "theme": "Welcome Ramadan",
-    "activity": "Make a Ramadan decoration",
+    "activity": "Get the home ready for Ramadan",
     "illustration": "lantern",
     "learn": {
       "kind": "lesson",
       "id": "what-is-ramadan"
     },
-    "kindnessId": "decorate-paper",
+    "kindnessId": "clean-shared-space",
     "play": {
       "game": "memory-cards"
     },

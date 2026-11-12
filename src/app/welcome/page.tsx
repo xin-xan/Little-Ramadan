@@ -135,7 +135,7 @@ export default function WelcomePage() {
               <IconChip name="games" tone="lavender" size={40} /> Play gentle games and quizzes
             </li>
             <li className="row">
-              <IconChip name="star" tone="gold" size={40} /> Collect stars and badges for learning and kindness
+              <IconChip name="star" tone="gold" size={40} /> Collect stars, badges and stickers for learning and kindness
             </li>
           </ul>
           <SpeechBubble who="amina">You can enjoy your Ramadan adventure whether or not you are fasting!</SpeechBubble>

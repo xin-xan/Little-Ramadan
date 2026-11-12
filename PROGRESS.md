@@ -91,3 +91,10 @@ Tests: `tests/unit/salah.test.ts`, `tests/e2e/salah-tracker.spec.ts`.
 - ✅ Removed My Little Ramadan Room, room decorations, the "New decoration / Decorate my room" celebration, room links and shortcuts, and the admin's Room decorations section; `/rewards/room/` is gone
 - ✅ Stars, badges and progress unchanged; saved room layouts on devices are simply ignored
 - ✅ Home shortcut "My Room" replaced with "Dhivehi"; the village lanterns now light up one per finished journey day
+
+## Sticker Album replaces decorations (owner request)
+- ✅ Every lesson, story and kindness mission earns its own sticker (its illustration); celebration shows "New sticker: …" with a link to the album
+- ✅ Rewards → My Sticker Album: Learning and Kindness pages, progress bar, earned stickers open a fact card, not-yet stickers link to the activity
+- ✅ Newest stickers on the Rewards page; sticker count in the Parent Zone progress summary; new admin content gets stickers automatically
+- ✅ Last decoration references removed (day 1 now "Get the home ready for Ramadan" with the "keep a shared space clean" mission; the paper-decoration mission removed); spec updated (§1, §5, §6.2, §6.8, §7, §8, §9, §10, Phase 2/5, §15, §16, §20)
+Tests: `tests/unit/stickers.test.ts`, `tests/e2e/phase5-rewards.spec.ts`.

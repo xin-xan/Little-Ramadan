@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { StickerArt } from "./Sticker";
+import { allStickers } from "@/storage/stickers";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { playSound, setSoundEnabled, type SoundName } from "@/accessibility/sound";
@@ -50,6 +53,8 @@ function useServiceWorker() {
   }, []);
 }
 
+const stickerById = (id: string) => allStickers().find((s) => s.id === id);
+
 function CelebrationLayer() {
   const { celebration, dismissCelebration, data } = useApp();
   const open = !!celebration;
@@ -85,7 +90,24 @@ function CelebrationLayer() {
               </div>
             ) : null;
           })}
+          {celebration.stickerIds.map((id) => {
+            const st = stickerById(id);
+            return st ? (
+              <div key={id} className="card sky row celebrate-item">
+                <StickerArt sticker={st} size={56} />
+                <div>
+                  <strong>New sticker: {st.title}</strong>
+                  <div className="small">It&apos;s in your Sticker Album!</div>
+                </div>
+              </div>
+            ) : null;
+          })}
           <div className="stack">
+            {celebration.stickerIds.length > 0 && (
+              <Link href="/rewards/stickers/" className="btn gold block" onClick={dismissCelebration}>
+                See my Sticker Album
+              </Link>
+            )}
             <button className="btn block" onClick={dismissCelebration} data-autofocus>
               Yay! Continue
             </button>

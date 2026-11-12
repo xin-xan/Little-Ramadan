@@ -1,5 +1,6 @@
 "use client";
 
+import { allStickers, earnedStickers } from "@/storage/stickers";
 import { PRAYER_NAMES } from "@/components/home/SalahFastingCard";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -120,7 +121,7 @@ function ProgressPanel() {
         <ProgressBar value={countKind(c, "quiz")} max={quizSets.length} label="Quizzes" />
         <ProgressBar value={countKind(c, "game")} max={games.length} label="Games tried" />
         <p style={{ margin: 0 }}>
-          {totalStars(c)} stars · {unlockedBadgeIds(c).length} of {badges.length} badges · {goalsDone} goals finished
+          {totalStars(c)} stars · {unlockedBadgeIds(c).length} of {badges.length} badges · {earnedStickers(c).length} of {allStickers().length} stickers · {goalsDone} goals finished
         </p>
         <p className="small muted">Stars come only from learning, kindness, games and goals. Fasting never affects stars or badges.</p>
       </div>

@@ -69,7 +69,7 @@ Children explore a colourful Ramadan Village with a friendly guide named
 **Noor**, a learning companion named **Amina**, and a crescent-moon
 mascot named **Hilmy**. They complete daily activities, explore
 illustrated stories, play short educational games, collect
-non-purchasable stars and decorate a personal Ramadan room.
+non-purchasable stars, badges and stickers.
 
 The app must make clear that: - A child's health and wellbeing come
 before any fasting activity. - Children should never be pressured to
@@ -252,8 +252,8 @@ night. It should feel magical but calm and easy to navigate.
 5.  **Celebration Square** --- achievements, rewards and Eid
     celebration.
 
-A sixth personal space, **My Little Ramadan Room**, is accessible from
-the child's profile or rewards area.
+Celebration Square also holds **My Sticker Album**, where children
+collect a sticker for every lesson, story and kindness mission.
 
 ## 5.2 Environment details
 
@@ -266,14 +266,11 @@ settings. - Local food illustrations.
 Do not present fictional village scenes as accurate depictions of a
 specific Maldivian island or mosque.
 
-## 5.3 Progressive environment decoration
+## 5.3 Progressive village lights
 
-As children complete activities, they can unlock decorations: -
-Lanterns. - Stars. - Flowers. - Banners. - Carpets. - Geometric
-ornaments. - Crescent decorations. - Colourful plants.
-
-Decorations should be earned through a variety of activities, never
-purchased. Children who miss days must not be locked out of later
+As children finish journey days, more village lanterns light up, and
+flowers appear along the path for kindness missions. Progress is never
+purchased, and children who miss days are never locked out of later
 content.
 
 ------------------------------------------------------------------------
@@ -303,7 +300,7 @@ information.
 The home screen should show: - Greeting from Noor. - Child's chosen
 nickname. - Current Ramadan day, if the parent has configured the
 calendar. - Today's mission. - Journey progress. - Star balance. -
-Shortcuts to Learn, Play, Kindness and My Room. - A simple parent-zone
+Shortcuts to Learn, Play, Kindness and Learn Dhivehi. - A simple parent-zone
 entry point.
 
 The dashboard must remain usable if the Ramadan calendar is not
@@ -445,20 +442,24 @@ time pressure in the default mode. - No ads or external links. - No paid
 hints. - No public scores. - Short sessions. - Pause and exit options. -
 Reduced-motion support. - Correct answers should include explanations.
 
-## 6.8 My Little Ramadan Room
+## 6.8 My Sticker Album
 
-*Removed at the owner's request (November 2026): the app no longer has a room or decorations. Stars and badges remain.*
+*Replaces "My Little Ramadan Room" and its decorations, removed at the owner's request (November 2026).*
 
-A personal decoration space.
+A personal sticker album in Celebration Square.
 
-Unlockable items: - Lanterns. - Rugs and cushions. - Stars. - Crescent
-ornaments. - Plants and flowers. - Wall banners. - Geometric patterns. -
-Ramadan-themed window decorations.
-
-Requirements: - All items earned through activities. - No purchases or
-loot boxes. - No randomised paid rewards. - No social sharing by
-default. - Provide a reset option in Parent Zone. - Keep decoration
-choices locally stored.
+-   Every lesson, story and kindness mission has its own sticker, using
+    that activity's illustration.
+-   Finishing the activity earns exactly that sticker. Nothing is random,
+    bought or linked to fasting.
+-   Stickers not yet earned appear as soft outlines that link to the
+    activity, so children can find what to do next.
+-   Tapping an earned sticker shows a short fact and a link to revisit
+    the activity.
+-   New content added in the admin dashboard gets a sticker
+    automatically.
+-   No purchases, loot boxes or social sharing. Stickers are kept on the
+    device as part of normal progress.
 
 ## 6.9 My Ramadan Goals
 
@@ -524,7 +525,7 @@ to the locally confirmed month length.
 
     Day Theme               Mission or activity
   ----- ------------------- ----------------------------------------
-      1 Welcome Ramadan     Decorate the Ramadan room
+      1 Welcome Ramadan     Get the home ready for Ramadan
       2 What is Ramadan?    Learn why Muslims fast
       3 Suhoor              Discover the pre-dawn meal
       4 Iftar               Learn about breaking the fast
@@ -574,7 +575,7 @@ Use five primary navigation destinations:
 
 Secondary screens: - Welcome. - Profile setup. - Ramadan Village. -
 Daily mission detail. - Learning library. - Story reader. - Quiz. -
-Mini-game. - My First Fast. - My Little Ramadan Room. - My Ramadan
+Mini-game. - My First Fast. - My Sticker Album. - My Ramadan
 Goals. - Certificate. - Settings. - Privacy and safety information.
 
 Navigation requirements: - Keep the primary navigation visible and
@@ -618,7 +619,7 @@ browsers and should not be assumed identical.
 
 Store progress on the child's device: - Nickname. - Avatar. -
 Preferences. - Completed missions. - Completed lessons. - Completed
-games. - Stars. - Badges. - Decorations. - Optional fasting journal
+games. - Stars. - Badges. - Stickers (from completed activities). - Optional fasting journal
 entries. - Parent settings.
 
 Use IndexedDB for structured data. Use a versioned schema and migration
@@ -651,7 +652,7 @@ interface RamadanProgress {
   days: DailyProgress[];
   totalStars: number;
   unlockedBadges: string[];
-  decorations: string[];
+  stickers: string[];
   fastingJournal: {
     date: string;
     experience: "practice" | "partial" | "full" | "not_fast";
@@ -744,9 +745,8 @@ visual direction.
 
 Required assets: - App logo and icon. - Noor character model and
 expressions. - Amina character model and expressions. - Hilmy mascot. -
-Ramadan Village background. - Five destination illustrations. - My
-Little Ramadan Room environment. - Lanterns, stars, plants, carpets and
-decorations. - Mission illustrations. - Story illustrations. - Quiz and
+Ramadan Village background. - Five destination illustrations. -
+Sticker artwork (from activity illustrations). - Mission illustrations. - Story illustrations. - Quiz and
 game objects. - Badge icons. - Certificate artwork. - UI buttons, cards
 and navigation icons.
 
@@ -974,7 +974,7 @@ coding.
 7.  Add activity completion states.
 8.  Add star rewards for learning and participation.
 9.  Add badge unlocking.
-10. Add village decoration unlocking.
+10. Add village lantern progression.
 11. Add missed-day and revisit behaviour.
 12. Add reduced-motion and low-performance fallbacks.
 
@@ -984,7 +984,7 @@ coding.
 -   Journey calendar.
 -   Daily mission framework.
 -   Star and badge system.
--   Decoration progression.
+-   Village lantern progression.
 
 ### Acceptance criteria
 
@@ -1077,15 +1077,15 @@ controls.
 
 ------------------------------------------------------------------------
 
-## Phase 5 --- Rewards, room customisation and celebration
+## Phase 5 --- Rewards, sticker album and celebration
 
 **Purpose:** Complete the emotional journey and end-of-Ramadan
 experience.
 
 ### Tasks
 
-1.  Build My Little Ramadan Room.
-2.  Add earned decorations.
+1.  Build My Sticker Album.
+2.  Add a sticker for every lesson, story and kindness mission.
 3.  Add badge gallery.
 4.  Add achievement summary.
 5.  Create certificate layout.
@@ -1099,7 +1099,7 @@ experience.
 
 ### Deliverables
 
--   Customisable room.
+-   Sticker album.
 -   Complete reward gallery.
 -   Certificate.
 -   Eid celebration.
@@ -1107,7 +1107,7 @@ experience.
 
 ### Acceptance criteria
 
--   Decorations unlock correctly.
+-   Stickers are earned correctly.
 -   No paid or randomised purchase mechanics exist.
 -   Certificate does not claim proof of fasting.
 -   Eid experience works with a 29- or 30-day calendar.
@@ -1210,7 +1210,7 @@ unfinished fasting feature.
 -   [ ] Lessons open.
 -   [ ] Quiz feedback is correct.
 -   [ ] Mini-games work.
--   [ ] Decorations unlock.
+-   [ ] Stickers are earned.
 -   [ ] Certificate generates.
 -   [ ] Parent settings work.
 -   [ ] Reset and delete work.
@@ -1254,7 +1254,7 @@ The app should remain free for every user.
 -   No advertisements.
 -   No subscriptions.
 -   No premium tier.
--   No paid badges or decorations.
+-   No paid badges or stickers.
 -   No in-app purchases.
 -   No paywall.
 -   No sale of user data.
@@ -1350,7 +1350,8 @@ Village.
 
 They choose a daily activity, learn something about Ramadan, complete a
 kind action, play a short game and collect a star. They can explore the
-stories, decorate their room and record their personal Ramadan memories.
+stories, collect stickers in their album and record their personal
+Ramadan memories.
 
 If they are learning to fast, the app helps them understand Suhoor,
 Iftar and the meaning of fasting while reminding them that their health

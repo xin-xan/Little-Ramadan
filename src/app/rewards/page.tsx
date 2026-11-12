@@ -1,5 +1,7 @@
 "use client";
 
+import { StickerArt } from "@/components/Sticker";
+import { allStickers, earnedStickers } from "@/storage/stickers";
 import Link from "next/link";
 import { Hilmy } from "@/characters/Characters";
 import { Icon, IconChip } from "@/components/Icon";
@@ -13,6 +15,8 @@ import { useApp } from "@/state/AppState";
 export default function RewardsPage() {
   const { data } = useApp();
   const c = data.completions;
+  const stickers = earnedStickers(c);
+  const stickerTotal = allStickers().length;
   const p = progressOf(c);
   const earned = badges.filter((b) => ruleMet(b.rule, c, p));
   return (
@@ -32,7 +36,7 @@ export default function RewardsPage() {
       <div className="grid-2">
         {(
           [
-            ["/journey/", "My Ramadan Journey", "journey", "gold"],
+            ["/rewards/stickers/", "My Sticker Album", "sparkle", "gold"],
             ["/goals/", "My Goals", "target", "emerald"],
             ["/rewards/certificate/", "My Certificate", "scroll", "sky"],
             ["/rewards/eid/", "Eid Celebration", "moon", "lavender"],
@@ -44,6 +48,29 @@ export default function RewardsPage() {
           </Link>
         ))}
       </div>
+
+      <section className="card stack" aria-labelledby="stickers-h">
+        <div className="spread">
+          <h2 id="stickers-h" style={{ margin: 0 }}>
+            My stickers
+          </h2>
+          <span className="pill">
+            {stickers.length} of {stickerTotal}
+          </span>
+        </div>
+        {stickers.length === 0 ? (
+          <p style={{ margin: 0 }}>Finish a lesson, read a story or do a kindness mission to get your first sticker!</p>
+        ) : (
+          <div className="sticker-strip" aria-label="Newest stickers">
+            {stickers.slice(-6).reverse().map((s) => (
+              <StickerArt key={s.id} sticker={s} size={60} />
+            ))}
+          </div>
+        )}
+        <Link href="/rewards/stickers/" className="btn gold block">
+          Open my Sticker Album
+        </Link>
+      </section>
 
       <section className="card stack" aria-labelledby="summary-h">
         <h2 id="summary-h">My achievements</h2>

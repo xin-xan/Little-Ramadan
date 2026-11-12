@@ -1,15 +1,5 @@
 [
   {
-    "id": "decorate-paper",
-    "title": "Make a Ramadan decoration",
-    "description": "Make a paper lantern, star or moon to decorate your home.",
-    "category": "family",
-    "adultHelpRequired": true,
-    "safetyNote": "Ask a grown-up to help with scissors.",
-    "illustration": "lantern",
-    "reflectionPrompt": "What did you make? Where did you put it?"
-  },
-  {
     "id": "say-thank-you",
     "title": "Say thank you",
     "description": "Say thank you to three people who help you today.",
@@ -253,7 +243,7 @@
   {
     "id": "eid-prep",
     "title": "Help get ready for Eid",
-    "description": "Help your family tidy and decorate for Eid.",
+    "description": "Help your family tidy and get ready for Eid.",
     "category": "family",
     "adultHelpRequired": false,
     "illustration": "eid",

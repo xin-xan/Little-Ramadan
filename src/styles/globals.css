@@ -1958,3 +1958,67 @@ button.rec-text {
 .salah-week th[scope="row"] { text-align: left; font-weight: 600; white-space: nowrap; }
 .salah-week td { color: var(--emerald); font-weight: 800; }
 .tracker-link { color: var(--teal); font-weight: 700; align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; }
+
+/* ---------- Sticker Album ---------- */
+.sticker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 28%;
+  background: #fff;
+  box-shadow: 0 0 0 4px #fff, 0 6px 14px rgba(18, 60, 53, 0.18);
+  overflow: hidden;
+  flex: none;
+}
+.sticker-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(130deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 38%);
+  pointer-events: none;
+}
+.sticker.not-yet {
+  background: transparent;
+  box-shadow: none;
+  outline: 3px dashed rgba(18, 60, 53, 0.22);
+  outline-offset: -3px;
+}
+.sticker.not-yet > svg,
+.sticker.not-yet > img {
+  filter: grayscale(1) brightness(1.35);
+  opacity: 0.28;
+}
+.sticker-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 14px 10px;
+}
+.sticker-slot {
+  appearance: none;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 4px;
+  border-radius: 18px;
+  border: 0;
+  background: transparent;
+  color: var(--emerald);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 44px;
+}
+.sticker-slot.empty { color: var(--muted); }
+.sticker-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.sticker-strip { display: flex; flex-wrap: wrap; gap: 14px; padding: 6px 4px; }

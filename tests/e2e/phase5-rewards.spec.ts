@@ -1,15 +1,34 @@
 import { expect, test } from "@playwright/test";
 import { isoDaysFromToday, onboard, openParentZone, seedCompletions } from "./helpers";
 
-test("the Room feature is gone: no room page, no decoration rewards", async ({ page }) => {
+test("finishing lessons and missions earns stickers for the Sticker Album (no room or decorations)", async ({ page }) => {
   await onboard(page);
+  await page.goto("/rewards/stickers/");
+  const locked = page.getByRole("link", { name: /What is Ramadan\?: not collected yet/ });
+  await expect(locked).toBeVisible();
+  await locked.click();
+  await expect(page).toHaveURL(/\/learn\/lesson\/what-is-ramadan\/$/);
+  await page.getByRole("button", { name: /I finished this lesson/ }).click();
+  await expect(page.getByText("New sticker: What is Ramadan?")).toBeVisible();
+  await expect(page.getByText(/New decoration|Decorate my room/)).toHaveCount(0);
+  await page.getByRole("link", { name: "See my Sticker Album" }).click();
+  await expect(page).toHaveURL(/\/rewards\/stickers\/$/);
+  await page.getByRole("button", { name: "What is Ramadan? sticker" }).click();
+  await expect(page.getByRole("dialog")).toContainText("Ramadan is a special month");
+  await page.getByRole("button", { name: "Back to my album" }).click();
+
+  // Kindness page of the album.
   await page.goto("/kindness/tidy-toys/");
   await page.getByRole("button", { name: /I did it!/ }).click();
-  await expect(page.getByRole("heading", { name: "You earned 3 stars!" })).toBeVisible();
-  await expect(page.getByText(/New decoration|Decorate my room/)).toHaveCount(0);
+  await expect(page.getByText(/New sticker:/)).toBeVisible();
   await page.getByRole("button", { name: "Yay! Continue" }).click();
+  await page.goto("/rewards/stickers/");
+  await page.getByRole("tab", { name: "Kindness" }).click();
+  await expect(page.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "1");
+  await page.reload();
   await page.goto("/rewards/");
-  await expect(page.getByRole("link", { name: /Ramadan Room/ })).toHaveCount(0);
+  await expect(page.getByRole("region", { name: "My stickers" })).toContainText("2 of");
+
   const res = await page.goto("/rewards/room/");
   expect(res?.status()).toBe(404);
 });
