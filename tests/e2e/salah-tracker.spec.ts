@@ -7,6 +7,8 @@ test("Salah tracker on home: private, persistent, no stars; fasting only when a 
   const card = page.getByRole("region", { name: "My Salah today" });
   await expect(card).toBeVisible();
   await expectNoHorizontalScroll(page);
+  // Gentle encouragement to pray on time, with a link to learn why.
+  await expect(card).toContainText("Try to pray each prayer on time");
   // Fasting is not shown until a parent switches the journal on.
   await expect(page.getByRole("radiogroup", { name: "Fasting today" })).toHaveCount(0);
 
@@ -40,6 +42,7 @@ test("Salah tracker on home: private, persistent, no stars; fasting only when a 
   await page.goto("/home/");
   const both = page.getByRole("region", { name: "My Salah & fasting today" });
   await expect(both).toBeVisible();
+  await expect(both).toContainText("If you feel well and your family says it is okay, you could try fasting");
   await both.getByRole("radio", { name: "I tried fasting for part of the day" }).click();
   await expect(both.getByText(/Saved in your private journal/)).toBeVisible();
   await expect(both.getByText(/tell a grown-up/i)).toBeVisible();
@@ -52,6 +55,15 @@ test("Salah tracker on home: private, persistent, no stars; fasting only when a 
   await page.getByRole("tab", { name: /Salah & fasting/ }).click();
   await expect(page.getByText("I did not fast today", { exact: false }).first()).toBeVisible();
   await expect(page.getByText("I tried fasting for part of the day")).toHaveCount(0);
+
+  // "Why do Muslims pray and fast?" opens the new First Fast page, which keeps health first.
+  await page.goto("/home/");
+  await page.getByRole("link", { name: "Why do Muslims pray and fast?" }).click();
+  const growing = page.getByRole("region", { name: "Growing up with Salah and fasting" });
+  await expect(growing).toBeVisible();
+  await expect(growing).toContainText("Your health always comes first");
+  await openParentZone(page);
+  await page.getByRole("tab", { name: /Salah & fasting/ }).click();
 
   // Parent can hide the Salah tracker.
   const salahSwitch = page.getByRole("switch", { name: "Show the Salah tracker on the home screen" });

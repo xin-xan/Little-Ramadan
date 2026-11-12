@@ -53,6 +53,22 @@
       ]
     },
     {
+      "id": "ff-growing-up",
+      "title": "Growing up with Salah and fasting",
+      "illustration": "prayer-mat",
+      "review": {
+        "status": "draft",
+        "notes": "Owner request: gently encourage practising Salah on time and fasting when well. Awaiting Islamic content reviewer (wording about the duty after puberty) AND health-professional review."
+      },
+      "paragraphs": [
+        "When Muslims grow up and reach puberty, praying the five daily prayers and fasting in Ramadan become a duty for everyone who is healthy.",
+        "You are still learning, so now is a great time to practise, step by step, with your family.",
+        "Try to pray each prayer on time. Ask a grown-up when it is time to pray.",
+        "If you feel well and your family says it is okay, you could try fasting for part of the day. Every little try is special.",
+        "If you feel dizzy, very weak or unwell, stop and tell a grown-up straight away. Your health always comes first."
+      ]
+    },
+    {
       "id": "ff-not-fasting",
       "title": "Not fasting? You can still join in!",
       "illustration": "star",
@@ -61,7 +77,7 @@
         "notes": "Awaiting Islamic content reviewer AND health-professional review of safety wording."
       },
       "paragraphs": [
-        "Children do not have to fast. Lots of children don't fast at all, and that is okay.",
+        "Young children do not have to fast yet. Lots of children don't fast at all, and that is okay.",
         "You can still learn, be kind, help at Suhoor and Iftar, make dua, play the games and collect every star and badge in this app."
       ]
     },

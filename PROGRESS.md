@@ -85,3 +85,4 @@ Tests: `tests/unit/validate.test.ts`, `tests/unit/admin-github.test.ts`, `tests/
 - ✅ "Fasting today?" on the same card only when a parent has switched on the fasting journal (spec §6.4); saves a private journal entry, never rewarded, always with the health message
 - ✅ Parent Zone → Salah & fasting journal: switch the tracker on/off, 7-day view for parents only, clear the log
 Tests: `tests/unit/salah.test.ts`, `tests/e2e/salah-tracker.spec.ts`.
+- ✅ Gentle encouragement (owner request): try to pray on time; try fasting when well and the family agrees; new First Fast page "Growing up with Salah and fasting" (draft, needs Islamic and health review)

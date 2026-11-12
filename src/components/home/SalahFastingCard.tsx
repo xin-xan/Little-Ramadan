@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { JOURNAL_OPTIONS } from "@/content/firstFast";
 import { Illustration } from "@/components/art/Illustration";
 import { localISODate } from "@/storage/calendar";
@@ -73,7 +74,7 @@ export function SalahFastingCard() {
       {showSalah && (
         <>
           <p className="small" style={{ margin: 0 }}>
-            Tap a prayer after you pray it. You are still learning, so pray the way your family shows you. There are no scores here, and every day starts fresh.
+            Try to pray each prayer on time. Ask a grown-up when it is time to pray. Practising now makes it easier when you grow up. Tap a prayer after you pray it. There are no scores here, and every day starts fresh.
           </p>
           <div className="prayer-row" role="group" aria-label="Today's prayers">
             {PRAYERS.map((p) => {
@@ -93,6 +94,9 @@ export function SalahFastingCard() {
               );
             })}
           </div>
+          <Link href="/first-fast/#ff-growing-up" className="small tracker-link">
+            Why do Muslims pray and fast?
+          </Link>
           {prayed.length > 0 && (
             <p className="small tracker-note" role="status" style={{ margin: 0 }}>
               Lovely! Every prayer is special.
@@ -104,6 +108,9 @@ export function SalahFastingCard() {
       {showFasting && (
         <div className="stack" style={{ gap: 8 }}>
           <p style={{ margin: 0, fontWeight: 700 }}>Fasting today?</p>
+          <p className="small" style={{ margin: 0 }}>
+            If you feel well and your family says it is okay, you could try fasting, even for part of the day. Every little try is special, and you can stop whenever you need to.
+          </p>
           <div className="fast-row" role="radiogroup" aria-label="Fasting today">
             {JOURNAL_OPTIONS.filter((o) => o.value !== "memory").map((o) => (
               <button key={o.value} type="button" role="radio" aria-checked={fastChoice === o.value} className={`fast-choice${fastChoice === o.value ? " on" : ""}`} onClick={() => void chooseFasting(o.value)}>

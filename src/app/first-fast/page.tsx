@@ -32,7 +32,7 @@ export default function FirstFastPage() {
       <SpeechBubble who="amina">Let&apos;s learn about fasting together. You don&apos;t have to fast to enjoy Ramadan — everyone can join in!</SpeechBubble>
 
       {firstFastPages.map((p) => (
-        <section key={p.id} className="card stack" aria-labelledby={`ff-${p.id}`}>
+        <section key={p.id} id={p.id} className="card stack" aria-labelledby={`ff-${p.id}`} style={{ scrollMarginTop: 16 }}>
           <div className="row">
             <Illustration name={p.illustration} size={56} />
             <h2 id={`ff-${p.id}`} style={{ margin: 0 }}>

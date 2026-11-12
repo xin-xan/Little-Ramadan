@@ -1957,3 +1957,4 @@ button.rec-text {
 .salah-week th, .salah-week td { padding: 6px 4px; border-bottom: 1px solid var(--line); text-align: center; }
 .salah-week th[scope="row"] { text-align: left; font-weight: 600; white-space: nowrap; }
 .salah-week td { color: var(--emerald); font-weight: 800; }
+.tracker-link { color: var(--teal); font-weight: 700; align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; }

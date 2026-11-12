@@ -32,3 +32,9 @@ Then run `RELEASE_CONTENT_CHECK=1 npm test`. This test fails until every item is
 - "Kuda Eid" as a local name for Eid al-Fitr in the Maldives.
 - Maldivian foods named: masroshi, gulha, bajiya, roshi, and the "joali" swing seat.
 - Reviewers may add verified Quran/hadith references; none are quoted now by design.
+
+## Owner request (November 2026): gentle encouragement to pray on time and to fast when well
+- New First Fast page **"Growing up with Salah and fasting"** (`ff-growing-up`): states that the five daily prayers and fasting in Ramadan become a duty after puberty for those who are healthy; invites children to practise step by step, to try to pray on time, and to try fasting (even part of a day) only if they feel well and their family agrees; ends with the health message. **Needs Islamic content review** (wording of the duty after puberty) and **health-professional review**.
+- Home Salah & fasting card: "Try to pray each prayer on time…" and "If you feel well and your family says it is okay, you could try fasting…".
+- Parent fasting guidance, first point, updated to match.
+- Unchanged by design (CLAUDE.md non-negotiables): no stars, badges, streaks or status for praying or fasting; children who don't fast are never made to feel bad; stopping is always okay.
