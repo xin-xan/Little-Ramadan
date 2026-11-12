@@ -79,3 +79,9 @@ Tests: `tests/unit/recordings.test.ts`, `tests/unit/no-network.test.ts`, `tests/
 - ✅ Fixed: hosting header blocked the microphone for Voice recordings (`microphone=(self)` now)
 - 🟡 Owner: confirm Cloudflare builds from `main`, create a token, try a small edit (see `docs/admin-guide.md`)
 Tests: `tests/unit/validate.test.ts`, `tests/unit/admin-github.test.ts`, `tests/e2e/admin.spec.ts`.
+
+## Salah & fasting tracker on home (owner request)
+- ✅ Home card: tap today's five prayers (private; no stars, scores, counts, streaks or "missed" marks; every day starts fresh); saved on the device for 60 days
+- ✅ "Fasting today?" on the same card only when a parent has switched on the fasting journal (spec §6.4); saves a private journal entry, never rewarded, always with the health message
+- ✅ Parent Zone → Salah & fasting journal: switch the tracker on/off, 7-day view for parents only, clear the log
+Tests: `tests/unit/salah.test.ts`, `tests/e2e/salah-tracker.spec.ts`.

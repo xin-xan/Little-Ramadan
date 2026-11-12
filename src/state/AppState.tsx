@@ -14,7 +14,9 @@ import {
   STORES,
   cleanNickname,
   nicknameProblem,
+  validateSalahLog,
   validateSettings,
+  type Prayer,
   type AppData,
   type ChildProfile,
   type Completion,
@@ -51,6 +53,9 @@ interface AppState {
   saveReflection(dayId: string, day: number, text: string): Promise<void>;
   addJournalEntry(input: { experience: JournalExperience; note?: string; date: string }): Promise<void>;
   deleteJournalEntry(id: string): Promise<void>;
+  /** Marks or unmarks one prayer for a day in the private Salah log (no rewards). */
+  togglePrayer(date: string, prayer: Prayer): Promise<void>;
+  clearSalahLog(): Promise<void>;
   clearJournal(): Promise<void>;
   chooseGoal(id: string): Promise<void>;
   removeGoal(id: string): Promise<void>;
@@ -61,7 +66,7 @@ interface AppState {
   retry(): void;
 }
 
-const emptyData = (): AppData => ({ profile: null, settings: structuredClone(DEFAULT_SETTINGS), completions: [], journal: [], goals: [], room: structuredClone(EMPTY_ROOM) });
+const emptyData = (): AppData => ({ profile: null, settings: structuredClone(DEFAULT_SETTINGS), completions: [], journal: [], goals: [], room: structuredClone(EMPTY_ROOM), salah: {} });
 
 const Ctx = createContext<AppState | null>(null);
 
@@ -119,6 +124,7 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
         if (d.profile) await mem.putKv(KV_KEYS.profile, d.profile);
         await mem.putKv(KV_KEYS.settings, d.settings);
         await mem.putKv(KV_KEYS.room, d.room);
+        await mem.putKv(KV_KEYS.salah, d.salah);
         for (const c of d.completions) await mem.put(STORES.completions, c);
         for (const j of d.journal) await mem.put(STORES.journal, j);
         for (const g of d.goals) await mem.put(STORES.goals, g);
@@ -246,6 +252,22 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
     [commit],
   );
 
+  const togglePrayer = useCallback(
+    async (date: string, prayer: Prayer) => {
+      const cur = dataRef.current.salah[date] ?? [];
+      const nextDay = cur.includes(prayer) ? cur.filter((p) => p !== prayer) : [...cur, prayer];
+      const salah = validateSalahLog({ ...dataRef.current.salah, [date]: nextDay });
+      await store().putKv(KV_KEYS.salah, salah);
+      commit({ ...dataRef.current, salah });
+    },
+    [commit],
+  );
+
+  const clearSalahLog = useCallback(async () => {
+    await store().putKv(KV_KEYS.salah, {});
+    commit({ ...dataRef.current, salah: {} });
+  }, [commit]);
+
   const clearJournal = useCallback(async () => {
     await store().clear(STORES.journal);
     commit({ ...dataRef.current, journal: [] });
@@ -331,6 +353,8 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
       saveReflection,
       addJournalEntry,
       deleteJournalEntry,
+      togglePrayer,
+      clearSalahLog,
       clearJournal,
       chooseGoal,
       removeGoal,
@@ -343,7 +367,7 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
         setAttempt((a) => a + 1);
       },
     }),
-    [status, error, storageKind, data, celebration, createProfile, updateProfile, updateSettings, complete, completeMany, saveReflection, addJournalEntry, deleteJournalEntry, clearJournal, chooseGoal, removeGoal, completeGoal, setRoomSlot, resetProgress, deleteEverything],
+    [status, error, storageKind, data, celebration, createProfile, updateProfile, updateSettings, complete, completeMany, saveReflection, addJournalEntry, deleteJournalEntry, togglePrayer, clearSalahLog, clearJournal, chooseGoal, removeGoal, completeGoal, setRoomSlot, resetProgress, deleteEverything],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

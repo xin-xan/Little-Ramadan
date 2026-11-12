@@ -1,5 +1,6 @@
 "use client";
 
+import { SalahFastingCard } from "@/components/home/SalahFastingCard";
 import Link from "next/link";
 import { Avatar } from "@/characters/Avatars";
 import { Noor } from "@/characters/Characters";
@@ -123,6 +124,8 @@ export default function HomePage() {
       <div className="card">
         <ProgressBar value={doneInJourney} max={days.length} label="My Ramadan journey" />
       </div>
+
+      <SalahFastingCard />
 
       <section aria-labelledby="village-title" className="stack">
         <div className="spread">

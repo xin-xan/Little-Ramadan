@@ -4,7 +4,7 @@ _Draft for owner and legal review before public launch (CLAUDE.md §11.2: review
 
 **What Little Ramadan is:** a free educational web app for children aged 7–9. It has no accounts and no servers that receive children's data.
 
-**Information stored:** a nickname and a cartoon avatar; app settings (sound, motion, calendar dates, optional journal on/off, break reminder, optional parent PIN stored as a salted hash); completed activities, badges, decorations and goals; optional reflections and optional fasting-journal entries; optional parent voice recordings.
+**Information stored:** a nickname and a cartoon avatar; app settings (sound, motion, calendar dates, optional journal on/off, break reminder, optional parent PIN stored as a salted hash); completed activities, badges, decorations and goals; optional reflections and optional fasting-journal entries; the optional Salah tracker (which of today's five prayers were marked, kept for 60 days); optional parent voice recordings.
 
 **Where:** only on the device, in the browser's IndexedDB storage.
 

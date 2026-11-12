@@ -1,5 +1,6 @@
 "use client";
 
+import { PRAYER_NAMES } from "@/components/home/SalahFastingCard";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AVATARS, Avatar } from "@/characters/Avatars";
@@ -19,7 +20,7 @@ import { contentReviewSummary, reviewItems } from "@/content/review";
 import { hashPin, PIN_PATTERN } from "@/safety/parentGate";
 import { calendarStatus, dateOfDay, daysFor, formatDate, localISODate } from "@/storage/calendar";
 import { countKind, completedDayIds, totalStars, unlockedBadgeIds, unlockedDecorationIds } from "@/storage/rewards";
-import { nicknameProblem, NICKNAME_MAX } from "@/storage/schema";
+import { nicknameProblem, NICKNAME_MAX, PRAYERS } from "@/storage/schema";
 import { useApp } from "@/state/AppState";
 
 const TABS = [
@@ -27,7 +28,7 @@ const TABS = [
   { id: "settings", label: "Settings" },
   { id: "calendar", label: "Calendar" },
   { id: "recordings", label: "Voice recordings" },
-  { id: "journal", label: "Fasting journal" },
+  { id: "journal", label: "Salah & fasting journal" },
   { id: "guidance", label: "Safety guide" },
   { id: "privacy", label: "Privacy" },
   { id: "content", label: "Content & review" },
@@ -77,7 +78,12 @@ export default function ParentZonePage() {
         {tab === "settings" && <SettingsPanel />}
         {tab === "calendar" && <CalendarPanel />}
         {tab === "recordings" && <RecordingsPanel />}
-        {tab === "journal" && <JournalPanel />}
+        {tab === "journal" && (
+          <>
+            <SalahPanel />
+            <JournalPanel />
+          </>
+        )}
         {tab === "guidance" && <GuidancePanel />}
         {tab === "privacy" && <PrivacyPanel />}
         {tab === "content" && <ContentPanel />}
@@ -294,6 +300,70 @@ function CalendarPanel() {
         <p className="small muted">Today on this device: {formatDate(localISODate())}</p>
       </div>
     </>
+  );
+}
+
+/** Parent-only view of the private Salah log: this week, no totals, scores or streaks. */
+function SalahPanel() {
+  const { data, updateSettings, clearSalahLog } = useApp();
+  const [confirm, setConfirm] = useState(false);
+  const days = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    return localISODate(d);
+  });
+  return (
+    <div className="card stack">
+      <h2>Salah tracker</h2>
+      <p className="small">
+        Your child can tap each prayer on the home screen after praying it. It is private and gentle: no stars, scores, counts or streaks, and the home screen only ever shows today. Only you can see the week below. Children are still learning; please guide them as your family and teachers advise.
+      </p>
+      <Switch id="salah-on" label="Show the Salah tracker on the home screen" checked={data.settings.salahTracker} onChange={(v) => updateSettings({ salahTracker: v })} />
+      <div style={{ overflowX: "auto" }}>
+        <table className="salah-week" aria-label="Prayers marked in the last 7 days">
+          <thead>
+            <tr>
+              <th scope="col">Day</th>
+              {PRAYERS.map((p) => (
+                <th key={p} scope="col">
+                  {PRAYER_NAMES[p]}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {days.map((d) => (
+              <tr key={d}>
+                <th scope="row">{formatDate(d)}</th>
+                {PRAYERS.map((p) => {
+                  const on = data.salah[d]?.includes(p);
+                  return (
+                    <td key={p} aria-label={on ? `${PRAYER_NAMES[p]} marked` : `${PRAYER_NAMES[p]} not marked`}>
+                      {on ? "✓" : ""}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="small muted" style={{ margin: 0 }}>The log stays on this device and is kept for 60 days.</p>
+      <button className="btn ghost danger" onClick={() => setConfirm(true)} disabled={Object.keys(data.salah).length === 0}>
+        Clear the Salah log
+      </button>
+      <ConfirmSheet
+        open={confirm}
+        title="Clear the Salah log?"
+        body="All marked prayers will be removed from this device."
+        action="Yes, clear it"
+        onCancel={() => setConfirm(false)}
+        onConfirm={async () => {
+          await clearSalahLog();
+          setConfirm(false);
+        }}
+      />
+    </div>
   );
 }
 

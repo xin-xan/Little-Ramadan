@@ -33,6 +33,11 @@ In **Parents → Voice recordings** you can read stories, lessons, quiz question
 
 The phone will ask for microphone permission the first time. Recordings stay only on this phone. Use **Save a backup** to keep a copy, and **Load a backup** to restore it (for example on a new phone). "Reset progress" keeps your recordings; "Delete everything" removes them.
 
+## Salah & fasting on the home screen
+The home screen has a gentle **Salah tracker**: your child can tap Fajr, Dhuhr, Asr, Maghrib or Isha after praying. There are no stars, scores, counts or streaks, nothing is ever marked as missed, and the home screen only shows today. You can see the last 7 days in **Parents → Salah & fasting journal**, switch the tracker off there, or clear the log.
+
+When you switch on the **fasting journal**, the same card also asks "Fasting today?" (practised with family, part of the day, a full fast with family guidance, or not fasting). The choice is saved privately in the journal, earns nothing, and always appears with the health message.
+
 ## Important to know
 - Progress is saved only in this browser on this device. Clearing browser data, uninstalling, or switching devices or browsers will lose it.
 - The religious-learning content is being reviewed by qualified reviewers. Please guide your child with your family's own teachers and scholars.

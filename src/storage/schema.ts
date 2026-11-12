@@ -38,6 +38,8 @@ export interface Settings {
   /** "auto" picks the simple village on low-powered devices. */
   villageMode: "auto" | "scene" | "simple";
   journalEnabled: boolean;
+  /** Show the private Salah tracker on the home screen. */
+  salahTracker: boolean;
   calendar: CalendarSettings;
   screenTime: { enabled: boolean; minutes: number };
   /** PBKDF2 hash of an optional parent PIN. Never stored in plain text. */
@@ -52,6 +54,7 @@ export const DEFAULT_SETTINGS: Settings = {
   reducedMotion: false,
   villageMode: "auto",
   journalEnabled: false,
+  salahTracker: true,
   calendar: { startDate: null, length: 30, openAllDays: false },
   screenTime: { enabled: false, minutes: 20 },
   parentPin: null,
@@ -101,6 +104,29 @@ export interface RoomLayout {
 
 export const EMPTY_ROOM: RoomLayout = { slots: {} };
 
+/** The five daily prayers, in order. */
+export const PRAYERS = ["fajr", "dhuhr", "asr", "maghrib", "isha"] as const;
+export type Prayer = (typeof PRAYERS)[number];
+/**
+ * Private Salah log: local date (YYYY-MM-DD) -> prayers the child marked. Kept on the device
+ * for the last 60 days only. Never scored, counted, rewarded or turned into a streak.
+ */
+export type SalahLog = Record<string, Prayer[]>;
+export const SALAH_KEEP_DAYS = 60;
+
+export function validateSalahLog(v: unknown, today = new Date()): SalahLog {
+  if (!isObj(v)) return {};
+  const cutoff = new Date(today);
+  cutoff.setDate(cutoff.getDate() - SALAH_KEEP_DAYS);
+  const out: SalahLog = {};
+  for (const [date, list] of Object.entries(v)) {
+    if (!isIsoDate(date) || !Array.isArray(list) || new Date(`${date}T12:00:00`) < cutoff) continue;
+    const prayers = PRAYERS.filter((p) => list.includes(p));
+    if (prayers.length) out[date] = prayers;
+  }
+  return out;
+}
+
 export interface AppData {
   profile: ChildProfile | null;
   settings: Settings;
@@ -108,9 +134,10 @@ export interface AppData {
   journal: JournalEntry[];
   goals: GoalRecord[];
   room: RoomLayout;
+  salah: SalahLog;
 }
 
-export const KV_KEYS = { profile: "profile", settings: "settings", room: "room", meta: "meta" } as const;
+export const KV_KEYS = { profile: "profile", settings: "settings", room: "room", meta: "meta", salah: "salah" } as const;
 
 // ---------- validation (defensive: stored data may be old, partial or corrupted) ----------
 
@@ -154,6 +181,7 @@ export function validateSettings(v: unknown): Settings {
     reducedMotion: typeof v.reducedMotion === "boolean" ? v.reducedMotion : d.reducedMotion,
     villageMode: v.villageMode === "scene" || v.villageMode === "simple" || v.villageMode === "auto" ? v.villageMode : d.villageMode,
     journalEnabled: typeof v.journalEnabled === "boolean" ? v.journalEnabled : d.journalEnabled,
+    salahTracker: typeof v.salahTracker === "boolean" ? v.salahTracker : d.salahTracker,
     calendar: {
       startDate: isIsoDate(cal.startDate) ? cal.startDate : null,
       length: cal.length === 29 ? 29 : 30,
@@ -214,7 +242,7 @@ export function validateRoom(v: unknown): RoomLayout {
  * versions. Each receives the raw kv/meta data and returns the upgraded data.
  * Version 1 is the first release, so the list is currently empty.
  */
-export type RawData = { profile?: unknown; settings?: unknown; room?: unknown; completions: unknown[]; journal: unknown[]; goals: unknown[] };
+export type RawData = { profile?: unknown; settings?: unknown; room?: unknown; salah?: unknown; completions: unknown[]; journal: unknown[]; goals: unknown[] };
 export const MIGRATIONS: { to: number; migrate: (d: RawData) => RawData }[] = [];
 
 export function migrate(raw: RawData, fromVersion: number): RawData {
@@ -233,6 +261,7 @@ export function normalise(raw: RawData): AppData {
     profile: validateProfile(raw.profile),
     settings: validateSettings(raw.settings),
     room: validateRoom(raw.room),
+    salah: validateSalahLog(raw.salah),
     completions: dedupe(raw.completions.map(validateCompletion)),
     journal: dedupe(raw.journal.map(validateJournalEntry)),
     goals: dedupe(raw.goals.map(validateGoal)),

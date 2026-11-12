@@ -1887,3 +1887,73 @@ button.rec-text {
   height: auto;
   aspect-ratio: 1;
 }
+
+/* ---------- Home: Salah & fasting (private; no scores or streaks) ---------- */
+.tracker { background: linear-gradient(180deg, #fffaf0, #fff); }
+.prayer-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+.prayer {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-height: 74px;
+  padding: 6px 2px;
+  border-radius: 16px;
+  border: 2px solid var(--line);
+  background: #fff;
+  color: var(--emerald);
+  font: inherit;
+  cursor: pointer;
+}
+.prayer.on {
+  border-color: var(--emerald);
+  background: #e9f5ef;
+}
+.prayer-sky { position: relative; display: inline-flex; }
+.prayer-tick {
+  position: absolute;
+  right: -6px;
+  bottom: -4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--emerald);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.prayer-name { font-weight: 800; font-size: 0.82rem; }
+.fast-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+.fast-choice {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 6px 10px;
+  border-radius: 14px;
+  border: 2px solid var(--line);
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.fast-choice.on { border-color: var(--emerald); background: #e9f5ef; }
+.tracker-note { color: var(--teal); font-weight: 700; }
+.salah-week { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
+.salah-week th, .salah-week td { padding: 6px 4px; border-bottom: 1px solid var(--line); text-align: center; }
+.salah-week th[scope="row"] { text-align: left; font-weight: 600; white-space: nowrap; }
+.salah-week td { color: var(--emerald); font-weight: 800; }
