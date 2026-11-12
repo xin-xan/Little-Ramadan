@@ -40,6 +40,8 @@ export interface Settings {
   journalEnabled: boolean;
   /** Show the private Salah tracker on the home screen. */
   salahTracker: boolean;
+  /** Island whose prayer times are used (Maldives timetable island id; default Malé). */
+  prayerIsland: number;
   calendar: CalendarSettings;
   screenTime: { enabled: boolean; minutes: number };
   /** PBKDF2 hash of an optional parent PIN. Never stored in plain text. */
@@ -54,6 +56,7 @@ export const DEFAULT_SETTINGS: Settings = {
   villageMode: "auto",
   journalEnabled: false,
   salahTracker: true,
+  prayerIsland: 102,
   calendar: { startDate: null, length: 30, openAllDays: false },
   screenTime: { enabled: false, minutes: 20 },
   parentPin: null,
@@ -62,7 +65,9 @@ export const DEFAULT_SETTINGS: Settings = {
 };
 
 /** Activity kinds that can be completed. "journal" is intentionally not one of them. */
-export const COMPLETION_KINDS = ["lesson", "story", "kindness", "quiz", "game", "goal", "reflection", "dayplay", "dhivehi"] as const;
+export const COMPLETION_KINDS = ["lesson", "story", "kindness", "quiz", "game", "goal", "reflection", "dayplay", "dhivehi", "salah", "salah-late", "fast"] as const;
+/** Journal choices that count as a fast for the daily fasting reward (owner decision; same reward for each). */
+export const FAST_EXPERIENCES = ["practice", "partial", "full"] as const;
 export type CompletionKind = (typeof COMPLETION_KINDS)[number];
 
 export interface Completion {
@@ -173,6 +178,7 @@ export function validateSettings(v: unknown): Settings {
     villageMode: v.villageMode === "scene" || v.villageMode === "simple" || v.villageMode === "auto" ? v.villageMode : d.villageMode,
     journalEnabled: typeof v.journalEnabled === "boolean" ? v.journalEnabled : d.journalEnabled,
     salahTracker: typeof v.salahTracker === "boolean" ? v.salahTracker : d.salahTracker,
+    prayerIsland: typeof v.prayerIsland === "number" && Number.isInteger(v.prayerIsland) && v.prayerIsland > 0 && v.prayerIsland < 10000 ? v.prayerIsland : d.prayerIsland,
     calendar: {
       startDate: isIsoDate(cal.startDate) ? cal.startDate : null,
       length: cal.length === 29 ? 29 : 30,

@@ -14,6 +14,7 @@ import {
   cleanNickname,
   nicknameProblem,
   validateSalahLog,
+  FAST_EXPERIENCES,
   validateSettings,
   type Prayer,
   type AppData,
@@ -33,6 +34,8 @@ export interface Celebration {
   badgeIds: string[];
   /** Stickers for the Sticker Album earned by this batch. */
   stickerIds: string[];
+  /** Optional warm message (e.g. after a prayer or a fast). */
+  message?: string;
 }
 
 type Status = "loading" | "ready" | "error";
@@ -48,12 +51,13 @@ interface AppState {
   updateProfile(patch: Partial<Pick<ChildProfile, "nickname" | "avatar">>): Promise<void>;
   updateSettings(patch: Partial<Settings>): Promise<void>;
   complete(kind: CompletionKind, contentId: string, opts?: { day?: number; reflection?: string; silent?: boolean }): Promise<boolean>;
-  completeMany(items: { kind: CompletionKind; contentId: string; day?: number; reflection?: string }[], opts?: { silent?: boolean }): Promise<number>;
+  completeMany(items: { kind: CompletionKind; contentId: string; day?: number; reflection?: string }[], opts?: { silent?: boolean; message?: string }): Promise<number>;
   saveReflection(dayId: string, day: number, text: string): Promise<void>;
   addJournalEntry(input: { experience: JournalExperience; note?: string; date: string }): Promise<void>;
   deleteJournalEntry(id: string): Promise<void>;
   /** Marks or unmarks one prayer for a day in the private Salah log (no rewards). */
-  togglePrayer(date: string, prayer: Prayer): Promise<void>;
+  /** Marks or unmarks a prayer. Marking earns 1 star on time, ½ star after its time. */
+  togglePrayer(date: string, prayer: Prayer, opts?: { late?: boolean; message?: string }): Promise<void>;
   clearSalahLog(): Promise<void>;
   clearJournal(): Promise<void>;
   chooseGoal(id: string): Promise<void>;
@@ -63,6 +67,8 @@ interface AppState {
   deleteEverything(): Promise<void>;
   retry(): void;
 }
+
+export const FAST_REWARD_MESSAGE = "Well done for fasting today! Remember: if you feel unwell, stop and tell a grown-up. Your health always comes first.";
 
 const emptyData = (): AppData => ({ profile: null, settings: structuredClone(DEFAULT_SETTINGS), completions: [], journal: [], goals: [], salah: {} });
 
@@ -206,7 +212,7 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
       const stars = fresh.reduce((n, c) => n + starsFor(c.kind), 0);
       const stickerIds = newStickerIds(fresh);
       if (!opts.silent && (stars > 0 || newBadges.length || stickerIds.length)) {
-        setCelebration({ id: fresh.map((c) => c.id).join("+"), stars, badgeIds: newBadges, stickerIds });
+        setCelebration({ id: fresh.map((c) => c.id).join("+"), stars, badgeIds: newBadges, stickerIds, message: opts.message });
         if (cur.settings.soundOn) playSound(newBadges.length ? "badge" : "star");
       }
       return fresh.length;
@@ -230,33 +236,55 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
     [commit],
   );
 
+  /** Removes completion records (used when a prayer or fast is unmarked). */
+  const removeCompletions = useCallback(
+    async (ids: string[]) => {
+      const cur = dataRef.current;
+      const gone = cur.completions.filter((c) => ids.includes(c.id));
+      if (!gone.length) return;
+      for (const c of gone) await store().remove(STORES.completions, c.id);
+      commit({ ...dataRef.current, completions: dataRef.current.completions.filter((c) => !ids.includes(c.id)) });
+    },
+    [commit],
+  );
+
   const addJournalEntry: AppState["addJournalEntry"] = useCallback(
     async ({ experience, note, date }) => {
       const e: JournalEntry = { id: newId(), date, experience, createdAt: new Date().toISOString() };
       if (note?.trim()) e.note = note.trim().slice(0, 300);
       await store().put(STORES.journal, e);
       commit({ ...dataRef.current, journal: [...dataRef.current.journal, e] });
+      // Owner decision: a fast (practice, part of a day or a full fast) earns the same stars, once a day.
+      if ((FAST_EXPERIENCES as readonly string[]).includes(experience)) await completeMany([{ kind: "fast", contentId: date }], { message: FAST_REWARD_MESSAGE });
     },
-    [commit],
+    [commit, completeMany],
   );
 
   const deleteJournalEntry = useCallback(
     async (id: string) => {
+      const entry = dataRef.current.journal.find((j) => j.id === id);
       await store().remove(STORES.journal, id);
-      commit({ ...dataRef.current, journal: dataRef.current.journal.filter((j) => j.id !== id) });
+      const journal = dataRef.current.journal.filter((j) => j.id !== id);
+      commit({ ...dataRef.current, journal });
+      // If no fast is recorded for that day any more, its fasting stars go too.
+      if (entry && !journal.some((j) => j.date === entry.date && (FAST_EXPERIENCES as readonly string[]).includes(j.experience))) await removeCompletions([`fast:${entry.date}`]);
     },
-    [commit],
+    [commit, removeCompletions],
   );
 
   const togglePrayer = useCallback(
-    async (date: string, prayer: Prayer) => {
+    async (date: string, prayer: Prayer, opts: { late?: boolean; message?: string } = {}) => {
       const cur = dataRef.current.salah[date] ?? [];
-      const nextDay = cur.includes(prayer) ? cur.filter((p) => p !== prayer) : [...cur, prayer];
+      const marking = !cur.includes(prayer);
+      const nextDay = marking ? [...cur, prayer] : cur.filter((p) => p !== prayer);
       const salah = validateSalahLog({ ...dataRef.current.salah, [date]: nextDay });
       await store().putKv(KV_KEYS.salah, salah);
       commit({ ...dataRef.current, salah });
+      const contentId = `${date}.${prayer}`;
+      if (marking) await completeMany([{ kind: opts.late ? "salah-late" : "salah", contentId }], { message: opts.message });
+      else await removeCompletions([`salah:${contentId}`, `salah-late:${contentId}`]);
     },
-    [commit],
+    [commit, completeMany, removeCompletions],
   );
 
   const clearSalahLog = useCallback(async () => {
@@ -306,7 +334,8 @@ export function AppStateProvider({ children, storageFactory = openStorage }: { c
     const settings = validateSettings({ ...dataRef.current.settings, seenBadges: [] });
     await s.putKv(KV_KEYS.settings, settings);
     setCelebration(null);
-    commit({ ...dataRef.current, completions: [], goals: [], settings });
+    await s.putKv(KV_KEYS.salah, {});
+    commit({ ...dataRef.current, completions: [], goals: [], settings, salah: {} });
   }, [commit]);
 
   const deleteEverything = useCallback(async () => {

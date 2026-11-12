@@ -1,5 +1,6 @@
 "use client";
 
+import { PrayerIslandPicker } from "@/components/parent/PrayerIslandPicker";
 import { allStickers, earnedStickers } from "@/storage/stickers";
 import { PRAYER_NAMES } from "@/components/home/SalahFastingCard";
 import { useRouter } from "next/navigation";
@@ -20,7 +21,7 @@ import { stories } from "@/content/stories";
 import { contentReviewSummary, reviewItems } from "@/content/review";
 import { hashPin, PIN_PATTERN } from "@/safety/parentGate";
 import { calendarStatus, dateOfDay, daysFor, formatDate, localISODate } from "@/storage/calendar";
-import { countKind, completedDayIds, totalStars, unlockedBadgeIds } from "@/storage/rewards";
+import { countKind, completedDayIds, formatStars, totalStars, unlockedBadgeIds } from "@/storage/rewards";
 import { nicknameProblem, NICKNAME_MAX, PRAYERS } from "@/storage/schema";
 import { useApp } from "@/state/AppState";
 
@@ -121,7 +122,7 @@ function ProgressPanel() {
         <ProgressBar value={countKind(c, "quiz")} max={quizSets.length} label="Quizzes" />
         <ProgressBar value={countKind(c, "game")} max={games.length} label="Games tried" />
         <p style={{ margin: 0 }}>
-          {totalStars(c)} stars · {unlockedBadgeIds(c).length} of {badges.length} badges · {earnedStickers(c).length} of {allStickers().length} stickers · {goalsDone} goals finished
+          {formatStars(totalStars(c))} stars · {unlockedBadgeIds(c).length} of {badges.length} badges · {earnedStickers(c).length} of {allStickers().length} stickers · {goalsDone} goals finished
         </p>
         <p className="small muted">Stars come only from learning, kindness, games and goals. Fasting never affects stars or badges.</p>
       </div>
@@ -317,9 +318,10 @@ function SalahPanel() {
     <div className="card stack">
       <h2>Salah tracker</h2>
       <p className="small">
-        Your child can tap each prayer on the home screen after praying it. It is private and gentle: no stars, scores, counts or streaks, and the home screen only ever shows today. Only you can see the week below. Children are still learning; please guide them as your family and teachers advise.
+        Your child taps each prayer on the home screen after praying it, and earns 1 star for a prayer prayed in its time or ½ star after its time has passed. If a prayer&apos;s time passes, a gentle reminder explains why prayer matters and that it is not too late to pray. There are no streaks or "missed" counts, the home screen only shows today, and only you can see the week below. Children are still learning; please guide them as your family and teachers advise.
       </p>
       <Switch id="salah-on" label="Show the Salah tracker on the home screen" checked={data.settings.salahTracker} onChange={(v) => updateSettings({ salahTracker: v })} />
+      <PrayerIslandPicker />
       <div style={{ overflowX: "auto" }}>
         <table className="salah-week" aria-label="Prayers marked in the last 7 days">
           <thead>
@@ -377,7 +379,7 @@ function JournalPanel() {
     <>
       <div className="card stack">
         <h2>My First Fast journal</h2>
-        <p className="small">The journal is an optional, private diary for children who are learning about fasting. It is off until you turn it on. Entries never earn stars or badges, there are no streaks, and nothing counts hours.</p>
+        <p className="small">The journal is an optional, private diary for children who are learning about fasting. It is off until you turn it on. At your request, a fast earns 2 stars, the same for practising, part of a day or a full fast (never more for longer fasting), and a day without a fast shows a gentle reminder about why Muslims fast. There are no streaks, nothing counts hours, and badges never depend on fasting.</p>
         <Switch id="journal-on" label="Show the journal to my child" checked={data.settings.journalEnabled} onChange={(v) => updateSettings({ journalEnabled: v })} />
         <p className="small muted">The fasting learning pages and health message are always available, with or without the journal.</p>
       </div>

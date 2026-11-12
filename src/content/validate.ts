@@ -118,7 +118,7 @@ export function validateContent(c: ContentBundle, opts: { images?: Set<string> }
   const rule = (v: unknown, path: string) => {
     if (!isObj(v)) return err(path, "Needs an unlock rule.");
     oneOf(v.type, ["start", "count", "stars", "days", "gamesExplored"], `${path}.type`);
-    if (v.type === "count") oneOf(v.kind, ["any", ...COMPLETION_KINDS.filter((k) => k !== "reflection" && k !== "dayplay")], `${path}.kind`);
+    if (v.type === "count") oneOf(v.kind, ["any", ...COMPLETION_KINDS.filter((k) => !["reflection", "dayplay", "salah", "salah-late", "fast"].includes(k))], `${path}.kind`);
     if (v.type !== "start" && (typeof v.atLeast !== "number" || !Number.isInteger(v.atLeast) || v.atLeast < 1 || v.atLeast > 500)) err(`${path}.atLeast`, "Must be a whole number from 1 to 500.");
   };
   const childSafe = (v: unknown, path: string) => {

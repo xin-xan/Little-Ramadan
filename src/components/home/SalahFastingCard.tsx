@@ -1,10 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { JOURNAL_OPTIONS } from "@/content/firstFast";
 import { Illustration } from "@/components/art/Illustration";
 import { localISODate } from "@/storage/calendar";
-import { PRAYERS, type JournalExperience, type Prayer } from "@/storage/schema";
+import { FAST_EXPERIENCES, PRAYERS, type JournalExperience, type Prayer } from "@/storage/schema";
+import { STAR_VALUES } from "@/content/copy";
+import { formatTime, stateOf, windowOf, type PrayerState } from "@/prayer/times";
+import { usePrayerTimes } from "@/prayer/usePrayerTimes";
 import { useApp } from "@/state/AppState";
 import { Icon } from "../Icon";
 import { HealthNotice } from "../ui";
@@ -45,24 +49,45 @@ function PrayerSky({ prayer }: { prayer: Prayer }) {
 }
 
 /**
- * Home: today's Salah (and, when a parent has switched the journal on, today's fasting choice).
- * Private and gentle: no stars, scores, counts, streaks or "missed" marks, and every day starts fresh.
+ * Home: today's Salah with the island's prayer times (1 star on time, ½ star after its time) and,
+ * when a parent has switched the journal on, today's fast (owner decisions, November 2026).
+ * Reminders are gentle: no shame, health first, and it is never "too late" to pray.
  */
 export function SalahFastingCard() {
   const { data, togglePrayer, addJournalEntry, deleteJournalEntry } = useApp();
+  const { times, minutesNow, now } = usePrayerTimes();
+  const [hint, setHint] = useState<string | null>(null);
   const showSalah = data.settings.salahTracker;
   const showFasting = data.settings.journalEnabled;
   if (!showSalah && !showFasting) return null;
-  const today = localISODate();
+  const today = localISODate(now);
   const prayed = data.salah[today] ?? [];
+  const late = new Set(PRAYERS.filter((p) => data.completions.some((c) => c.id === `salah-late:${today}.${p}`)));
+  const state = (p: Prayer): PrayerState | null => (times ? stateOf(times, p, minutesNow) : null);
+  const current = PRAYERS.find((p) => state(p) === "now");
+  const notPrayed = PRAYERS.filter((p) => state(p) === "passed" && !prayed.includes(p));
   const todays = data.journal.filter((j) => j.date === today).sort((a, b) => a.createdAt.localeCompare(b.createdAt));
   const fastChoice = todays.at(-1)?.experience;
 
+  const tapPrayer = async (p: Prayer) => {
+    setHint(null);
+    const st = state(p);
+    if (!times || !st) return;
+    if (prayed.includes(p)) return togglePrayer(today, p);
+    if (st === "upcoming") return setHint(`It's not time for ${PRAYER_NAMES[p]} yet. It starts at ${formatTime(windowOf(times, p)[0])}.`);
+    const isLate = st === "passed";
+    await togglePrayer(today, p, {
+      late: isLate,
+      message: isLate ? `You prayed ${PRAYER_NAMES[p]}. Well done for praying! Next time, try to pray when its time begins for a full star.` : `MashaAllah! You prayed ${PRAYER_NAMES[p]} on time.`,
+    });
+  };
+
   const chooseFasting = async (experience: JournalExperience) => {
     if (experience === fastChoice) return;
-    // Today's quick choice replaces the earlier quick choice (entries with a written note are kept).
-    for (const j of todays) if (!j.note) await deleteJournalEntry(j.id);
+    const old = todays.filter((j) => !j.note);
+    // Add the new choice first, then remove the earlier quick choice (entries with a note are kept).
     await addJournalEntry({ experience, date: today });
+    for (const j of old) await deleteJournalEntry(j.id);
   };
 
   return (
@@ -74,34 +99,59 @@ export function SalahFastingCard() {
       {showSalah && (
         <>
           <p className="small" style={{ margin: 0 }}>
-            Try to pray each prayer on time. Ask a grown-up when it is time to pray. Practising now makes it easier when you grow up. Tap a prayer after you pray it. There are no scores here, and every day starts fresh.
+            Pray each prayer on time and tap it: <strong>1 star</strong> on time, <strong>½ star</strong> if you pray after its time. Ask a grown-up when it is time to pray.
           </p>
+          {!times && <p className="small muted" style={{ margin: 0 }}>Loading today&apos;s prayer times…</p>}
           <div className="prayer-row" role="group" aria-label="Today's prayers">
             {PRAYERS.map((p) => {
               const on = prayed.includes(p);
+              const st = state(p);
+              const cls = on ? " on" : st === "now" ? " now" : st === "passed" ? " passed" : st === "upcoming" ? " upcoming" : "";
+              const status = on ? (late.has(p) ? "prayed, half a star" : "prayed on time") : st === "now" ? "time to pray now" : st === "passed" ? "not prayed yet, time has passed" : st === "upcoming" ? "later today" : "";
               return (
-                <button key={p} type="button" className={`prayer${on ? " on" : ""}`} aria-pressed={on} onClick={() => togglePrayer(today, p)} data-sound={on ? "tap" : "toggle"}>
+                <button key={p} type="button" className={`prayer${cls}`} aria-pressed={on} aria-label={`${PRAYER_NAMES[p]}${times ? `, ${formatTime(windowOf(times, p)[0])}` : ""}${status ? `, ${status}` : ""}`} onClick={() => void tapPrayer(p)} disabled={!times} data-sound={on ? "tap" : "toggle"}>
                   <span className="prayer-sky">
                     <PrayerSky prayer={p} />
                     {on && (
-                      <span className="prayer-tick" aria-hidden="true">
-                        <Icon name="check" size={14} strokeWidth={3.2} />
+                      <span className={`prayer-tick${late.has(p) ? " half" : ""}`} aria-hidden="true">
+                        {late.has(p) ? "½" : <Icon name="check" size={14} strokeWidth={3.2} />}
                       </span>
                     )}
                   </span>
                   <span className="prayer-name">{PRAYER_NAMES[p]}</span>
+                  <span className="prayer-time" aria-hidden="true">
+                    {on ? (late.has(p) ? "½ star" : "1 star") : st === "now" ? "Now!" : st === "passed" ? "Pray now" : times ? formatTime(windowOf(times, p)[0]).replace(" ", "") : ""}
+                  </span>
                 </button>
               );
             })}
           </div>
+          {hint && (
+            <p className="small tracker-note" role="status" style={{ margin: 0 }}>
+              {hint}
+            </p>
+          )}
+          {times && current && !prayed.includes(current) && (
+            <p className="tracker-now" role="status" style={{ margin: 0 }}>
+              It&apos;s {PRAYER_NAMES[current]} time now, until {formatTime(windowOf(times, current)[1] % (24 * 60))}. Pray on time and tap it for a full star!
+            </p>
+          )}
+          {times && notPrayed.length > 0 && (
+            <div className="tracker-reminder" role="status" data-testid="prayer-reminder">
+              <strong>
+                Did you pray {notPrayed.map((p) => PRAYER_NAMES[p]).join(" and ")}?
+              </strong>{" "}
+              Salah is how Muslims talk to Allah and thank Him, five times every day. Its time has passed, but it is not too late: pray now and tap it for ½ star. Tomorrow, try to pray each prayer on time. You can do it!
+            </div>
+          )}
+          {prayed.length === PRAYERS.length && (
+            <p className="small tracker-note" role="status" style={{ margin: 0 }}>
+              MashaAllah! You prayed all five prayers today!
+            </p>
+          )}
           <Link href="/first-fast/#ff-growing-up" className="small tracker-link">
             Why do Muslims pray and fast?
           </Link>
-          {prayed.length > 0 && (
-            <p className="small tracker-note" role="status" style={{ margin: 0 }}>
-              Lovely! Every prayer is special.
-            </p>
-          )}
         </>
       )}
 
@@ -109,20 +159,31 @@ export function SalahFastingCard() {
         <div className="stack" style={{ gap: 8 }}>
           <p style={{ margin: 0, fontWeight: 700 }}>Fasting today?</p>
           <p className="small" style={{ margin: 0 }}>
-            If you feel well and your family says it is okay, you could try fasting, even for part of the day. Every little try is special, and you can stop whenever you need to.
+            If you feel well and your family says it is okay, you could try fasting, even for part of the day. Every fast earns <strong>{STAR_VALUES.fast} stars</strong>, and you can stop whenever you need to.
           </p>
           <div className="fast-row" role="radiogroup" aria-label="Fasting today">
-            {JOURNAL_OPTIONS.filter((o) => o.value !== "memory").map((o) => (
-              <button key={o.value} type="button" role="radio" aria-checked={fastChoice === o.value} className={`fast-choice${fastChoice === o.value ? " on" : ""}`} onClick={() => void chooseFasting(o.value)}>
-                <Illustration name={o.illustration} size={32} />
-                <span>{o.label}</span>
-              </button>
-            ))}
+            {JOURNAL_OPTIONS.filter((o) => o.value !== "memory").map((o) => {
+              const isFast = (FAST_EXPERIENCES as readonly string[]).includes(o.value);
+              return (
+                <button key={o.value} type="button" role="radio" aria-checked={fastChoice === o.value} className={`fast-choice${fastChoice === o.value ? " on" : ""}`} onClick={() => void chooseFasting(o.value)}>
+                  <Illustration name={o.illustration} size={32} />
+                  <span>
+                    {o.label}
+                    {isFast && <span className="fast-stars"> · {STAR_VALUES.fast} stars</span>}
+                  </span>
+                </button>
+              );
+            })}
           </div>
-          {fastChoice && (
+          {fastChoice && (FAST_EXPERIENCES as readonly string[]).includes(fastChoice) && (
             <p className="small tracker-note" role="status" style={{ margin: 0 }}>
-              Saved in your private journal. Every Ramadan day is special, whatever you did today!
+              Well done for fasting today! Saved in your private journal.
             </p>
+          )}
+          {fastChoice === "not_fast" && (
+            <div className="tracker-reminder" role="status" data-testid="fast-reminder">
+              <strong>That&apos;s okay!</strong> Fasting in Ramadan is one of the five pillars of Islam, and when Muslims grow up it becomes a duty for everyone who is healthy. If you feel well and your family agrees, maybe try fasting for part of the day tomorrow. Your health always comes first.
+            </div>
           )}
           <HealthNotice compact />
         </div>

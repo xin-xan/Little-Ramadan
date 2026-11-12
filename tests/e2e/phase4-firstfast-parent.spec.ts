@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { onboard, openParentZone, starCount } from "./helpers";
 
-test("fasting journal is off by default, optional, private and earns nothing", async ({ page }) => {
+test("fasting journal is off by default and private; a fast earns 2 stars once a day, not fasting earns none", async ({ page }) => {
   await onboard(page);
   await page.goto("/first-fast/");
   await expect(page.getByText(/Your health comes first!/).first()).toBeVisible();
@@ -9,26 +9,34 @@ test("fasting journal is off by default, optional, private and earns nothing", a
   const before = await starCount(page);
 
   await openParentZone(page);
-  await page.getByRole("tab", { name: "Fasting journal" }).click();
+  await page.getByRole("tab", { name: /fasting journal/i }).click();
   await page.getByRole("switch", { name: "Show the journal to my child" }).click();
   // The switch flips once the setting is saved on the device.
   await expect(page.getByRole("switch", { name: "Show the journal to my child" })).toHaveAttribute("aria-checked", "true");
 
   await page.goto("/first-fast/");
-  for (const option of ["I completed a fast with family guidance", "I did not fast today"]) {
-    await page.getByRole("radio", { name: option }).click();
-    await page.getByRole("button", { name: "Save to my journal" }).click();
-    await expect(page.getByText(/Every Ramadan day is special/)).toBeVisible();
-    // No celebration, no stars, no badges for journal entries.
-    await expect(page.getByRole("dialog")).toHaveCount(0);
-  }
-  expect(await starCount(page)).toBe(before);
+  // A fast earns 2 stars (owner decision), with the health reminder alongside.
+  await page.getByRole("radio", { name: "I completed a fast with family guidance" }).click();
+  await page.getByRole("button", { name: "Save to my journal" }).click();
+  await expect(page.getByRole("heading", { name: "You earned 2 stars!" })).toBeVisible();
+  await expect(page.getByRole("dialog")).toContainText("Your health always comes first");
+  await page.getByRole("button", { name: "Yay! Continue" }).click();
+  // Not fasting: no stars, no celebration.
+  await page.getByRole("radio", { name: "I did not fast today" }).click();
+  await page.getByRole("button", { name: "Save to my journal" }).click();
+  await expect(page.getByText(/Every Ramadan day is special/)).toBeVisible();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  // A second fast entry the same day does not earn again (never more for more fasting).
+  await page.getByRole("radio", { name: "I tried fasting for part of the day" }).click();
+  await page.getByRole("button", { name: "Save to my journal" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  expect(await starCount(page)).toBe(before + 2);
   await page.goto("/rewards/");
   await expect(page.getByText(/streak/i)).toHaveCount(0);
 
   await openParentZone(page);
-  await page.getByRole("tab", { name: "Fasting journal" }).click();
-  await expect(page.getByText("Entries (2)")).toBeVisible();
+  await page.getByRole("tab", { name: /fasting journal/i }).click();
+  await expect(page.getByText("Entries (3)")).toBeVisible();
   await page.getByRole("button", { name: "Delete all journal entries" }).click();
   await page.getByRole("button", { name: "Delete entries" }).click();
   await expect(page.getByText("Entries (0)")).toBeVisible();

@@ -1,5 +1,6 @@
 "use client";
 
+import { formatStars } from "@/storage/rewards";
 import { StickerArt } from "@/components/Sticker";
 import { allStickers, earnedStickers } from "@/storage/stickers";
 import Link from "next/link";
@@ -22,12 +23,12 @@ export default function RewardsPage() {
   return (
     <div className="stack-lg">
       <PageHeader title="Celebration Square" back={{ href: "/home/", label: "Home" }} />
-      <section className="hero" aria-label={`${p.stars} stars collected`}>
+      <section className="hero" aria-label={`${Number.isInteger(p.stars) ? p.stars : formatStars(p.stars)} stars collected`}>
         <Hilmy size={110} expression="cheer" />
         <div className="hero-text">
           <p className="eyebrow" style={{ margin: 0 }}>Your collection</p>
           <p style={{ margin: 0, fontFamily: "var(--display)", fontSize: "2.6rem", fontWeight: 600, color: "var(--gold)", lineHeight: 1.1 }} className="row">
-            <Icon name="star" size={34} fill strokeWidth={1.5} /> {p.stars}
+            <Icon name="star" size={34} fill strokeWidth={1.5} /> {formatStars(p.stars)}
           </p>
           <p style={{ margin: 0, fontWeight: 700 }}>stars collected</p>
         </div>

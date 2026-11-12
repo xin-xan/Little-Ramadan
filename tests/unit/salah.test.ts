@@ -1,8 +1,7 @@
 /** Private Salah log: validated, ordered, pruned after 60 days; it never feeds rewards. */
 import { describe, expect, it } from "vitest";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-import { normalise, validateSalahLog } from "@/storage/schema";
+import { normalise, validateSalahLog, type Completion } from "@/storage/schema";
+import { countKind, formatStars, starsLabel, totalStars, unlockedBadgeIds } from "@/storage/rewards";
 
 describe("Salah log", () => {
   const today = new Date("2027-03-20T12:00:00");
@@ -15,8 +14,13 @@ describe("Salah log", () => {
   it("loads as empty from older saved data", () => {
     expect(normalise({ completions: [], journal: [], goals: [] }).salah).toEqual({});
   });
-  it("is never used by rewards, badges or stars", () => {
-    const rewards = readFileSync(join(__dirname, "../../src/storage/rewards.ts"), "utf8");
-    expect(rewards).not.toMatch(/salah|prayer/i);
+  it("rewards prayers: 1 star on time, ½ star after its time; badges never depend on them", () => {
+    const c = (kind: Completion["kind"], id: string): Completion => ({ id: `${kind}:${id}`, kind, contentId: id, completedAt: "2027-03-20T10:00:00Z" });
+    const done = [c("salah", "2027-03-20.fajr"), c("salah-late", "2027-03-20.asr"), c("fast", "2027-03-20")];
+    expect(totalStars(done)).toBe(1 + 0.5 + 2);
+    expect(formatStars(totalStars(done))).toBe("3½");
+    expect(starsLabel(0.5)).toBe("half a star");
+    expect(countKind(done, "any")).toBe(0); // prayers and fasts never count towards badges
+    expect(unlockedBadgeIds(done)).toEqual([]);
   });
 });

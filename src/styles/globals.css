@@ -2022,3 +2022,17 @@ button.rec-text {
   overflow-wrap: anywhere;
 }
 .sticker-strip { display: flex; flex-wrap: wrap; gap: 14px; padding: 6px 4px; }
+.thaana-select { font-family: var(--font); }
+.half-star { clip-path: inset(0 50% 0 0); }
+.prayer.now { border-color: var(--gold-600); background: #fff7df; box-shadow: 0 0 0 3px rgba(233, 198, 107, 0.45); }
+.prayer.passed { border-color: #e0a64a; background: #fff3e2; }
+.prayer.upcoming { opacity: 0.8; }
+.prayer:disabled { cursor: progress; }
+.prayer-time { font-size: 0.68rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.prayer.now .prayer-time { color: #8a5a00; }
+.prayer.passed .prayer-time { color: #9a4d00; }
+.prayer.on .prayer-time { color: var(--emerald); }
+.prayer-tick.half { background: var(--gold-600); color: #2b2410; font-weight: 800; font-size: 0.75rem; }
+.tracker-now { background: #fff7df; border: 1px solid var(--gold); border-radius: 14px; padding: 10px 12px; font-weight: 700; color: #6b4e00; }
+.tracker-reminder { background: #fff3e2; border: 1px solid #f0c48a; border-radius: 14px; padding: 10px 12px; font-size: 0.92rem; line-height: 1.5; }
+.fast-stars { color: var(--gold-600); white-space: nowrap; }

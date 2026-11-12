@@ -21,6 +21,7 @@
 > ## Non-negotiable child-safety and product rules
 > - The app is for children aged 7–9 and must be welcoming to children who fast, partially fast or do not fast.
 > - Never score, rank, reward or compare children based on fasting duration. Never pressure a child to fast, continue fasting, hide symptoms or feel guilty.
+  *Owner decisions (November 2026): a day's fast earns 2 stars (the same for practising, part of a day or a full fast, so never more for longer fasting) and a day without a fast shows a gentle reminder of why Muslims fast; prayers earn 1 star on time and ½ star after their time, with gentle reminders when a prayer's time has passed. Health-first guardrails stay: stop and tell a grown-up if unwell, the fasting journal is off until a parent turns it on, badges never depend on prayer or fasting, and there are no streaks.*
 > - Health comes first. Encourage a child who feels unwell to stop the activity and tell a trusted adult. Parents/guardians guide fasting decisions.
 > - Children who do not fast must still be able to access all learning, kindness activities and non-fasting rewards.
 > - No child-to-child chat, public profiles, social feed, location tracking, ads, purchases, subscriptions or behavioural advertising.
@@ -856,6 +857,7 @@ preferences.
 -   Do not claim an official start date without a reliable source.
 -   If prayer or fasting times are added later, use a reliable locally
     approved source.
+    *Added November 2026: island prayer times from the Maldives (MoIA-format) timetable, pending verification with MoIA; see docs/prayer-times.md.*
 -   Make clear that local official announcements may determine dates.
 -   Avoid displaying unverified Imsak or Iftar times.
 

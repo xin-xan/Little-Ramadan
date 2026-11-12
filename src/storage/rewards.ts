@@ -1,7 +1,7 @@
 /**
  * Derived rewards. Pure functions over `completions` only.
- * Fasting-journal entries are not an input — fasting can never affect stars,
- * badges (CLAUDE.md §6.4, §6.11).
+ * Owner decision (November 2026): prayers ("salah", "salah-late") and daily fasts ("fast") earn
+ * stars; a fast earns the same whatever its length. Badges still never depend on them.
  */
 import { badges } from "@/content/badges";
 import { STAR_VALUES } from "@/content/copy";
@@ -103,3 +103,18 @@ export function unlockedBadgeIds(completions: Completion[]): string[] {
   return badges.filter((b) => ruleMet(b.rule, completions, p)).map((b) => b.id);
 }
 
+
+/** Stars can include halves (a prayer marked after its time): 2.5 -> "2½", 0.5 -> "½". */
+export function formatStars(n: number): string {
+  const whole = Math.floor(n + 1e-9);
+  const half = n - whole >= 0.5 - 1e-9;
+  return half ? (whole ? `${whole}½` : "½") : String(whole);
+}
+
+/** For screen readers: 2.5 -> "2 and a half stars", 1 -> "1 star". */
+export function starsLabel(n: number): string {
+  const whole = Math.floor(n + 1e-9);
+  const half = n - whole >= 0.5 - 1e-9;
+  if (!half) return `${whole} star${whole === 1 ? "" : "s"}`;
+  return whole ? `${whole} and a half stars` : "half a star";
+}

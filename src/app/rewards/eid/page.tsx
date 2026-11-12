@@ -1,5 +1,6 @@
 "use client";
 
+import { formatStars } from "@/storage/rewards";
 import Link from "next/link";
 import { Amina, Hilmy, Noor } from "@/characters/Characters";
 import { Illustration } from "@/components/art/Illustration";
@@ -49,7 +50,7 @@ export default function EidPage() {
         <h2 id="eid-journey">Your Ramadan journey</h2>
         <div className="grid-2">
           <div className="card gold center">
-            <strong style={{ fontSize: "1.6rem" }}>{p.stars}</strong>
+            <strong style={{ fontSize: "1.6rem" }}>{formatStars(p.stars)}</strong>
             <div className="small">stars</div>
           </div>
           <div className="card sky center">

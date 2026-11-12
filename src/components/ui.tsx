@@ -1,5 +1,6 @@
 "use client";
 
+import { formatStars, starsLabel } from "@/storage/rewards";
 import { createPortal } from "react-dom";
 import { VoiceButton } from "./VoiceButton";
 import { rid } from "@/recordings/ids";
@@ -57,8 +58,8 @@ export function ProgressBar({ value, max, label }: { value: number; max: number;
 
 export function StarCount({ stars, href = "/rewards/" }: { stars: number; href?: string }) {
   return (
-    <Link href={href} className="star-count" aria-label={`${stars} stars. Open rewards`}>
-      <Icon name="star" size={20} fill strokeWidth={1.5} /> {stars}
+    <Link href={href} className="star-count" aria-label={`${starsLabel(stars)}. Open rewards`}>
+      <Icon name="star" size={20} fill strokeWidth={1.5} /> {formatStars(stars)}
     </Link>
   );
 }

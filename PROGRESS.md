@@ -98,3 +98,11 @@ Tests: `tests/unit/salah.test.ts`, `tests/e2e/salah-tracker.spec.ts`.
 - ✅ Newest stickers on the Rewards page; sticker count in the Parent Zone progress summary; new admin content gets stickers automatically
 - ✅ Last decoration references removed (day 1 now "Get the home ready for Ramadan" with the "keep a shared space clean" mission; the paper-decoration mission removed); spec updated (§1, §5, §6.2, §6.8, §7, §8, §9, §10, Phase 2/5, §15, §16, §20)
 Tests: `tests/unit/stickers.test.ts`, `tests/e2e/phase5-rewards.spec.ts`.
+
+## Salah & fasting rewards and Maldives prayer times (owner decisions)
+- ✅ Island prayer timetable bundled (205 islands; 15 source typos corrected); parent picks atoll/island, sees today's times (default Malé)
+- ✅ Salah: 1 star on time, ½ star after its time, can't mark before its time; "It's Dhuhr time now" and gentle "Did you pray Fajr? It's not too late" reminders; unmark removes the star
+- ✅ Fasting: 2 stars for a fast (practice, part day or full: never more for longer), once a day; gentle "why Muslims fast" reminder on a day without a fast; health message always shown; journal still off until a parent enables it
+- ✅ Half stars shown as ½; badges never depend on prayers or fasting
+- 🟡 Owner: verify the timetable with MoIA and confirm permission (docs/prayer-times.md); Islamic review of reminder wording
+Tests: `tests/unit/prayer-times.test.ts`, `tests/unit/salah.test.ts`, `tests/e2e/salah-tracker.spec.ts`, `tests/e2e/phase4-firstfast-parent.spec.ts`.

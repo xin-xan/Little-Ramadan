@@ -580,7 +580,7 @@ function ruleField(): Field {
     type: "object",
     fields: [
       { key: "type", label: "Unlock when…", type: "select", options: opts(["start", "count", "days", "stars", "gamesExplored"], { start: "Ready from the start", count: "Some activities are done", days: "Some journey days are finished", stars: "Some stars are collected", gamesExplored: "Some games have been tried" }) },
-      { key: "kind", label: "Which activities", type: "select", optional: true, options: opts(["any", ...COMPLETION_KINDS.filter((k) => k !== "reflection" && k !== "dayplay")], { any: "Any activity" }) },
+      { key: "kind", label: "Which activities", type: "select", optional: true, options: opts(["any", ...COMPLETION_KINDS.filter((k) => !["reflection", "dayplay", "salah", "salah-late", "fast"].includes(k))], { any: "Any activity" }) },
       { key: "atLeast", label: "How many", type: "number", min: 1, max: 500 },
     ],
   };

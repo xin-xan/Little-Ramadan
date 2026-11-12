@@ -856,6 +856,7 @@ preferences.
 -   Do not claim an official start date without a reliable source.
 -   If prayer or fasting times are added later, use a reliable locally
     approved source.
+    *Added November 2026: island prayer times from the Maldives (MoIA-format) timetable, pending verification with MoIA; see docs/prayer-times.md.*
 -   Make clear that local official announcements may determine dates.
 -   Avoid displaying unverified Imsak or Iftar times.
 

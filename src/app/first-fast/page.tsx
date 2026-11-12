@@ -68,7 +68,7 @@ export default function FirstFastPage() {
         ) : (
           <>
             <p className="small" style={{ margin: 0 }}>
-              Only you and your family can see this. It stays on this device. There are no stars here — every choice is a good one!
+              Only you and your family can see this. It stays on this device. Every fast earns 2 stars, whether it is practice, part of a day or a whole day. If you feel unwell, stop and tell a grown-up!
             </p>
             <fieldset style={{ border: 0, padding: 0, margin: 0 }} className="stack">
               <legend style={{ fontWeight: 700, color: "var(--emerald)", marginBottom: 8 }}>How was today? ({formatDate(localISODate())})</legend>

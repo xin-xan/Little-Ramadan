@@ -1,5 +1,6 @@
 "use client";
 
+import { formatStars } from "@/storage/rewards";
 import Link from "next/link";
 import { StickerArt } from "./Sticker";
 import { allStickers } from "@/storage/stickers";
@@ -68,11 +69,12 @@ function CelebrationLayer() {
           <div className="pop" style={{ display: "flex", justifyContent: "center" }}>
             <Hilmy expression="cheer" size={76} />
           </div>
-          <h2 id="celebrate-title">{celebration.stars > 0 ? `You earned ${celebration.stars} star${celebration.stars === 1 ? "" : "s"}!` : "Something new unlocked!"}</h2>
+          <h2 id="celebrate-title">{celebration.stars > 0 ? `You earned ${formatStars(celebration.stars)} star${celebration.stars > 1 ? "s" : ""}!` : "Something new unlocked!"}</h2>
+          {celebration.message && <p style={{ margin: 0 }}>{celebration.message}</p>}
           {celebration.stars > 0 && (
             <div className="celebrate-stars" aria-hidden="true">
-              {Array.from({ length: celebration.stars }, (_, i) => (
-                <span key={i} className="pop" style={{ animationDelay: `${120 + i * 120}ms` }}>
+              {Array.from({ length: Math.ceil(celebration.stars) }, (_, i) => (
+                <span key={i} className={`pop${i + 1 > celebration.stars ? " half-star" : ""}`} style={{ animationDelay: `${120 + i * 120}ms` }}>
                   <Icon name="star" size={32} fill strokeWidth={1.5} />
                 </span>
               ))}

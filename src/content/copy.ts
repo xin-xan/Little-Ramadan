@@ -14,6 +14,15 @@ export const STAR_VALUES = {
   dayplay: 0,
   /** A Learn Dhivehi day, or trying a Dhivehi game for the first time. */
   dhivehi: 1,
+  /** A prayer marked during its time (owner decision, November 2026). */
+  salah: 1,
+  /** A prayer marked after its time had passed. */
+  "salah-late": 0.5,
+  /**
+   * A day's fast, part of a day or practising with family: the same for each, never more for
+   * longer fasting (owner-approved exception to the spec, November 2026; health guardrails stay).
+   */
+  fast: 2,
 } as const;
 
 export const ENCOURAGEMENTS: string[] = data.encouragements;
