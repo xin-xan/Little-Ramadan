@@ -17,8 +17,8 @@
       "name": "shaviyani",
       "sound": "sh",
       "example": {
-        "wordId": "coconut",
-        "contains": true
+        "wordId": "shaviyani",
+        "contains": false
       }
     },
     {
@@ -663,6 +663,14 @@
       "en": "thank you",
       "picture": "thanks",
       "topic": "ramadan"
+    },
+    {
+      "id": "shaviyani",
+      "dv": "ށަވިޔަނި",
+      "roman": "Shaviyani",
+      "en": "Shaviyani",
+      "picture": "img:shaviyani-featured-k1cwk.webp",
+      "topic": "nature"
     }
   ],
   "numbers": [
