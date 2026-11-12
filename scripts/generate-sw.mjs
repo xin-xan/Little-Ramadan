@@ -17,7 +17,7 @@ function walk(dir) {
 
 const files = walk(OUT)
   .map((p) => relative(OUT, p).split(sep).join("/"))
-  .filter((p) => p !== "sw.js" && p !== "_headers" && !p.endsWith(".txt") && !p.endsWith(".map") && !p.startsWith("_next/static/development") && p !== "404.html");
+  .filter((p) => p !== "sw.js" && p !== "_headers" && !p.endsWith(".txt") && !p.endsWith(".map") && !p.startsWith("_next/static/development") && p !== "404.html" && !p.startsWith("admin/"));
 
 const hash = createHash("sha256");
 for (const f of files.sort()) hash.update(f).update(readFileSync(join(OUT, f)));
@@ -55,6 +55,7 @@ self.addEventListener("fetch", (event) => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return; // never touch other origins
+  if (url.pathname.startsWith(BASE + "/admin/") || url.pathname === BASE + "/admin") return; // the content admin is always loaded fresh
   event.respondWith(
     (async () => {
       const cache = await caches.open(CACHE);

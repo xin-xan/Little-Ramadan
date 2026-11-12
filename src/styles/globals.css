@@ -1878,3 +1878,12 @@ button.rec-text {
   color: inherit;
   cursor: pointer;
 }
+
+/* Pictures uploaded in the admin dashboard */
+.content-img {
+  object-fit: contain;
+  border-radius: 16px;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}

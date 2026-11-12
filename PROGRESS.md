@@ -70,3 +70,12 @@ Tests: `tests/unit/dhivehi.test.ts`, `tests/e2e/dhivehi.spec.ts`.
 - ✅ Microphone used only in the Parent Zone recorder (enforced by a unit test); spec 11.1 updated with the approved exception; privacy notice and parent guide updated
 - 🟡 Owner: test recording and playback on a real iPhone and Android phone
 Tests: `tests/unit/recordings.test.ts`, `tests/unit/no-network.test.ts`, `tests/e2e/recordings.spec.ts`.
+
+## Content admin dashboard (owner request)
+- ✅ All content moved to `src/content/data/*.json` (18 files); the app reads it unchanged
+- ✅ `/admin/`: edit every field of every content type; add, duplicate, delete (blocked while in use) and reorder; upload pictures; review status; Dhivehi letters in alphabet order
+- ✅ Publishing = one GitHub commit (fine-grained token, Contents read/write); Cloudflare rebuilds; conflict protection for simultaneous editors; download/load changes file without a token
+- ✅ Shared content checks (`src/content/validate.ts`) run in the admin, in tests and as a build gate — bad content never deploys
+- ✅ Fixed: hosting header blocked the microphone for Voice recordings (`microphone=(self)` now)
+- 🟡 Owner: confirm Cloudflare builds from `main`, create a token, try a small edit (see `docs/admin-guide.md`)
+Tests: `tests/unit/validate.test.ts`, `tests/unit/admin-github.test.ts`, `tests/e2e/admin.spec.ts`.

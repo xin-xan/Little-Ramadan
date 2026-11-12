@@ -2,19 +2,20 @@
   "name": "little-ramadan",
   "version": "1.0.0",
   "private": true,
-  "description": "Little Ramadan — My Little Journey of Faith, Kindness & Discovery. A free, child-safe, offline-first Ramadan learning PWA.",
+  "description": "Little Ramadan \u2014 My Little Journey of Faith, Kindness & Discovery. A free, child-safe, offline-first Ramadan learning PWA.",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/generate-sw.mjs",
+    "build": "node scripts/validate-content.mjs && next build && node scripts/build-admin.mjs && node scripts/generate-sw.mjs",
     "start": "node scripts/serve.mjs",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "validate:content": "vitest run tests/unit/content.test.ts",
+    "validate:content": "node scripts/validate-content.mjs",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e",
-    "build:preview": "node scripts/build-preview.mjs"
+    "build:preview": "node scripts/build-preview.mjs",
+    "build:admin": "node scripts/build-admin.mjs"
   },
   "dependencies": {
     "next": "^16.4.3",

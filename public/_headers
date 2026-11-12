@@ -3,4 +3,4 @@
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
-  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), interest-cohort=()
+  Permissions-Policy: geolocation=(), camera=(), microphone=(self), payment=(), interest-cohort=()

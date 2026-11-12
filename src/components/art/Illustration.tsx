@@ -4,7 +4,7 @@
  * No sacred text, people's faces or sacred figures are drawn here.
  */
 import type { ReactNode } from "react";
-import type { IllustrationKey } from "./illustrationKeys";
+import { contentImageUrl, type IllustrationKey } from "./illustrationKeys";
 
 const G = { emerald: "#123C35", teal: "#286356", green: "#3E9B74", cream: "#FFF7E8", gold: "#E9C66B", deepGold: "#C99A2E", sky: "#BBD8E8", lav: "#D9CFF0", night: "#1D2B4F", sand: "#F3DFB3", sea: "#4FB3C8", coral: "#E2725B", pink: "#F3C6D3", brown: "#8A5A3B" };
 
@@ -466,7 +466,11 @@ const ART: Record<IllustrationKey, () => ReactNode> = {
 };
 
 export function Illustration({ name, size = 96, label, className }: { name: IllustrationKey; size?: number | string; label?: string; className?: string }) {
-  const draw = ART[name] ?? ART.star;
+  const src = contentImageUrl(name);
+  if (src)
+    // eslint-disable-next-line @next/next/no-img-element -- static export: uploaded pictures are served as plain files
+    return <img src={src} width={size} height={size} className={`content-img ${className ?? ""}`} alt={label ?? ""} aria-hidden={label ? undefined : true} loading="lazy" decoding="async" />;
+  const draw = ART[name as keyof typeof ART] ?? ART.star;
   return (
     <svg viewBox="0 0 100 100" width={size} height={size} className={className} role={label ? "img" : undefined} aria-label={label} aria-hidden={label ? undefined : true}>
       {draw()}

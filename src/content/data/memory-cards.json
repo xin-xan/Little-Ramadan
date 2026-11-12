@@ -1,0 +1,42 @@
+[
+  {
+    "id": "mc-lantern",
+    "label": "Lantern",
+    "illustration": "lantern"
+  },
+  {
+    "id": "mc-dates",
+    "label": "Dates",
+    "illustration": "dates"
+  },
+  {
+    "id": "mc-crescent",
+    "label": "Crescent moon",
+    "illustration": "crescent"
+  },
+  {
+    "id": "mc-star",
+    "label": "Star",
+    "illustration": "star"
+  },
+  {
+    "id": "mc-mosque",
+    "label": "Mosque",
+    "illustration": "mosque"
+  },
+  {
+    "id": "mc-gift",
+    "label": "Gift",
+    "illustration": "gift"
+  },
+  {
+    "id": "mc-island",
+    "label": "Island",
+    "illustration": "island"
+  },
+  {
+    "id": "mc-food",
+    "label": "Iftar food",
+    "illustration": "maldivian-food"
+  }
+]

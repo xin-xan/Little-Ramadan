@@ -1,0 +1,58 @@
+[
+  {
+    "id": "l-red",
+    "name": "red round lantern",
+    "body": "#C8553D",
+    "glow": "#FFD27A",
+    "shape": "round"
+  },
+  {
+    "id": "l-teal",
+    "name": "teal tall lantern",
+    "body": "#286356",
+    "glow": "#BFF0E0",
+    "shape": "tall"
+  },
+  {
+    "id": "l-gold",
+    "name": "gold star lantern",
+    "body": "#D4A72C",
+    "glow": "#FFF1B8",
+    "shape": "star"
+  },
+  {
+    "id": "l-purple",
+    "name": "purple diamond lantern",
+    "body": "#7A5FB5",
+    "glow": "#E4D8FF",
+    "shape": "diamond"
+  },
+  {
+    "id": "l-blue",
+    "name": "blue round lantern",
+    "body": "#2F6FA8",
+    "glow": "#CDE7FF",
+    "shape": "round"
+  },
+  {
+    "id": "l-pink",
+    "name": "pink tall lantern",
+    "body": "#C2577E",
+    "glow": "#FFD6E5",
+    "shape": "tall"
+  },
+  {
+    "id": "l-green",
+    "name": "green star lantern",
+    "body": "#3E8E41",
+    "glow": "#D9F7C9",
+    "shape": "star"
+  },
+  {
+    "id": "l-orange",
+    "name": "orange diamond lantern",
+    "body": "#D9822B",
+    "glow": "#FFE2BF",
+    "shape": "diamond"
+  }
+]

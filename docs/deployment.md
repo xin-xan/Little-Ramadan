@@ -25,6 +25,9 @@ BASE_PATH=/Little-Ramadan npm run build
 ```
 Then publish `out/` (for example with the `actions/deploy-pages` action). Add an empty `out/.nojekyll` file so `_next/` is served.
 
+## Content updates from the admin dashboard
+The build (`npm run build`) first checks all content in `src/content/data/` and stops if anything is wrong, so the live app keeps its last good version. Edits made at `/admin/` are committed to `main`; with the Cloudflare project building from `main`, every publish redeploys automatically. See `docs/admin-guide.md`.
+
 ## After deploying
 1. Open the URL on a real iPhone and a real Android phone; complete onboarding.
 2. Install to the home screen, turn on airplane mode, reopen: it should open and work.

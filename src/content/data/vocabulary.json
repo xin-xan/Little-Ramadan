@@ -1,0 +1,142 @@
+[
+  {
+    "id": "v-ramadan",
+    "word": "Ramadan",
+    "meaning": "The ninth month of the Islamic calendar, the month of fasting",
+    "illustration": "crescent",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-suhoor",
+    "word": "Suhoor",
+    "meaning": "The meal before dawn",
+    "illustration": "sunrise",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-iftar",
+    "word": "Iftar",
+    "meaning": "The meal at sunset that ends the fast",
+    "illustration": "sunset",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-sawm",
+    "word": "Sawm",
+    "meaning": "Fasting",
+    "illustration": "hourglass",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-salah",
+    "word": "Salah",
+    "meaning": "The prayer Muslims pray five times a day",
+    "illustration": "prayer-mat",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-dua",
+    "word": "Dua",
+    "meaning": "Asking Allah for something in your own words",
+    "illustration": "dua",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-masjid",
+    "word": "Masjid",
+    "meaning": "A mosque, a place where Muslims pray",
+    "illustration": "mosque",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-quran",
+    "word": "Quran",
+    "meaning": "The holy book of Islam",
+    "illustration": "book",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-zakat",
+    "word": "Zakat",
+    "meaning": "Giving part of your money to people in need",
+    "illustration": "charity-box",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-sadaqah",
+    "word": "Sadaqah",
+    "meaning": "Giving that you choose to do",
+    "illustration": "gift",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-eid",
+    "word": "Eid",
+    "meaning": "A celebration day",
+    "illustration": "eid",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-sabr",
+    "word": "Sabr",
+    "meaning": "Patience",
+    "illustration": "hourglass",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-shukr",
+    "word": "Shukr",
+    "meaning": "Being thankful",
+    "illustration": "thank-you",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "v-wudu",
+    "word": "Wudu",
+    "meaning": "Washing in a special way before prayer",
+    "illustration": "water",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  }
+]

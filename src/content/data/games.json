@@ -1,0 +1,79 @@
+[
+  {
+    "id": "quiz",
+    "title": "Ramadan Quiz",
+    "description": "Answer questions and learn something new.",
+    "illustration": "quiz",
+    "howToPlay": [
+      "Read the question.",
+      "Tap the answer you think is right.",
+      "Read why the answer is right, then tap Next."
+    ]
+  },
+  {
+    "id": "match-words",
+    "title": "Match the Words",
+    "description": "Match Ramadan words to their pictures.",
+    "illustration": "match",
+    "howToPlay": [
+      "Tap a word.",
+      "Then tap the picture that goes with it.",
+      "Match all the pairs!"
+    ]
+  },
+  {
+    "id": "missing-lantern",
+    "title": "Find the Missing Lantern",
+    "description": "Look carefully — which lantern went missing?",
+    "illustration": "lantern",
+    "howToPlay": [
+      "Look at the lanterns. Take as long as you like.",
+      "Tap \"I'm ready\".",
+      "One lantern has gone! Tap the lantern that is missing."
+    ]
+  },
+  {
+    "id": "mosque-puzzle",
+    "title": "Mosque Puzzle",
+    "description": "Put the picture of the village mosque back together.",
+    "illustration": "puzzle",
+    "howToPlay": [
+      "Tap one piece.",
+      "Then tap another piece to swap them.",
+      "Keep swapping until the picture is complete."
+    ]
+  },
+  {
+    "id": "sort-deeds",
+    "title": "Sort the Good Deeds",
+    "description": "Is it a kind choice, or could we choose better?",
+    "illustration": "sort",
+    "howToPlay": [
+      "Read the card.",
+      "Tap \"Kind choice\" or \"Could choose better\".",
+      "Read the friendly tip."
+    ]
+  },
+  {
+    "id": "memory-cards",
+    "title": "Ramadan Memory Cards",
+    "description": "Flip the cards and find the matching pairs.",
+    "illustration": "memory",
+    "howToPlay": [
+      "Tap a card to flip it.",
+      "Tap another card.",
+      "If they match, they stay open. Find all the pairs!"
+    ]
+  },
+  {
+    "id": "vocab-match",
+    "title": "Word Meanings",
+    "description": "Match each Islamic word to its meaning.",
+    "illustration": "abc",
+    "howToPlay": [
+      "Read the word.",
+      "Tap the meaning that matches.",
+      "Learn a new word each time!"
+    ]
+  }
+]

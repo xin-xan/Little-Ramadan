@@ -1,0 +1,100 @@
+[
+  {
+    "id": "sd1",
+    "text": "Helping to set the table",
+    "helpful": true,
+    "explanation": "Helping at home makes everyone's day easier.",
+    "illustration": "family-table"
+  },
+  {
+    "id": "sd2",
+    "text": "Grabbing the last snack without asking",
+    "helpful": false,
+    "explanation": "Asking first and sharing is a kinder choice. Everyone can try again next time!",
+    "illustration": "sharing"
+  },
+  {
+    "id": "sd3",
+    "text": "Saying thank you to the bus driver",
+    "helpful": true,
+    "explanation": "Saying thank you shows we care.",
+    "illustration": "thank-you"
+  },
+  {
+    "id": "sd4",
+    "text": "Leaving toys all over the floor",
+    "helpful": false,
+    "explanation": "Tidying up is a kinder choice — it keeps everyone safe from tripping.",
+    "illustration": "toys"
+  },
+  {
+    "id": "sd5",
+    "text": "Sharing your crayons with a friend",
+    "helpful": true,
+    "explanation": "Sharing is generous and kind.",
+    "illustration": "sharing"
+  },
+  {
+    "id": "sd6",
+    "text": "Shouting in the mosque",
+    "helpful": false,
+    "explanation": "Using a quiet voice in the mosque is a kinder choice, so people can pray calmly.",
+    "illustration": "mosque"
+  },
+  {
+    "id": "sd7",
+    "text": "Telling the truth about a broken cup",
+    "helpful": true,
+    "explanation": "Being honest is brave, even when it's hard.",
+    "illustration": "heart-hands"
+  },
+  {
+    "id": "sd8",
+    "text": "Pushing in front of the line",
+    "helpful": false,
+    "explanation": "Waiting your turn patiently is a kinder choice.",
+    "illustration": "hourglass"
+  },
+  {
+    "id": "sd9",
+    "text": "Helping Grandma carry a light bag",
+    "helpful": true,
+    "explanation": "Helping elders shows respect and kindness.",
+    "illustration": "family"
+  },
+  {
+    "id": "sd10",
+    "text": "Throwing rubbish on the beach",
+    "helpful": false,
+    "explanation": "Putting rubbish in the bin keeps our island beautiful.",
+    "illustration": "island"
+  },
+  {
+    "id": "sd11",
+    "text": "Making a card for a friend who is sad",
+    "helpful": true,
+    "explanation": "A kind card can cheer someone up.",
+    "illustration": "card"
+  },
+  {
+    "id": "sd12",
+    "text": "Saying unkind words when you're cross",
+    "helpful": false,
+    "explanation": "When we're cross, taking a breath and using kind words is a better choice.",
+    "illustration": "smile"
+  },
+  {
+    "id": "sd13",
+    "text": "Watering the plants",
+    "helpful": true,
+    "explanation": "Caring for plants is caring for Allah's creation.",
+    "illustration": "garden"
+  },
+  {
+    "id": "sd14",
+    "text": "Saying sorry after a quarrel",
+    "helpful": true,
+    "explanation": "Saying sorry helps friends make up.",
+    "illustration": "heart-hands"
+  }
+]

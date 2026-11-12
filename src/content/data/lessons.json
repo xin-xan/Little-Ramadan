@@ -1,0 +1,966 @@
+[
+  {
+    "id": "what-is-ramadan",
+    "title": "What is Ramadan?",
+    "summary": "Ramadan is a special month for Muslims all over the world.",
+    "illustration": "crescent",
+    "guide": "noor",
+    "minutes": 3,
+    "sections": [
+      {
+        "heading": "A special month",
+        "text": "Ramadan is the ninth month of the Islamic calendar. Muslims all over the world look forward to it every year."
+      },
+      {
+        "heading": "Watching the moon",
+        "text": "Islamic months follow the moon. A new month begins when the thin crescent moon is seen. That is why Ramadan can have 29 or 30 days. Grown-ups listen for the local announcement to know when it starts."
+      },
+      {
+        "heading": "What do Muslims do?",
+        "text": "In Ramadan, grown-up Muslims who are healthy fast during the day. People also pray, read the Quran, give to others and try extra hard to be kind."
+      },
+      {
+        "heading": "A month of the Quran",
+        "text": "Muslims believe the Quran was first sent down to Prophet Muhammad, peace be upon him, in the month of Ramadan."
+      },
+      {
+        "heading": "And at the end?",
+        "text": "When Ramadan finishes, Muslims celebrate Eid al-Fitr with family, friends and thankful hearts."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Ramadan",
+        "meaning": "The ninth month of the Islamic calendar, the month of fasting."
+      },
+      {
+        "word": "Crescent",
+        "meaning": "The thin curved shape of the new moon."
+      }
+    ],
+    "tryThis": "With a grown-up, look at the night sky this week. Can you see the moon? What shape is it?",
+    "sourceNote": "General introduction; reviewer to confirm wording on the start of the month and the revelation of the Quran.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "why-fast",
+    "title": "Why do Muslims fast?",
+    "summary": "Fasting in Ramadan is one of the five pillars of Islam.",
+    "illustration": "hourglass",
+    "guide": "amina",
+    "minutes": 3,
+    "sections": [
+      {
+        "heading": "What is fasting?",
+        "text": "Fasting means not eating or drinking from dawn until sunset. In Arabic, fasting is called sawm."
+      },
+      {
+        "heading": "Why do Muslims fast?",
+        "text": "Fasting in Ramadan is one of the five pillars of Islam. Muslims fast because Allah asks them to. It helps them feel close to Allah, be patient and be thankful."
+      },
+      {
+        "heading": "Remembering others",
+        "text": "When people feel a little hungry, they remember people who do not have enough food. This helps them want to share and help."
+      },
+      {
+        "heading": "Who fasts?",
+        "text": "Grown-ups who are healthy fast in Ramadan. Children do not have to fast. Some children practise for part of a day when their family says it is okay. People who are sick do not have to fast."
+      },
+      {
+        "heading": "Your health comes first",
+        "text": "If you ever feel dizzy, weak or unwell, tell a grown-up straight away. Your Ramadan adventure is special whether or not you are fasting."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Sawm",
+        "meaning": "The Arabic word for fasting."
+      },
+      {
+        "word": "Pillar",
+        "meaning": "Something strong that holds a building up. Islam has five pillars."
+      }
+    ],
+    "tryThis": "Ask a grown-up in your family: what do you like most about Ramadan?",
+    "sourceNote": "Reviewer to confirm the reasons given and the summary of who is not required to fast. No rulings beyond the basics are given.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "suhoor",
+    "title": "What is Suhoor?",
+    "summary": "Suhoor is the meal before dawn.",
+    "illustration": "sunrise",
+    "guide": "noor",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "An early meal",
+        "text": "Suhoor is the meal people eat before dawn, before a day of fasting begins. It is still dark outside!"
+      },
+      {
+        "heading": "Waking up together",
+        "text": "Families often wake up very early to eat Suhoor together. It can feel cosy and special."
+      },
+      {
+        "heading": "Good food and water",
+        "text": "Grown-ups try to eat healthy food and drink water at Suhoor. In the Maldives, some families might eat rice, fish, roshi or fruit. Every family is different."
+      },
+      {
+        "heading": "Then comes Fajr",
+        "text": "After Suhoor, it is time for the dawn prayer, called Fajr."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Suhoor",
+        "meaning": "The meal eaten before dawn in Ramadan."
+      },
+      {
+        "word": "Dawn",
+        "meaning": "The time early in the morning when the sky starts to get light."
+      }
+    ],
+    "tryThis": "Ask your family what they like to eat at Suhoor.",
+    "sourceNote": "Basic description of Suhoor; reviewer to confirm.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "iftar",
+    "title": "What is Iftar?",
+    "summary": "Iftar is the meal at sunset that ends the day's fast.",
+    "illustration": "sunset",
+    "guide": "amina",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "Sunset meal",
+        "text": "Iftar is the meal at sunset, when the fast for the day ends. Many people listen for the call to the Maghrib prayer."
+      },
+      {
+        "heading": "Dates and water",
+        "text": "Many Muslims like to begin Iftar with dates and water."
+      },
+      {
+        "heading": "Sharing together",
+        "text": "Iftar is a happy time. Families share food and sometimes invite neighbours, relatives or friends."
+      },
+      {
+        "heading": "Iftar in the Maldives",
+        "text": "Some Maldivian families enjoy treats like masroshi, gulha and bajiya, with fruit and drinks. Every family has its own favourites."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Iftar",
+        "meaning": "The meal at sunset when the fast ends."
+      },
+      {
+        "word": "Maghrib",
+        "meaning": "The prayer just after sunset."
+      }
+    ],
+    "tryThis": "Help set the table for a family meal (with a grown-up nearby).",
+    "sourceNote": "Reviewer to confirm description of Iftar customs.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "quran",
+    "title": "What is the Quran?",
+    "summary": "The Quran is the holy book of Islam.",
+    "illustration": "book",
+    "guide": "amina",
+    "minutes": 3,
+    "sections": [
+      {
+        "heading": "The holy book",
+        "text": "The Quran is the holy book of Islam. Muslims believe it is the word of Allah."
+      },
+      {
+        "heading": "How it came",
+        "text": "Muslims believe the Quran was sent to Prophet Muhammad, peace be upon him, through the Angel Jibril, a little at a time, over many years."
+      },
+      {
+        "heading": "In Arabic",
+        "text": "The Quran is in Arabic. It has 114 chapters. Each chapter is called a surah. Many children learn to read it with a teacher."
+      },
+      {
+        "heading": "With respect",
+        "text": "Muslims handle the Quran with care. They keep it clean and in a special place. Many people try to read more of it in Ramadan."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Quran",
+        "meaning": "The holy book of Islam."
+      },
+      {
+        "word": "Surah",
+        "meaning": "A chapter of the Quran."
+      }
+    ],
+    "tryThis": "Ask a grown-up to show you how your family keeps the Quran in a special place.",
+    "sourceNote": "Reviewer to confirm. A short verified recitation or surah reference could be added by the reviewer.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "salah",
+    "title": "What is Salah?",
+    "summary": "Salah is the prayer Muslims pray five times a day.",
+    "illustration": "prayer-mat",
+    "guide": "noor",
+    "minutes": 3,
+    "sections": [
+      {
+        "heading": "Talking to Allah",
+        "text": "Salah is the special prayer Muslims pray five times every day. It is one of the five pillars of Islam."
+      },
+      {
+        "heading": "Five prayers",
+        "text": "The five prayers are Fajr at dawn, Dhuhr after midday, Asr in the afternoon, Maghrib after sunset and Isha at night."
+      },
+      {
+        "heading": "Getting ready",
+        "text": "Before praying, Muslims wash in a special way called wudu. They face the direction of the Kaaba in Makkah."
+      },
+      {
+        "heading": "In Ramadan",
+        "text": "Many Muslims also go to special night prayers in Ramadan called Taraweeh. Children often learn to pray by watching and joining their family."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Salah",
+        "meaning": "The prayer Muslims pray five times a day."
+      },
+      {
+        "word": "Wudu",
+        "meaning": "Washing in a special way before prayer."
+      }
+    ],
+    "tryThis": "Can you name the five prayers? Say them to a grown-up.",
+    "sourceNote": "Reviewer to confirm names and times of prayers. No prayer times are shown in the app.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "five-pillars",
+    "title": "The Five Pillars of Islam",
+    "summary": "Five important practices that hold up a Muslim's life, like pillars hold up a building.",
+    "illustration": "pillars",
+    "guide": "noor",
+    "minutes": 3,
+    "sections": [
+      {
+        "heading": "Strong pillars",
+        "text": "Pillars hold up a building. Islam has five pillars that are very important to Muslims."
+      },
+      {
+        "heading": "1. Shahada",
+        "text": "Believing and saying that there is no god but Allah, and that Muhammad is His messenger."
+      },
+      {
+        "heading": "2. Salah",
+        "text": "Praying five times every day."
+      },
+      {
+        "heading": "3. Zakat",
+        "text": "Giving part of your money to help people in need, for grown-ups who have enough."
+      },
+      {
+        "heading": "4. Sawm",
+        "text": "Fasting in the month of Ramadan, for grown-ups who are able."
+      },
+      {
+        "heading": "5. Hajj",
+        "text": "Visiting Makkah for the pilgrimage once in a lifetime, for grown-ups who are able."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Shahada",
+        "meaning": "The declaration of faith."
+      },
+      {
+        "word": "Hajj",
+        "meaning": "The pilgrimage to Makkah."
+      }
+    ],
+    "tryThis": "Hold up one finger for each pillar and say its name.",
+    "sourceNote": "Standard summary of the five pillars; reviewer to confirm wording of the Shahada summary.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "charity",
+    "title": "What is charity?",
+    "summary": "Charity means giving to help others.",
+    "illustration": "charity-box",
+    "guide": "amina",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "Giving to help",
+        "text": "Charity means giving something to help others, like food, money, clothes or your time."
+      },
+      {
+        "heading": "Sadaqah",
+        "text": "In Islam, giving you choose to do is called sadaqah. It can be big or small."
+      },
+      {
+        "heading": "In Ramadan",
+        "text": "Many Muslims try to give more in Ramadan. Families might share food, give to people in need or help their community."
+      },
+      {
+        "heading": "You can help too",
+        "text": "With a grown-up, you might choose a book or toy in good condition to give, or help prepare food to share."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Charity",
+        "meaning": "Giving to help people who need it."
+      },
+      {
+        "word": "Sadaqah",
+        "meaning": "Giving that you choose to do."
+      }
+    ],
+    "tryThis": "With a grown-up, find one thing you could share or give.",
+    "sourceNote": "Reviewer to confirm the explanation of sadaqah.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "zakat",
+    "title": "What is Zakat?",
+    "summary": "Zakat is a special kind of giving and one of the five pillars.",
+    "illustration": "charity-box",
+    "guide": "noor",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "A pillar of Islam",
+        "text": "Zakat is one of the five pillars of Islam. Grown-ups who have enough money give a part of it to help people in need."
+      },
+      {
+        "heading": "Sharing what we have",
+        "text": "Zakat reminds Muslims that everything they have is a gift from Allah, and that it is good to share."
+      },
+      {
+        "heading": "Before Eid",
+        "text": "At the end of Ramadan, families also give a special charity called Zakat al-Fitr, so that everyone can enjoy Eid."
+      },
+      {
+        "heading": "Grown-ups take care of it",
+        "text": "Grown-ups work out and give Zakat. Children can learn about it and help their family be generous."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Zakat",
+        "meaning": "Giving part of your money to people in need, a pillar of Islam."
+      },
+      {
+        "word": "Zakat al-Fitr",
+        "meaning": "A special charity given before Eid al-Fitr."
+      }
+    ],
+    "tryThis": "Ask a grown-up how your family helps people in need.",
+    "sourceNote": "Simplified; reviewer to confirm. No amounts or calculations are given.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "dua",
+    "title": "What is a dua?",
+    "summary": "A dua is when we ask Allah for something, in our own words.",
+    "illustration": "dua",
+    "guide": "amina",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "Talking to Allah",
+        "text": "A dua is when a person asks Allah for help, says thank you or asks for good things. You can make a dua at any time."
+      },
+      {
+        "heading": "Any language",
+        "text": "You can make a dua in your own words and in any language. Many people raise their hands when they make a dua."
+      },
+      {
+        "heading": "Duas you may hear",
+        "text": "Many Muslims say \"Bismillah\", which means \"In the name of Allah\", before eating. Your family may teach you other duas too."
+      },
+      {
+        "heading": "Kind duas",
+        "text": "You can make a dua for your family, your friends and people who need help."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Dua",
+        "meaning": "Asking Allah for something in your own words."
+      },
+      {
+        "word": "Bismillah",
+        "meaning": "In the name of Allah."
+      }
+    ],
+    "tryThis": "Ask a grown-up to teach you a dua your family likes to say.",
+    "sourceNote": "Reviewer to verify the meaning given for \"Bismillah\". Specific dua texts are deliberately left to families/reviewer.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "mosque",
+    "title": "What is a mosque?",
+    "summary": "A mosque is a place where Muslims pray together.",
+    "illustration": "mosque",
+    "guide": "noor",
+    "minutes": 3,
+    "sections": [
+      {
+        "heading": "A place to pray",
+        "text": "A mosque is a building where Muslims pray together. In Arabic it is called a masjid."
+      },
+      {
+        "heading": "What will I see?",
+        "text": "Many mosques have a dome and a tall tower called a minaret. Inside there is a lot of space for people to pray in rows."
+      },
+      {
+        "heading": "The call to prayer",
+        "text": "The adhan is the call to prayer. It lets people know it is time to pray."
+      },
+      {
+        "heading": "Mosque manners",
+        "text": "At a mosque, we take off our shoes, keep clean, use a quiet voice and walk calmly."
+      },
+      {
+        "heading": "Mosques in the Maldives",
+        "text": "There are mosques on many islands in the Maldives. Families often go together on Fridays."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Masjid",
+        "meaning": "The Arabic word for mosque."
+      },
+      {
+        "word": "Adhan",
+        "meaning": "The call to prayer."
+      }
+    ],
+    "tryThis": "Next time you visit a mosque with your family, put your shoes neatly in place.",
+    "sourceNote": "Reviewer to confirm. The village mosque in the app is a fictional design, not a real building.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "good-manners",
+    "title": "Good manners",
+    "summary": "Islam teaches us to be polite and kind to everyone.",
+    "illustration": "smile",
+    "guide": "amina",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "Greeting with peace",
+        "text": "Muslims greet each other by saying \"Assalamu alaikum\", which means \"Peace be upon you\". The reply is \"Wa alaikum assalam\"."
+      },
+      {
+        "heading": "Please and thank you",
+        "text": "Saying please and thank you shows we care about other people."
+      },
+      {
+        "heading": "At mealtimes",
+        "text": "Many Muslim families say Bismillah before eating, eat with their right hand and do not waste food."
+      },
+      {
+        "heading": "Listening",
+        "text": "Good manners also means listening when someone is talking and waiting for your turn."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Assalamu alaikum",
+        "meaning": "Peace be upon you."
+      },
+      {
+        "word": "Manners",
+        "meaning": "Polite and kind ways of behaving."
+      }
+    ],
+    "tryThis": "Greet each person in your family with salaam today.",
+    "sourceNote": "Reviewer to confirm greeting translation and mealtime manners.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "honesty",
+    "title": "Honesty",
+    "summary": "Being honest means telling the truth.",
+    "illustration": "heart-hands",
+    "guide": "noor",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "Telling the truth",
+        "text": "Being honest means telling the truth, even when it is hard. Islam teaches that honesty is very important."
+      },
+      {
+        "heading": "Keeping promises",
+        "text": "Honest people keep their promises. If you say you will help, try your best to do it."
+      },
+      {
+        "heading": "Giving things back",
+        "text": "If you find something that is not yours, give it to a grown-up so it can go back to its owner."
+      },
+      {
+        "heading": "It's okay to make mistakes",
+        "text": "Everyone makes mistakes. Saying \"I did it, I'm sorry\" is brave and honest."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Honest",
+        "meaning": "Telling the truth."
+      }
+    ],
+    "tryThis": "Think of a time someone was honest with you. How did it feel?",
+    "sourceNote": "Values lesson; reviewer to confirm.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "patience",
+    "title": "Patience",
+    "summary": "Patience means waiting calmly and not giving up.",
+    "illustration": "hourglass",
+    "guide": "amina",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "What is patience?",
+        "text": "Patience means waiting calmly, even when it is hard. In Arabic it is called sabr."
+      },
+      {
+        "heading": "Patience in Ramadan",
+        "text": "In Ramadan, grown-ups who fast practise patience. Everyone can practise patience by waiting their turn and staying calm."
+      },
+      {
+        "heading": "When things are hard",
+        "text": "When something is difficult, you can take a deep breath, ask for help and try again."
+      },
+      {
+        "heading": "Little by little",
+        "text": "Patience grows little by little, like a seed growing into a palm tree."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Sabr",
+        "meaning": "The Arabic word for patience."
+      }
+    ],
+    "tryThis": "Next time you have to wait, take three slow breaths.",
+    "sourceNote": "Values lesson; reviewer to confirm.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "gratitude",
+    "title": "Gratitude",
+    "summary": "Gratitude means being thankful.",
+    "illustration": "thank-you",
+    "guide": "noor",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "Being thankful",
+        "text": "Gratitude means being thankful for the good things we have. In Arabic it is called shukr."
+      },
+      {
+        "heading": "Alhamdulillah",
+        "text": "Muslims say \"Alhamdulillah\", which means \"All praise is for Allah\", to thank Allah."
+      },
+      {
+        "heading": "Thanking people",
+        "text": "We can also thank the people who help us, like our family, teachers and friends."
+      },
+      {
+        "heading": "Little things",
+        "text": "We can be thankful for little things too: a cool drink, a smile, the sea and the stars."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Shukr",
+        "meaning": "Being thankful."
+      },
+      {
+        "word": "Alhamdulillah",
+        "meaning": "All praise is for Allah."
+      }
+    ],
+    "tryThis": "Name three things you are thankful for today.",
+    "sourceNote": "Reviewer to confirm translation of Alhamdulillah.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "helping-neighbours",
+    "title": "Helping neighbours",
+    "summary": "Islam teaches us to be kind to our neighbours.",
+    "illustration": "island",
+    "guide": "amina",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "Who are our neighbours?",
+        "text": "Neighbours are the people who live near us. Islam teaches that we should be kind to our neighbours."
+      },
+      {
+        "heading": "Kind things to do",
+        "text": "We can smile and greet them, keep our street clean and share with them."
+      },
+      {
+        "heading": "Sharing in Ramadan",
+        "text": "Many families share plates of food with neighbours in Ramadan. Always ask a grown-up first and go together."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Neighbour",
+        "meaning": "Someone who lives near you."
+      }
+    ],
+    "tryThis": "With a grown-up, think of one kind thing your family could do for a neighbour.",
+    "sourceNote": "Values lesson; reviewer to confirm.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "laylatul-qadr",
+    "title": "Laylatul Qadr",
+    "summary": "A very special night in the last part of Ramadan.",
+    "illustration": "night-sky",
+    "guide": "hilmy",
+    "minutes": 3,
+    "sections": [
+      {
+        "heading": "The Night of Power",
+        "text": "Laylatul Qadr means the Night of Power. Muslims believe it is a very special and blessed night."
+      },
+      {
+        "heading": "When is it?",
+        "text": "Muslims believe it is one of the last ten nights of Ramadan. Nobody knows for sure which night it is."
+      },
+      {
+        "heading": "What do people do?",
+        "text": "Many Muslims pray, read the Quran and make dua in the last ten nights, hoping to find this special night."
+      },
+      {
+        "heading": "A night to remember",
+        "text": "Muslims believe the Quran was first revealed on this night."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Laylatul Qadr",
+        "meaning": "The Night of Power, a special night in Ramadan."
+      }
+    ],
+    "tryThis": "With your family, make a dua for the people you love.",
+    "sourceNote": "Learning theme only — the app never claims which night it is. Reviewer may add a verified reference.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "eid-al-fitr",
+    "title": "Eid al-Fitr",
+    "summary": "The happy celebration at the end of Ramadan.",
+    "illustration": "eid",
+    "guide": "noor",
+    "minutes": 3,
+    "sections": [
+      {
+        "heading": "Celebrating together",
+        "text": "Eid al-Fitr is the celebration at the end of Ramadan. It is the first day of the next month, Shawwal."
+      },
+      {
+        "heading": "When does it start?",
+        "text": "Like Ramadan, Eid starts when the new crescent moon is seen. Grown-ups listen for the local announcement."
+      },
+      {
+        "heading": "Eid morning",
+        "text": "On Eid morning, many Muslims wear clean or new clothes and go to the special Eid prayer."
+      },
+      {
+        "heading": "Eid Mubarak!",
+        "text": "People greet each other with \"Eid Mubarak\", which means \"Blessed Eid\". Families visit each other and share food."
+      },
+      {
+        "heading": "In the Maldives",
+        "text": "In the Maldives, many people call Eid al-Fitr \"Kuda Eid\". Every family celebrates in its own way."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Eid al-Fitr",
+        "meaning": "The celebration at the end of Ramadan."
+      },
+      {
+        "word": "Eid Mubarak",
+        "meaning": "Blessed Eid — a happy Eid greeting."
+      }
+    ],
+    "tryThis": "Make an Eid card for someone in your family.",
+    "sourceNote": "Reviewer to confirm, including the local name Kuda Eid.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "sharing-generosity",
+    "title": "Sharing and generosity",
+    "summary": "Being generous means happily sharing what we have.",
+    "illustration": "sharing",
+    "guide": "amina",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "What is generosity?",
+        "text": "Being generous means happily giving and sharing with others."
+      },
+      {
+        "heading": "Small things count",
+        "text": "Sharing does not have to be big. You can share a snack, a toy, a turn or a smile."
+      },
+      {
+        "heading": "Sharing in Ramadan",
+        "text": "In Ramadan, many families share food with others and give to people in need."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Generous",
+        "meaning": "Happy to give and share."
+      }
+    ],
+    "tryThis": "Share something with someone today.",
+    "sourceNote": "Values lesson; reviewer to confirm.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "caring-family-community",
+    "title": "Caring for family and community",
+    "summary": "Islam teaches us to care for our family and the people around us.",
+    "illustration": "family",
+    "guide": "noor",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "Family first",
+        "text": "Islam teaches us to be kind and respectful to our parents and family."
+      },
+      {
+        "heading": "Helping at home",
+        "text": "You can help at home by tidying up, setting the table or helping a younger brother or sister."
+      },
+      {
+        "heading": "Our community",
+        "text": "Our community is everyone around us. People help each other, like keeping beaches and streets clean."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Community",
+        "meaning": "The people who live and work around us."
+      }
+    ],
+    "tryThis": "Ask someone in your family: how can I help you today?",
+    "sourceNote": "Values lesson; reviewer to confirm.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "cleanliness",
+    "title": "Cleanliness",
+    "summary": "Islam teaches Muslims to keep clean and tidy.",
+    "illustration": "tidy",
+    "guide": "amina",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "Keeping clean",
+        "text": "Islam teaches that keeping clean is very important. Muslims wash before prayer with wudu."
+      },
+      {
+        "heading": "Clean places",
+        "text": "We keep our homes, mosques, beaches and streets clean."
+      },
+      {
+        "heading": "You can help",
+        "text": "Put rubbish in the bin, tidy your toys and wash your hands before eating."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Wudu",
+        "meaning": "Washing in a special way before prayer."
+      }
+    ],
+    "tryThis": "Tidy one small space in your room.",
+    "sourceNote": "Values lesson; reviewer to confirm.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "kind-words",
+    "title": "Good words",
+    "summary": "Kind words can make someone's whole day better.",
+    "illustration": "smile",
+    "guide": "noor",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "Words are powerful",
+        "text": "Our words can make people feel happy or sad. Islam teaches us to say good and kind words."
+      },
+      {
+        "heading": "Kind things to say",
+        "text": "\"Well done!\" \"Can I help?\" \"Thank you!\" \"You can do it!\""
+      },
+      {
+        "heading": "If we can't say something kind",
+        "text": "Sometimes it is better to stay quiet than to say something unkind."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Encourage",
+        "meaning": "To give someone hope and help them keep going."
+      }
+    ],
+    "tryThis": "Say something encouraging to someone today.",
+    "sourceNote": "Values lesson; reviewer to confirm.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "forgiveness",
+    "title": "Forgiveness",
+    "summary": "Forgiving means letting go of being upset with someone.",
+    "illustration": "heart-hands",
+    "guide": "amina",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "What is forgiveness?",
+        "text": "Forgiving someone means you stop being cross with them after they say sorry."
+      },
+      {
+        "heading": "Allah is forgiving",
+        "text": "Muslims believe Allah is the Most Forgiving. Muslims ask Allah to forgive them, and try to forgive others too."
+      },
+      {
+        "heading": "Saying sorry",
+        "text": "When we make a mistake, we can say sorry and try to make things better."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Forgive",
+        "meaning": "To stop being upset with someone."
+      }
+    ],
+    "tryThis": "If you had a quarrel with someone, try to make up today.",
+    "sourceNote": "Reviewer to confirm.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  },
+  {
+    "id": "respect",
+    "title": "Respect for parents and elders",
+    "summary": "Showing respect means treating people kindly and politely.",
+    "illustration": "family",
+    "guide": "noor",
+    "minutes": 2,
+    "sections": [
+      {
+        "heading": "Respecting parents",
+        "text": "Islam teaches us to be kind and respectful to our parents."
+      },
+      {
+        "heading": "Respecting elders",
+        "text": "We greet older people, speak politely to them and listen to them."
+      },
+      {
+        "heading": "Ways to show respect",
+        "text": "Offer your seat, help carry something light, and say thank you."
+      }
+    ],
+    "keyWords": [
+      {
+        "word": "Respect",
+        "meaning": "Treating someone kindly and politely."
+      }
+    ],
+    "tryThis": "Greet an older person in your family with salaam and a smile.",
+    "sourceNote": "Values lesson; reviewer to confirm.",
+    "review": {
+      "status": "draft",
+      "notes": "Awaiting qualified Islamic content reviewer."
+    }
+  }
+]

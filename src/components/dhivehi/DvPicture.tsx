@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Illustration } from "@/components/art/Illustration";
-import type { IllustrationKey } from "@/components/art/illustrationKeys";
+import { contentImageUrl, type IllustrationKey } from "@/components/art/illustrationKeys";
 import type { PictureKey } from "@/content/dhivehi";
 
 /** Pictures that already exist in the app's illustration set. */
@@ -257,9 +257,10 @@ const ART: Partial<Record<PictureKey, ReactNode>> = {
 };
 
 export function DvPicture({ name, size = 96, label }: { name: PictureKey; size?: number; label?: string }) {
-  const fromIll = FROM_ILLUSTRATIONS[name];
+  if (contentImageUrl(name)) return <Illustration name={name as IllustrationKey} size={size} label={label} />;
+  const fromIll = FROM_ILLUSTRATIONS[name as keyof typeof FROM_ILLUSTRATIONS];
   if (fromIll) return <Illustration name={fromIll} size={size} label={label} />;
-  const art = ART[name];
+  const art = ART[name as keyof typeof ART];
   return (
     <svg viewBox="0 0 64 64" width={size} height={size} role={label ? "img" : undefined} aria-label={label} aria-hidden={label ? undefined : true}>
       {art ?? <circle cx="32" cy="32" r="20" fill="#e9c66b" />}

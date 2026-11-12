@@ -1,0 +1,429 @@
+[
+  {
+    "theme": "Welcome Ramadan",
+    "activity": "Decorate the Ramadan room",
+    "illustration": "lantern",
+    "learn": {
+      "kind": "lesson",
+      "id": "what-is-ramadan"
+    },
+    "kindnessId": "decorate-paper",
+    "play": {
+      "game": "memory-cards"
+    },
+    "reflection": "What are you most excited about this Ramadan?"
+  },
+  {
+    "theme": "What is Ramadan?",
+    "activity": "Learn why Muslims fast",
+    "illustration": "crescent",
+    "learn": {
+      "kind": "lesson",
+      "id": "why-fast"
+    },
+    "kindnessId": "say-thank-you",
+    "play": {
+      "game": "quiz",
+      "quizSetId": "ramadan-basics"
+    },
+    "reflection": "What is one new thing you learned today?"
+  },
+  {
+    "theme": "Suhoor",
+    "activity": "Discover the pre-dawn meal",
+    "illustration": "sunrise",
+    "learn": {
+      "kind": "story",
+      "id": "noor-first-suhoor"
+    },
+    "kindnessId": "set-table",
+    "play": {
+      "game": "match-words"
+    },
+    "reflection": "What would you like to eat at Suhoor?"
+  },
+  {
+    "theme": "Iftar",
+    "activity": "Learn about breaking the fast",
+    "illustration": "sunset",
+    "learn": {
+      "kind": "story",
+      "id": "amina-iftar-helper"
+    },
+    "kindnessId": "help-iftar",
+    "play": {
+      "game": "quiz",
+      "quizSetId": "suhoor-iftar"
+    },
+    "reflection": "What is your favourite Iftar food?"
+  },
+  {
+    "theme": "Patience",
+    "activity": "Practise waiting patiently",
+    "illustration": "hourglass",
+    "learn": {
+      "kind": "story",
+      "id": "harbour-wait"
+    },
+    "kindnessId": "patient-wait",
+    "play": {
+      "game": "missing-lantern"
+    },
+    "reflection": "What helps you feel calm when you wait?"
+  },
+  {
+    "theme": "Kindness",
+    "activity": "Help a family member",
+    "illustration": "heart-hands",
+    "learn": {
+      "kind": "lesson",
+      "id": "helping-neighbours"
+    },
+    "kindnessId": "help-family",
+    "play": {
+      "game": "sort-deeds"
+    },
+    "reflection": "How did helping make you feel?"
+  },
+  {
+    "theme": "Sharing",
+    "activity": "Share something with someone",
+    "illustration": "sharing",
+    "learn": {
+      "kind": "lesson",
+      "id": "sharing-generosity"
+    },
+    "kindnessId": "share-sibling",
+    "play": {
+      "game": "memory-cards"
+    },
+    "reflection": "What could you share tomorrow?"
+  },
+  {
+    "theme": "The Quran",
+    "activity": "Learn what the Quran is",
+    "illustration": "book",
+    "learn": {
+      "kind": "lesson",
+      "id": "quran"
+    },
+    "kindnessId": "read-younger",
+    "play": {
+      "game": "quiz",
+      "quizSetId": "quran-prayer"
+    },
+    "reflection": "Where does your family keep the Quran?"
+  },
+  {
+    "theme": "Prayer",
+    "activity": "Learn about the five daily prayers",
+    "illustration": "prayer-mat",
+    "learn": {
+      "kind": "lesson",
+      "id": "salah"
+    },
+    "kindnessId": "fold-mats",
+    "play": {
+      "game": "mosque-puzzle"
+    },
+    "reflection": "Can you name the five prayers?"
+  },
+  {
+    "theme": "Gratitude",
+    "activity": "Name three things you are thankful for",
+    "illustration": "thank-you",
+    "learn": {
+      "kind": "lesson",
+      "id": "gratitude"
+    },
+    "kindnessId": "three-thanks",
+    "play": {
+      "game": "vocab-match"
+    },
+    "reflection": "What are you thankful for today?"
+  },
+  {
+    "theme": "Cleanliness",
+    "activity": "Keep your room tidy",
+    "illustration": "tidy",
+    "learn": {
+      "kind": "lesson",
+      "id": "cleanliness"
+    },
+    "kindnessId": "tidy-toys",
+    "play": {
+      "game": "sort-deeds"
+    },
+    "reflection": "Which space did you make tidy?"
+  },
+  {
+    "theme": "Good Words",
+    "activity": "Say something encouraging",
+    "illustration": "smile",
+    "learn": {
+      "kind": "lesson",
+      "id": "kind-words"
+    },
+    "kindnessId": "encouraging-words",
+    "play": {
+      "game": "match-words"
+    },
+    "reflection": "What kind words did someone say to you?"
+  },
+  {
+    "theme": "Charity",
+    "activity": "Learn about giving",
+    "illustration": "charity-box",
+    "learn": {
+      "kind": "lesson",
+      "id": "charity"
+    },
+    "kindnessId": "give-toy",
+    "play": {
+      "game": "quiz",
+      "quizSetId": "giving"
+    },
+    "reflection": "How can you help someone this week?"
+  },
+  {
+    "theme": "Family",
+    "activity": "Spend time with family",
+    "illustration": "family",
+    "learn": {
+      "kind": "lesson",
+      "id": "caring-family-community"
+    },
+    "kindnessId": "family-time",
+    "play": {
+      "game": "memory-cards"
+    },
+    "reflection": "What did you enjoy doing with your family?"
+  },
+  {
+    "theme": "Mid-Ramadan",
+    "activity": "Celebrate progress",
+    "illustration": "star",
+    "learn": {
+      "kind": "lesson",
+      "id": "patience"
+    },
+    "kindnessId": "share-learning",
+    "play": {
+      "game": "vocab-match"
+    },
+    "reflection": "What has been your favourite part of Ramadan so far?"
+  },
+  {
+    "theme": "Honesty",
+    "activity": "Practise telling the truth",
+    "illustration": "heart-hands",
+    "learn": {
+      "kind": "lesson",
+      "id": "honesty"
+    },
+    "kindnessId": "tell-truth",
+    "play": {
+      "game": "missing-lantern"
+    },
+    "reflection": "Why is honesty important?"
+  },
+  {
+    "theme": "Helping Others",
+    "activity": "Do a helpful task",
+    "illustration": "lantern",
+    "learn": {
+      "kind": "story",
+      "id": "lost-lantern"
+    },
+    "kindnessId": "help-task",
+    "play": {
+      "game": "mosque-puzzle"
+    },
+    "reflection": "Who helped you this week?"
+  },
+  {
+    "theme": "Forgiveness",
+    "activity": "Learn about forgiveness",
+    "illustration": "heart-hands",
+    "learn": {
+      "kind": "lesson",
+      "id": "forgiveness"
+    },
+    "kindnessId": "make-up",
+    "play": {
+      "game": "sort-deeds"
+    },
+    "reflection": "How does it feel when someone forgives you?"
+  },
+  {
+    "theme": "Respect",
+    "activity": "Respect parents and elders",
+    "illustration": "family",
+    "learn": {
+      "kind": "lesson",
+      "id": "respect"
+    },
+    "kindnessId": "respect-elders",
+    "play": {
+      "game": "match-words"
+    },
+    "reflection": "How do you show respect to your family?"
+  },
+  {
+    "theme": "Good Manners",
+    "activity": "Practise good manners",
+    "illustration": "smile",
+    "learn": {
+      "kind": "lesson",
+      "id": "good-manners"
+    },
+    "kindnessId": "table-manners",
+    "play": {
+      "game": "quiz",
+      "quizSetId": "manners"
+    },
+    "reflection": "Which good manner will you practise tomorrow?"
+  },
+  {
+    "theme": "Laylatul Qadr",
+    "activity": "Learn about the special night",
+    "illustration": "night-sky",
+    "learn": {
+      "kind": "lesson",
+      "id": "laylatul-qadr"
+    },
+    "kindnessId": "quiet-night",
+    "play": {
+      "game": "memory-cards"
+    },
+    "reflection": "Who would you like to make a dua for?"
+  },
+  {
+    "theme": "Dua",
+    "activity": "Learn a simple dua",
+    "illustration": "dua",
+    "learn": {
+      "kind": "lesson",
+      "id": "dua"
+    },
+    "kindnessId": "learn-dua",
+    "play": {
+      "game": "vocab-match"
+    },
+    "reflection": "What would you like to ask Allah for?"
+  },
+  {
+    "theme": "The Mosque",
+    "activity": "Learn about mosque manners",
+    "illustration": "mosque",
+    "learn": {
+      "kind": "lesson",
+      "id": "mosque"
+    },
+    "kindnessId": "mosque-manners",
+    "play": {
+      "game": "mosque-puzzle"
+    },
+    "reflection": "What do you like about the mosque?"
+  },
+  {
+    "theme": "Generosity",
+    "activity": "Learn about Zakat",
+    "illustration": "charity-box",
+    "learn": {
+      "kind": "lesson",
+      "id": "zakat"
+    },
+    "kindnessId": "give-food",
+    "play": {
+      "game": "sort-deeds"
+    },
+    "reflection": "What does being generous mean to you?"
+  },
+  {
+    "theme": "Thankfulness",
+    "activity": "Thank someone special",
+    "illustration": "card",
+    "learn": {
+      "kind": "story",
+      "id": "thank-you-letters"
+    },
+    "kindnessId": "thank-special",
+    "play": {
+      "game": "match-words"
+    },
+    "reflection": "Who are you thankful for?"
+  },
+  {
+    "theme": "Islamic Knowledge",
+    "activity": "Complete a knowledge quiz",
+    "illustration": "pillars",
+    "learn": {
+      "kind": "lesson",
+      "id": "five-pillars"
+    },
+    "kindnessId": "check-relative",
+    "play": {
+      "game": "quiz",
+      "quizSetId": "knowledge"
+    },
+    "reflection": "What is the most interesting thing you learned?"
+  },
+  {
+    "theme": "Ramadan Memories",
+    "activity": "Record a favourite memory",
+    "illustration": "star",
+    "learn": {
+      "kind": "story",
+      "id": "grandmas-stories"
+    },
+    "kindnessId": "memory-drawing",
+    "play": {
+      "game": "memory-cards"
+    },
+    "reflection": "What is your favourite Ramadan memory?"
+  },
+  {
+    "theme": "Eid Preparation",
+    "activity": "Learn about Eid",
+    "illustration": "eid",
+    "learn": {
+      "kind": "lesson",
+      "id": "eid-al-fitr"
+    },
+    "kindnessId": "eid-prep",
+    "play": {
+      "game": "quiz",
+      "quizSetId": "eid"
+    },
+    "reflection": "How will you help get ready for Eid?"
+  },
+  {
+    "theme": "My Achievements",
+    "activity": "Review the journey",
+    "illustration": "star",
+    "learn": {
+      "kind": "story",
+      "id": "hilmy-journey"
+    },
+    "kindnessId": "kind-card",
+    "play": {
+      "game": "vocab-match"
+    },
+    "reflection": "What are you proud of this Ramadan?"
+  },
+  {
+    "theme": "Eid Celebration",
+    "activity": "Celebrate the Ramadan journey",
+    "illustration": "eid",
+    "learn": {
+      "kind": "story",
+      "id": "eid-morning"
+    },
+    "kindnessId": "share-eid",
+    "play": {
+      "game": "memory-cards"
+    },
+    "reflection": "What will you remember most about this Ramadan?"
+  }
+]
