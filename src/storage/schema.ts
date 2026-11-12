@@ -82,7 +82,8 @@ export interface Completion {
   reflection?: string;
 }
 
-export const JOURNAL_EXPERIENCES = ["practice", "partial", "full", "not_fast", "memory"] as const;
+/** "fasting" = fasting today, not finished yet (no reward until the fast is done). */
+export const JOURNAL_EXPERIENCES = ["fasting", "practice", "partial", "full", "not_fast", "memory"] as const;
 export type JournalExperience = (typeof JOURNAL_EXPERIENCES)[number];
 
 export interface JournalEntry {

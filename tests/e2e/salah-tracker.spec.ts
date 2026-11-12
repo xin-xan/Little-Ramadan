@@ -97,3 +97,48 @@ test("Fasting (when a parent switches the journal on): 2 stars for a fast, a gen
   await expect(page.getByRole("region", { name: "My fasting today" })).toBeVisible();
   await expect(page.getByRole("group", { name: "Today's prayers" })).toHaveCount(0);
 });
+
+test("Fasting follows the day: plan before Fajr, part-day during, a whole fast only from Iftar", async ({ page }) => {
+  test.setTimeout(150_000);
+  await at(page, "2027-01-01T04:38:00+05:00"); // before Fajr (4:54 am)
+  await onboard(page);
+  await openParentZone(page);
+  await page.getByRole("tab", { name: /Salah & fasting/ }).click();
+  const journal = page.getByRole("switch", { name: "Show the journal to my child" });
+  await journal.click();
+  await expect(journal).toHaveAttribute("aria-checked", "true");
+
+  await page.goto("/home/");
+  let c = card(page);
+  await expect(c.getByTestId("fast-phase")).toContainText("Suhoor time! The fast begins at Fajr (4:54 am)");
+  await expect(c.getByRole("radio", { name: /I completed a fast/ })).toHaveCount(0);
+  await expect(c.getByRole("radio", { name: /part of the day/ })).toHaveCount(0);
+  await c.getByRole("radio", { name: "I'm fasting today" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0); // no stars for a fast that hasn't happened
+  expect(await stars(page)).toBe("0");
+
+  // Midday: still fasting; a whole fast can't be marked yet, stopping early can.
+  await at(page, "2027-01-01T13:00:00+05:00");
+  await page.goto("/home/");
+  c = card(page);
+  await expect(c.getByTestId("fast-phase")).toContainText("Iftar is at 6:08 pm");
+  await expect(c.getByRole("radio", { name: "I'm fasting today" })).toHaveAttribute("aria-checked", "true");
+  await expect(c.getByRole("radio", { name: /I completed a fast/ })).toHaveCount(0);
+  await expect(c.getByText("You can mark a whole day's fast after Iftar, at 6:08 pm.")).toBeVisible();
+  await expect(c.getByRole("radio", { name: /part of the day/ })).toBeVisible();
+
+  // The First Fast journal follows the same rules.
+  await page.goto("/first-fast/");
+  await expect(page.getByTestId("journal-phase")).toContainText("Iftar is at 6:08 pm");
+  await expect(page.getByRole("radio", { name: /I completed a fast/ })).toHaveCount(0);
+
+  // Iftar: now the fast can be marked as done.
+  await at(page, "2027-01-01T18:30:00+05:00");
+  await page.goto("/home/");
+  c = card(page);
+  await expect(c.getByText("How did your fast go today?")).toBeVisible();
+  await c.getByRole("radio", { name: /I completed a fast with family guidance/ }).click();
+  await expect(page.getByRole("heading", { name: "You earned 2 stars!" })).toBeVisible();
+  await page.getByRole("button", { name: "Yay! Continue" }).click();
+  expect(await stars(page)).toBe("2");
+});

@@ -36,7 +36,7 @@ The phone will ask for microphone permission the first time. Recordings stay onl
 ## Salah & fasting on the home screen
 The home screen has a gentle **Salah tracker**: your child can tap Fajr, Dhuhr, Asr, Maghrib or Isha after praying. There are no stars, scores, counts or streaks, nothing is ever marked as missed, and the home screen only shows today. You can see the last 7 days in **Parents → Salah & fasting journal**, switch the tracker off there, or clear the log.
 
-When you switch on the **fasting journal**, the same card also asks "Fasting today?" (practised with family, part of the day, a full fast with family guidance, or not fasting). The choice is saved privately in the journal, earns nothing, and always appears with the health message.
+When you switch on the **fasting journal**, the same card also asks "Fasting today?" (practised with family, part of the day, a full fast with family guidance, or not fasting). The choices follow the day for your island: before Fajr a child can only say they plan to fast; during the day they can say they are fasting or that they fasted for part of the day; a whole day's fast can only be marked from Iftar (Maghrib). The choice is saved privately in the journal, earns nothing, and always appears with the health message.
 
 ## Learning that talks back
 Stories have pictures to tap, a short "Story check" and a feelings check-in at the end. Lessons open one part at a time, with flip cards for new words and a "Quick check" question. In games, Hilmy cheers right answers and encourages after a wrong one, the quiz has a free hint, and Memory Cards has a one-time peek. None of these have timers or scores.

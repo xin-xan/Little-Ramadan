@@ -113,3 +113,4 @@ Tests: `tests/unit/prayer-times.test.ts`, `tests/unit/salah.test.ts`, `tests/e2e
 - ✅ Games: Hilmy companion reacts to every right/wrong answer in all games (incl. Dhivehi); quiz "Help me" hint removes one wrong answer; Memory Cards one-time peek
 - ✅ Questions are content data, editable in the admin (Story check / Quick check fields) and validated at build
 Tests: `tests/e2e/interactive.spec.ts`.
+- ✅ Fasting choices follow the island's times: before Fajr only "I'm fasting today"/"not fasting" (no stars); during the day "I'm fasting today", "part of the day" (2 stars) or "not fasting"; a whole day's fast can only be marked from Iftar (Maghrib). Same rules in the First Fast journal.

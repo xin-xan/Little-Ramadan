@@ -1,7 +1,11 @@
 import { expect, test } from "@playwright/test";
+
+test.use({ timezoneId: "Indian/Maldives" });
 import { onboard, openParentZone, starCount } from "./helpers";
 
 test("fasting journal is off by default and private; a fast earns 2 stars once a day, not fasting earns none", async ({ page }) => {
+  // After Iftar in Malé, when a day's fast can be recorded.
+  await page.clock.setFixedTime(new Date("2027-01-01T19:00:00+05:00"));
   await onboard(page);
   await page.goto("/first-fast/");
   await expect(page.getByText(/Your health comes first!/).first()).toBeVisible();

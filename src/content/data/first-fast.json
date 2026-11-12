@@ -97,6 +97,11 @@
   ],
   "journalOptions": [
     {
+      "value": "fasting",
+      "label": "I'm fasting today",
+      "illustration": "hourglass"
+    },
+    {
       "value": "practice",
       "label": "I practised with my family",
       "illustration": "family"

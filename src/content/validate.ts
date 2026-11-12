@@ -40,7 +40,7 @@ export interface Issue {
 /** Games and Dhivehi games each have their own screen in code: they can be edited, not added. */
 export const GAME_IDS = ["quiz", "match-words", "missing-lantern", "mosque-puzzle", "sort-deeds", "memory-cards", "vocab-match"];
 export const DV_GAME_IDS = ["letters", "trace", "bubbles", "find-word", "first-letter", "count", "colours", "fili", "memory", "build-word", "sums", "ramadan-words"];
-export const JOURNAL_VALUES = ["practice", "partial", "full", "not_fast", "memory"];
+export const JOURNAL_VALUES = ["fasting", "practice", "partial", "full", "not_fast", "memory"];
 export const REVIEW_STATUSES = ["draft", "in_review", "reviewed"];
 export const WORD_TOPICS = ["nature", "animals", "home", "food", "body", "colours", "ramadan"];
 export const DV_GAME_TONES = ["sky", "lavender", "rose", "gold", "emerald", "mint"];

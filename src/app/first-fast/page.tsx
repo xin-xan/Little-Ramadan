@@ -1,5 +1,8 @@
 "use client";
 
+import { canRecord, fastPhase } from "@/prayer/fasting";
+import { formatTime } from "@/prayer/times";
+import { usePrayerTimes } from "@/prayer/usePrayerTimes";
 import { VoiceButton } from "@/components/VoiceButton";
 import { rid } from "@/recordings/ids";
 import Link from "next/link";
@@ -19,6 +22,8 @@ import { IconChip } from "@/components/Icon";
  */
 export default function FirstFastPage() {
   const { data, addJournalEntry } = useApp();
+  const { times, minutesNow } = usePrayerTimes();
+  const phase = times ? fastPhase(times, minutesNow) : null;
   const [choice, setChoice] = useState<JournalExperience | null>(null);
   const [note, setNote] = useState("");
   const [saved, setSaved] = useState(false);
@@ -72,8 +77,14 @@ export default function FirstFastPage() {
             </p>
             <fieldset style={{ border: 0, padding: 0, margin: 0 }} className="stack">
               <legend style={{ fontWeight: 700, color: "var(--emerald)", marginBottom: 8 }}>How was today? ({formatDate(localISODate())})</legend>
+              {times && phase && (
+                <p className="small" style={{ margin: "0 0 8px" }} data-testid="journal-phase">
+                  {phase === "before" ? `The fast begins at Fajr (${formatTime(times.fajr)}). You can say how your fast went after Iftar, at ${formatTime(times.maghrib)}.` : phase === "during" ? `Iftar is at ${formatTime(times.maghrib)}. You can mark a whole day's fast after Iftar.` : "Iftar time! How did your fast go?"}
+                </p>
+              )}
               <div className="stack" role="radiogroup" aria-label="Today's journal entry">
-                {JOURNAL_OPTIONS.map((o) => (
+                {!phase && <p className="small muted" style={{ margin: 0 }}>Loading today&apos;s fasting times…</p>}
+                {JOURNAL_OPTIONS.filter((o) => phase && canRecord(phase, o.value)).map((o) => (
                   <button key={o.value} type="button" role="radio" aria-checked={choice === o.value} className="choice" style={{ flexDirection: "row", justifyContent: "flex-start", gap: 12, fontSize: "1rem", textAlign: "left" }} onClick={() => { setChoice(o.value); setSaved(false); }}>
                     <Illustration name={o.illustration} size={40} />
                     {o.label}

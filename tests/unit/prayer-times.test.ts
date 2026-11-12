@@ -48,3 +48,20 @@ describe("prayer times", () => {
     expect(stateOf(t, "isha", 23 * 60 + 59)).toBe("now");
   });
 });
+
+describe("fasting choices follow the day", () => {
+  const t = { fajr: 294, sunrise: 371, dhuhr: 733, asr: 934, maghrib: 1088, isha: 1165 };
+  it("only allows a whole day's fast from Iftar (Maghrib)", async () => {
+    const { fastPhase, canRecord } = await import("@/prayer/fasting");
+    expect(fastPhase(t, 4 * 60 + 38)).toBe("before");
+    expect(fastPhase(t, 13 * 60)).toBe("during");
+    expect(fastPhase(t, t.maghrib)).toBe("after");
+    expect(canRecord("before", "full")).toBe(false);
+    expect(canRecord("before", "partial")).toBe(false);
+    expect(canRecord("during", "full")).toBe(false);
+    expect(canRecord("during", "partial")).toBe(true);
+    expect(canRecord("after", "full")).toBe(true);
+    expect(canRecord("after", "fasting")).toBe(false);
+    expect(canRecord("before", "memory")).toBe(true);
+  });
+});

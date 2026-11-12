@@ -9,6 +9,7 @@ import { FAST_EXPERIENCES, PRAYERS, type JournalExperience, type Prayer } from "
 import { STAR_VALUES } from "@/content/copy";
 import { formatTime, stateOf, windowOf, type PrayerState } from "@/prayer/times";
 import { usePrayerTimes } from "@/prayer/usePrayerTimes";
+import { FAST_CHOICES, fastPhase } from "@/prayer/fasting";
 import { useApp } from "@/state/AppState";
 import { Icon } from "../Icon";
 import { HealthNotice } from "../ui";
@@ -68,6 +69,7 @@ export function SalahFastingCard() {
   const notPrayed = PRAYERS.filter((p) => state(p) === "passed" && !prayed.includes(p));
   const todays = data.journal.filter((j) => j.date === today).sort((a, b) => a.createdAt.localeCompare(b.createdAt));
   const fastChoice = todays.at(-1)?.experience;
+  const phase = times ? fastPhase(times, minutesNow) : null;
 
   const tapPrayer = async (p: Prayer) => {
     setHint(null);
@@ -157,33 +159,65 @@ export function SalahFastingCard() {
 
       {showFasting && (
         <div className="stack" style={{ gap: 8 }}>
-          <p style={{ margin: 0, fontWeight: 700 }}>Fasting today?</p>
-          <p className="small" style={{ margin: 0 }}>
-            If you feel well and your family says it is okay, you could try fasting, even for part of the day. Every fast earns <strong>{STAR_VALUES.fast} stars</strong>, and you can stop whenever you need to.
-          </p>
-          <div className="fast-row" role="radiogroup" aria-label="Fasting today">
-            {JOURNAL_OPTIONS.filter((o) => o.value !== "memory").map((o) => {
-              const isFast = (FAST_EXPERIENCES as readonly string[]).includes(o.value);
-              return (
-                <button key={o.value} type="button" role="radio" aria-checked={fastChoice === o.value} className={`fast-choice${fastChoice === o.value ? " on" : ""}`} onClick={() => void chooseFasting(o.value)}>
-                  <Illustration name={o.illustration} size={32} />
-                  <span>
-                    {o.label}
-                    {isFast && <span className="fast-stars"> · {STAR_VALUES.fast} stars</span>}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-          {fastChoice && (FAST_EXPERIENCES as readonly string[]).includes(fastChoice) && (
-            <p className="small tracker-note" role="status" style={{ margin: 0 }}>
-              Well done for fasting today! Saved in your private journal.
-            </p>
-          )}
-          {fastChoice === "not_fast" && (
-            <div className="tracker-reminder" role="status" data-testid="fast-reminder">
-              <strong>That&apos;s okay!</strong> Fasting in Ramadan is one of the five pillars of Islam, and when Muslims grow up it becomes a duty for everyone who is healthy. If you feel well and your family agrees, maybe try fasting for part of the day tomorrow. Your health always comes first.
-            </div>
+          <p style={{ margin: 0, fontWeight: 700 }}>{phase === "after" ? "How did your fast go today?" : "Fasting today?"}</p>
+          {!times || !phase ? (
+            <p className="small muted" style={{ margin: 0 }}>Loading today&apos;s fasting times…</p>
+          ) : (
+            <>
+              <p className="small" style={{ margin: 0 }} data-testid="fast-phase">
+                {phase === "before" && (
+                  <>
+                    <strong>Suhoor time!</strong> The fast begins at Fajr ({formatTime(times.fajr)}) and ends at Iftar, at Maghrib ({formatTime(times.maghrib)}). If you feel well and your family says it is okay, you could fast today, even for part of the day.
+                  </>
+                )}
+                {phase === "during" && (
+                  <>
+                    <strong>Fasting time.</strong> Iftar is at {formatTime(times.maghrib)}. {fastChoice === "fasting" ? "Keep going if you feel well! After Iftar, come back and tell us how your fast went." : "If you stop early, that's okay: tap \u201cpart of the day\u201d."}
+                  </>
+                )}
+                {phase === "after" && (
+                  <>
+                    <strong>Iftar time!</strong> Every fast earns <strong>{STAR_VALUES.fast} stars</strong>: practising, part of the day or a whole day.
+                  </>
+                )}
+              </p>
+              <div className="fast-row" role="radiogroup" aria-label="Fasting today">
+                {FAST_CHOICES[phase].map((value) => {
+                  const o = JOURNAL_OPTIONS.find((x) => x.value === value);
+                  if (!o) return null;
+                  const isFast = (FAST_EXPERIENCES as readonly string[]).includes(o.value);
+                  return (
+                    <button key={o.value} type="button" role="radio" aria-checked={fastChoice === o.value} className={`fast-choice${fastChoice === o.value ? " on" : ""}`} onClick={() => void chooseFasting(o.value)}>
+                      <Illustration name={o.illustration} size={32} />
+                      <span>
+                        {o.label}
+                        {isFast && <span className="fast-stars"> · {STAR_VALUES.fast} stars</span>}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              {phase === "during" && (
+                <p className="small muted" style={{ margin: 0 }}>
+                  You can mark a whole day&apos;s fast after Iftar, at {formatTime(times.maghrib)}.
+                </p>
+              )}
+              {fastChoice === "fasting" && (
+                <p className="small tracker-note" role="status" style={{ margin: 0 }}>
+                  {phase === "after" ? "Iftar time! Tap how your fast went to get your stars." : "You're fasting today. Your health comes first: stop and tell a grown-up if you feel unwell."}
+                </p>
+              )}
+              {fastChoice && (FAST_EXPERIENCES as readonly string[]).includes(fastChoice) && (
+                <p className="small tracker-note" role="status" style={{ margin: 0 }}>
+                  Well done for fasting today! Saved in your private journal.
+                </p>
+              )}
+              {fastChoice === "not_fast" && (
+                <div className="tracker-reminder" role="status" data-testid="fast-reminder">
+                  <strong>That&apos;s okay!</strong> Fasting in Ramadan is one of the five pillars of Islam, and when Muslims grow up it becomes a duty for everyone who is healthy. If you feel well and your family agrees, maybe try fasting for part of the day tomorrow. Your health always comes first.
+                </div>
+              )}
+            </>
           )}
           <HealthNotice compact />
         </div>
