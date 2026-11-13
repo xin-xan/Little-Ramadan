@@ -172,8 +172,8 @@ export function DayView({ dayId }: { dayId: string }) {
           <Link className="btn gold block" href="/rewards/eid/">
             Eid celebration
           </Link>
-          <Link className="btn gold block" href="/rewards/certificate/">
-            My certificate
+          <Link className="btn gold block" href="/rewards/trophy/">
+            My Ramadan Trophy
           </Link>
         </section>
       )}

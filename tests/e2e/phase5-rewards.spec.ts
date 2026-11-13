@@ -53,19 +53,23 @@ test("no purchase, ad or random reward mechanics anywhere in rewards", async ({ 
   }
 });
 
-test("certificate shows nickname, can be saved, and never claims proof of fasting", async ({ page }) => {
+test("the Ramadan trophy shows the nickname with Noor and Amina, can be saved, and never claims proof of fasting", async ({ page }) => {
   await onboard(page, "Coral Star");
-  await page.goto("/rewards/certificate/");
-  const cert = page.getByRole("img", { name: /Certificate: Little Ramadan Journey, celebrating Coral Star/ });
-  await expect(cert).toBeVisible();
-  await expect(cert).toContainText("Coral Star");
-  await expect(cert).toContainText("LITTLE RAMADAN JOURNEY");
-  const certText = (await cert.textContent())!;
-  expect(certText).not.toMatch(/fast|proof|certif(y|ies) that/i);
+  await page.goto("/rewards/trophy/");
+  const scene = page.getByRole("img", { name: "Trophy for Coral Star, held up by Noor and Amina" });
+  await expect(scene).toBeVisible();
+  await expect(scene).toContainText("Coral Star");
+  await expect(page.getByRole("heading", { name: "Well done, Coral Star!" })).toBeVisible();
+  const text = await page.locator("main").innerText();
+  expect(text).not.toMatch(/proof|certif(y|ies) that/i);
+  await expect(page.getByText("It is not a record of fasting.")).toBeVisible();
+  await page.getByRole("button", { name: "Tap the trophy!" }).click();
+  await expect(page.locator(".trophy-button .tap-sparkles")).toHaveCount(1);
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: /Save as picture/ }).click();
   const d = await download;
-  expect(d.suggestedFilename()).toBe("little-ramadan-certificate-coral-star.png");
+  expect(d.suggestedFilename()).toBe("little-ramadan-trophy-coral-star.png");
+  expect((await page.goto("/rewards/certificate/"))?.status()).toBe(404);
 });
 
 test("Eid works with a 29-day calendar and with no calendar", async ({ page }) => {

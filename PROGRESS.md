@@ -114,3 +114,8 @@ Tests: `tests/unit/prayer-times.test.ts`, `tests/unit/salah.test.ts`, `tests/e2e
 - ✅ Questions are content data, editable in the admin (Story check / Quick check fields) and validated at build
 Tests: `tests/e2e/interactive.spec.ts`.
 - ✅ Fasting choices follow the island's times: before Fajr only "I'm fasting today"/"not fasting" (no stars); during the day "I'm fasting today", "part of the day" (2 stars) or "not fasting"; a whole day's fast can only be marked from Iftar (Maghrib). Same rules in the First Fast journal.
+
+## Ramadan trophy replaces the certificate (owner request)
+- ✅ Rewards → My Ramadan Trophy: animated gold trophy (gentle bob and shine, twinkling stars, tap for sparkles) held up by cheering 3D Noor and Amina, engraved with the nickname and year; highlights, stickers and badges; "Save as picture" (drawn version of the scene); still motion with reduced motion; not a record of fasting
+- ✅ Certificate page removed; links from Rewards, Eid and the last journey day now go to the trophy; spec §6.12 and Phase 5 updated
+Tests: `tests/e2e/phase5-rewards.spec.ts`.

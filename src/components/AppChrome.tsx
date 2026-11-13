@@ -22,7 +22,7 @@ import { Sheet } from "./ui";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const NO_PROFILE_ROUTES = ["/welcome", "/style-guide"];
-const NO_NAV_ROUTES = ["/welcome", "/style-guide", "/rewards/certificate"];
+const NO_NAV_ROUTES = ["/welcome", "/style-guide"];
 
 const strip = (p: string) => {
   const s = BASE && p.startsWith(BASE) ? p.slice(BASE.length) || "/" : p;

@@ -39,7 +39,7 @@ export default function RewardsPage() {
           [
             ["/rewards/stickers/", "My Sticker Album", "sparkle", "gold"],
             ["/goals/", "My Goals", "target", "emerald"],
-            ["/rewards/certificate/", "My Certificate", "scroll", "sky"],
+            ["/rewards/trophy/", "My Ramadan Trophy", "rewards", "sky"],
             ["/rewards/eid/", "Eid Celebration", "moon", "lavender"],
           ] as const
         ).map(([href, label, icon, tone]) => (

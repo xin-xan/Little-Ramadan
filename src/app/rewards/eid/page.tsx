@@ -86,8 +86,8 @@ export default function EidPage() {
         </ul>
       </section>
 
-      <Link href="/rewards/certificate/" className="btn gold block">
-        <Icon name="scroll" /> See my certificate
+      <Link href="/rewards/trophy/" className="btn gold block">
+        <Icon name="rewards" /> See my Ramadan trophy
       </Link>
       <Link href="/learn/lesson/eid-al-fitr/" className="btn ghost block">
         Learn about Eid al-Fitr

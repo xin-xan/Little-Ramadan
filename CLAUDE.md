@@ -507,7 +507,9 @@ stars for stopping a fast. - Never use fasting as a badge requirement. -
 A child who does not fast can earn every learning and kindness
 achievement. - Avoid streak loss and shame-based notifications.
 
-## 6.12 Ramadan and Eid certificate
+## 6.12 Ramadan trophy
+
+*Replaces the printable certificate at the owner's request (November 2026): an animated gold trophy held up by Noor and Amina, engraved with the child's nickname and year, showing their learning and kindness highlights and badges, and saved as a picture. It celebrates participation and learning, never fasting.*
 
 At the end of the journey, generate a printable certificate or
 downloadable image with: - Child's nickname only. - "Little Ramadan Journey". - Selected achievements. - Date or Ramadan year if
@@ -577,7 +579,7 @@ Use five primary navigation destinations:
 Secondary screens: - Welcome. - Profile setup. - Ramadan Village. -
 Daily mission detail. - Learning library. - Story reader. - Quiz. -
 Mini-game. - My First Fast. - My Sticker Album. - My Ramadan
-Goals. - Certificate. - Settings. - Privacy and safety information.
+Goals. - Ramadan trophy. - Settings. - Privacy and safety information.
 
 Navigation requirements: - Keep the primary navigation visible and
 predictable. - Use icons plus text labels. - Provide a clear back
@@ -1090,8 +1092,8 @@ experience.
 2.  Add a sticker for every lesson, story and kindness mission.
 3.  Add badge gallery.
 4.  Add achievement summary.
-5.  Create certificate layout.
-6.  Add child nickname to certificate.
+5.  Create the animated Ramadan trophy.
+6.  Add child nickname to the trophy.
 7.  Add Eid celebration screen.
 8.  Add optional sound effects.
 9.  Add reduced-motion support.
@@ -1103,7 +1105,7 @@ experience.
 
 -   Sticker album.
 -   Complete reward gallery.
--   Certificate.
+-   Ramadan trophy.
 -   Eid celebration.
 -   Polished UI and animations.
 
@@ -1111,7 +1113,7 @@ experience.
 
 -   Stickers are earned correctly.
 -   No paid or randomised purchase mechanics exist.
--   Certificate does not claim proof of fasting.
+-   The trophy does not claim proof of fasting.
 -   Eid experience works with a 29- or 30-day calendar.
 -   Animations can be reduced or disabled.
 -   The experience remains usable without sound.
@@ -1213,7 +1215,7 @@ unfinished fasting feature.
 -   [ ] Quiz feedback is correct.
 -   [ ] Mini-games work.
 -   [ ] Stickers are earned.
--   [ ] Certificate generates.
+-   [ ] Trophy shows and saves.
 -   [ ] Parent settings work.
 -   [ ] Reset and delete work.
 
@@ -1360,7 +1362,7 @@ Iftar and the meaning of fasting while reminding them that their health
 comes first. If they do not fast, they can still enjoy the complete
 learning and kindness adventure.
 
-At the end of Ramadan, they receive a personalised certificate
+At the end of Ramadan, they receive a personalised animated trophy
 celebrating their journey.
 
 **The intended result:** a safe, joyful and meaningful first Ramadan

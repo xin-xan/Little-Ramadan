@@ -51,7 +51,7 @@ const P: Record<string, string> = {
 
 export type IconName = keyof typeof P | string;
 
-/** Raw path data, for drawing an icon inside another SVG (badges, certificate). */
+/** Raw path data, for drawing an icon inside another SVG (badges, trophy). */
 export const iconPath = (name: string) => P[name] ?? P.sparkle;
 
 export function Icon({ name, size = 24, strokeWidth = 2, className, label, fill }: { name: IconName; size?: number; strokeWidth?: number; className?: string; label?: string; fill?: boolean }) {

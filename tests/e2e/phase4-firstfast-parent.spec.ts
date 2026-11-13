@@ -55,7 +55,7 @@ test("a child-facing safety message is easy to find from home", async ({ page })
 
 test("every non-fasting feature works without using the journal", async ({ page }) => {
   await onboard(page);
-  for (const path of ["/journey/", "/learn/", "/kindness/", "/games/", "/rewards/", "/goals/", "/rewards/certificate/", "/rewards/eid/"]) {
+  for (const path of ["/journey/", "/learn/", "/kindness/", "/games/", "/rewards/", "/goals/", "/rewards/trophy/", "/rewards/eid/"]) {
     await page.goto(path);
     await expect(page.locator("h1").first()).toBeVisible();
     await expect(page.getByText(/fast(ing)? (to|before) (unlock|earn)/i)).toHaveCount(0);

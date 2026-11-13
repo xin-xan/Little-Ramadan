@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { gzipSync } from "node:zlib";
 import { onboard } from "./helpers";
 
-const ROUTES = ["/home/", "/journey/", "/journey/d01/", "/learn/", "/learn/lesson/salah/", "/learn/story/harbour-wait/", "/kindness/", "/kindness/give-food/", "/games/", "/games/quiz/", "/games/quiz/manners/", "/games/match-words/", "/games/missing-lantern/", "/games/mosque-puzzle/", "/games/sort-deeds/", "/games/memory-cards/", "/games/vocab-match/", "/rewards/", "/rewards/stickers/", "/rewards/certificate/", "/rewards/eid/", "/goals/", "/first-fast/", "/safety/", "/dhivehi/", "/dhivehi/day/1/", "/dhivehi/day/30/", "/dhivehi/play/fili/", "/dhivehi/play/build-word/", "/dhivehi/play/letters/"];
+const ROUTES = ["/home/", "/journey/", "/journey/d01/", "/learn/", "/learn/lesson/salah/", "/learn/story/harbour-wait/", "/kindness/", "/kindness/give-food/", "/games/", "/games/quiz/", "/games/quiz/manners/", "/games/match-words/", "/games/missing-lantern/", "/games/mosque-puzzle/", "/games/sort-deeds/", "/games/memory-cards/", "/games/vocab-match/", "/rewards/", "/rewards/stickers/", "/rewards/trophy/", "/rewards/eid/", "/goals/", "/first-fast/", "/safety/", "/dhivehi/", "/dhivehi/day/1/", "/dhivehi/day/30/", "/dhivehi/play/fili/", "/dhivehi/play/build-word/", "/dhivehi/play/letters/"];
 
 test("every screen loads without errors and every internal link works", async ({ page, request }) => {
   const errors: string[] = [];
