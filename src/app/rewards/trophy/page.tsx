@@ -84,7 +84,7 @@ export default function TrophyPage() {
           ))}
         </span>
         <div className="trophy-kid left">
-          <Noor expression="cheer" size={130} title="Noor cheering" />
+          <Noor expression="cheer" size={112} title="Noor cheering" />
         </div>
         <button
           type="button"
@@ -96,7 +96,7 @@ export default function TrophyPage() {
             if (data.settings.soundOn) playSound("celebrate");
           }}
         >
-          <svg viewBox="0 0 240 250" width="100%" aria-hidden="true">
+          <svg viewBox="14 14 212 236" width="100%" aria-hidden="true">
             <TrophyArt name={data.profile.nickname} year={year} animate={!reduced} />
           </svg>
           {burst > 0 && (
@@ -108,7 +108,7 @@ export default function TrophyPage() {
           )}
         </button>
         <div className="trophy-kid right">
-          <Amina expression="cheer" size={130} title="Amina cheering" />
+          <Amina expression="cheer" size={112} title="Amina cheering" />
         </div>
       </section>
 
@@ -134,7 +134,8 @@ export default function TrophyPage() {
       </div>
 
       {/* Drawn version of the scene, used only for "Save as picture". */}
-      <svg ref={exportRef} xmlns="http://www.w3.org/2000/svg" width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ position: "absolute", left: -10000, width: 1, height: 1 }} aria-hidden="true" focusable="false">
+      <div style={{ position: "absolute", left: -10000, top: 0, width: 1, height: 1, overflow: "hidden" }} aria-hidden="true">
+      <svg ref={exportRef} xmlns="http://www.w3.org/2000/svg" width={W} height={H} viewBox={`0 0 ${W} ${H}`} focusable="false">
         <defs>
           <linearGradient id="exp-sky" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#1B2A55" />
@@ -167,6 +168,7 @@ export default function TrophyPage() {
           Little Ramadan · Celebrating learning, kindness and taking part
         </text>
       </svg>
+      </div>
 
       <div className="stack">
         <button className="btn gold block" onClick={save}>
