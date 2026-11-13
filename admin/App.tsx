@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { BUNDLED_CONTENT } from "@/content/bundle";
 import { CONTENT_FILES, validateContent, type ContentBundle, type ContentKey, type Issue } from "@/content/validate";
 import { FieldEditor, PicturePreview, setKey, slug, type Ctx } from "./fields";
-import { DATA_DIR, encodeUtf8Base64, GitHubError, IMAGE_DIR, loadFromGitHub, publish, serialise, type Loaded, type Repo } from "./github";
+import { DATA_DIR, encodeUtf8Base64, getSession, GitHubError, IMAGE_DIR, loadFromGitHub, publish, serialise, signIn, signOutSession, type AdminSession, type Loaded, type Repo } from "./github";
 import { prepareImage } from "./images";
 import { COLLECTIONS, type Collection, type Obj } from "./schema";
 
@@ -71,6 +71,10 @@ export function AdminApp() {
   const [notice, setNotice] = useState<string | null>(null);
   const [publishing, setPublishing] = useState(false);
   const [search, setSearch] = useState("");
+  /** undefined while checking; "unavailable" when the website has no sign-in set up. */
+  const [session, setSession] = useState<AdminSession | null | "unavailable" | undefined>(undefined);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const images = useMemo(() => [...new Set([...(loaded?.images ?? []), ...Object.keys(uploads)])].sort(), [loaded, uploads]);
   const issues = useMemo(() => (work ? validateContent(work, { images: repo ? new Set(images) : undefined }) : []), [work, images, repo]);
@@ -84,6 +88,67 @@ export function AdminApp() {
     window.addEventListener("beforeunload", warn);
     return () => window.removeEventListener("beforeunload", warn);
   }, [changeCount]);
+
+  const open = async (r: Repo) => {
+    const l = await loadFromGitHub(r);
+    setRepo(r);
+    setLoaded(l);
+    setOriginal(l.bundle);
+    setWork(structuredClone(l.bundle));
+    setUploads({});
+    setView({});
+  };
+
+  // Already signed in (the sign-in lasts a few hours): go straight to the dashboard.
+  useEffect(() => {
+    let live = true;
+    void getSession().then(async (s) => {
+      if (!live) return;
+      setSession(s);
+      if (s && s !== "unavailable") {
+        setBusy("Loading content…");
+        try {
+          await open({ owner: s.owner, name: s.name, branch: s.branch, token: "", proxy: true });
+        } catch (e) {
+          setError((e as Error).message);
+        } finally {
+          setBusy(null);
+        }
+      }
+    });
+    return () => {
+      live = false;
+    };
+  }, []);
+
+  const login = async () => {
+    setBusy("Signing in…");
+    setError(null);
+    try {
+      const s = await signIn(username.trim(), password);
+      setPassword("");
+      setSession(s);
+      setBusy("Loading content…");
+      await open({ owner: s.owner, name: s.name, branch: s.branch, token: "", proxy: true });
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const retry = async () => {
+    if (!session || session === "unavailable") return;
+    setBusy("Loading content…");
+    setError(null);
+    try {
+      await open({ owner: session.owner, name: session.name, branch: session.branch, token: "", proxy: true });
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(null);
+    }
+  };
 
   const connect = async () => {
     setBusy("Loading content from GitHub…");
@@ -122,6 +187,10 @@ export function AdminApp() {
 
   const signOut = () => {
     if (changeCount > 0 && !confirm("You have changes that are not published. Sign out and lose them?")) return;
+    if (repo?.proxy) {
+      void signOutSession();
+      setSession(null);
+    }
     try {
       localStorage.removeItem(STORE_KEY);
       sessionStorage.removeItem(STORE_KEY);
@@ -143,7 +212,55 @@ export function AdminApp() {
         <h1>Little Ramadan · Content admin</h1>
         <p>Edit stories, lessons, quizzes, missions, Dhivehi letters and every other piece of content, then publish. Publishing saves your changes to the app&apos;s GitHub repository; Cloudflare then rebuilds the app, and families get the update within a few minutes.</p>
         <section className="card">
-          <h2>Connect to GitHub</h2>
+          <h2>Sign in</h2>
+          {session === undefined ? (
+            <p className="help" role="status">
+              {busy ?? "Checking sign-in…"}
+            </p>
+          ) : session === "unavailable" ? (
+            <p className="help">
+              Sign-in is not set up on this website yet (the owner adds a username and password on Cloudflare; see the admin guide). You can still connect with a GitHub key below, or work without connecting.
+            </p>
+          ) : session ? (
+            <div className="row">
+              <span>
+                Signed in as <strong>{session.user}</strong>
+              </span>
+              <button className="btn primary" disabled={!!busy} onClick={() => void retry()}>
+                {busy ?? "Load content"}
+              </button>
+              <button className="btn" disabled={!!busy} onClick={() => { void signOutSession(); setSession(null); setError(null); }}>
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                void login();
+              }}
+            >
+              <label>
+                Username
+                <input className="input" autoComplete="username" autoCapitalize="none" spellCheck={false} value={username} onChange={(e) => setUsername(e.target.value)} />
+              </label>
+              <label>
+                Password
+                <input className="input" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              </label>
+              <button className="btn primary" type="submit" disabled={!username.trim() || !password || !!busy}>
+                {busy ?? "Sign in"}
+              </button>
+            </form>
+          )}
+        </section>
+        {error && (
+          <p className="field-error" role="alert">
+            {error}
+          </p>
+        )}
+        <details className="card advanced">
+          <summary>Advanced: connect with your own GitHub key</summary>
           <p className="help">
             You need a GitHub <strong>fine-grained access token</strong> for this repository with <strong>Contents: Read and write</strong> permission. It stays in this browser and is only ever sent to GitHub.
           </p>
@@ -168,11 +285,10 @@ export function AdminApp() {
           <label className="check">
             <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} /> Remember on this device (only on a private device)
           </label>
-          {error && <p className="field-error" role="alert">{error}</p>}
-          <button className="btn primary" disabled={!token.trim() || !!busy} onClick={connect}>
+                    <button className="btn primary" disabled={!token.trim() || !!busy} onClick={connect}>
             {busy ?? "Connect and load content"}
           </button>
-        </section>
+        </details>
         <section className="card">
           <h2>Or work without connecting</h2>
           <p className="help">Edit the content that came with this version of the app and download your changes as a file. Someone with access can load that file here later and publish it.</p>
@@ -228,7 +344,7 @@ export function AdminApp() {
         <button className="brand" onClick={() => setView({})}>
           Little Ramadan admin
         </button>
-        <span className="muted small">{repo ? `${repo.owner}/${repo.name} · ${repo.branch}` : "Not connected (download changes to share them)"}</span>
+        <span className="muted small">{repo ? `${repo.proxy && session && session !== "unavailable" ? `Signed in as ${session.user} · ` : ""}${repo.owner}/${repo.name} · ${repo.branch}` : "Not connected (download changes to share them)"}</span>
         <div className="top-actions">
           <button className="btn primary" disabled={changeCount === 0} onClick={() => setPublishing(true)} data-testid="open-publish">
             {repo ? "Publish" : "Review changes"} {changeCount > 0 ? `(${changeCount})` : ""}

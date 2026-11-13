@@ -12,6 +12,7 @@
 > 3. Build in the numbered phases in this document. Complete and test one phase before moving to the next. Do not silently skip acceptance criteria.
 > 4. Implement real interactions and persistent behaviour. Do not substitute static mockups, dead buttons, fake data presented as live data, placeholder links, or simulated success states for required functionality.
 > 5. Prefer a lightweight, mobile-first PWA and local-first storage for the MVP. Do not add accounts, a backend, analytics, advertising, payments or third-party services unless this specification is explicitly updated.
+>    *Owner decision (November 2026): the grown-ups' content admin at `/admin/` has a username-and-password sign-in, checked by a small Cloudflare Worker (`worker/`) that also holds the GitHub key for publishing. It never touches children's data; the children's app stays account-free and local-first.*
 > 6. Keep content data-driven so reviewed stories, lessons, missions and quizzes can be updated without rewriting UI components.
 > 7. Run the repository's relevant lint, type-check, test and production-build commands after meaningful changes. Fix failures you introduce. If a command cannot run, state why rather than claiming it passed.
 > 8. Test responsive layouts and core flows at common iPhone and Android viewport sizes. Check keyboard access, readable text, touch target sizes, offline reopening and data persistence where relevant.

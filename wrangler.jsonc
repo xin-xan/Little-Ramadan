@@ -1,12 +1,25 @@
-// Cloudflare Workers config: Little Ramadan is a fully static site (Next.js static export in ./out).
-// No server code runs; Workers simply serves the files. Build with `npm run build`, deploy with `npx wrangler deploy`.
+// Cloudflare Workers config. The app itself is static (Next.js static export in ./out) and served as
+// assets. A small Worker (worker/index.ts) runs only for /api/* : the content admin's sign-in and
+// its GitHub proxy. Secrets are set with `npx wrangler secret put` (see docs/admin-guide.md).
+// Build with `npm run build`, deploy with `npx wrangler deploy`.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "little-ramadan",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-11-01",
   "assets": {
     "directory": "./out",
+    "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
-    "not_found_handling": "404-page"
-  }
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  "vars": {
+    "GITHUB_REPO": "xin-xan/Little-Ramadan",
+    "GITHUB_BRANCH": "main"
+  },
+  // Slows down password guessing: at most 10 sign-in attempts per minute from one address.
+  "ratelimits": [
+    { "name": "LOGIN_LIMITER", "namespace_id": "1001", "simple": { "limit": 10, "period": 60 } }
+  ]
 }

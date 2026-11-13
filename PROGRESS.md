@@ -77,8 +77,9 @@ Tests: `tests/unit/recordings.test.ts`, `tests/unit/no-network.test.ts`, `tests/
 - ✅ Publishing = one GitHub commit (fine-grained token, Contents read/write); Cloudflare rebuilds; conflict protection for simultaneous editors; download/load changes file without a token
 - ✅ Shared content checks (`src/content/validate.ts`) run in the admin, in tests and as a build gate — bad content never deploys
 - ✅ Fixed: hosting header blocked the microphone for Voice recordings (`microphone=(self)` now)
-- 🟡 Owner: confirm Cloudflare builds from `main`, create a token, try a small edit (see `docs/admin-guide.md`)
-Tests: `tests/unit/validate.test.ts`, `tests/unit/admin-github.test.ts`, `tests/e2e/admin.spec.ts`.
+- ✅ Admin sign-in (username + password) checked by a Cloudflare Worker (`worker/`); publishing goes through the Worker with a server-held GitHub key, so editors never handle one. PBKDF2 password hash, signed HttpOnly cookie (8 h), same-site checks, rate-limited sign-in, git-data-only proxy
+- 🟡 Owner: confirm Cloudflare builds from `main` and deploys with `npx wrangler deploy`; set `ADMIN_USERNAME`, `ADMIN_PASSWORD_HASH`, `SESSION_SECRET`, `GITHUB_TOKEN` secrets; sign in and try a small edit (see `docs/admin-guide.md`)
+Tests: `tests/unit/validate.test.ts`, `tests/unit/admin-github.test.ts`, `tests/unit/worker.test.ts`, `tests/e2e/admin.spec.ts`.
 
 ## Salah & fasting tracker on home (owner request)
 - ✅ Home card: tap today's five prayers (private; no stars, scores, counts, streaks or "missed" marks; every day starts fresh); saved on the device for 60 days

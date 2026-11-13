@@ -3,7 +3,7 @@
 **My Little Journey of Faith, Kindness & Discovery.**
 
 A free, child-safe, offline-first Ramadan learning adventure for children aged 7–9 (initial market: the Maldives, English).
-Mobile-first Progressive Web App. No accounts, no backend, no ads, no purchases, no analytics — all progress stays on the device.
+Mobile-first Progressive Web App. No accounts, no backend for children, no ads, no purchases, no analytics — all progress stays on the device. (Only the grown-ups' content admin at `/admin/` has a sign-in, run by a small Cloudflare Worker; see `docs/admin-guide.md`.)
 
 The product specification and source of truth is [`CLAUDE.md`](CLAUDE.md). Phase 0 design documents are in [`docs/phase-0/`](docs/phase-0). Build progress is tracked in [`PROGRESS.md`](PROGRESS.md). Content is edited in the admin dashboard at `/admin/` — see [`docs/admin-guide.md`](docs/admin-guide.md).
 

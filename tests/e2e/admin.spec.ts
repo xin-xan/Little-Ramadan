@@ -39,7 +39,11 @@ class FakeGitHub {
     const url = new URL(req.url());
     const m = url.pathname.match(/^\/repos\/xin-xan\/Little-Ramadan(\/.*)$/);
     if (!m) return route.fulfill({ status: 404, json: {} });
-    const p = m[1];
+    return this.answer(route, m[1]);
+  }
+  /** The repository API itself (reached directly with a key, or through the app's signed-in proxy). */
+  async answer(route: Route, p: string) {
+    const req = route.request();
     const body = req.postData() ? JSON.parse(req.postData()!) : null;
     if (req.method() === "GET" && p === "/git/ref/heads/main") return route.fulfill({ json: { object: { sha: this.head } } });
     if (req.method() === "GET" && p.startsWith("/git/commits/")) return route.fulfill({ json: { tree: { sha: this.commits.get(p.split("/").pop()!)!.tree } } });
@@ -71,6 +75,7 @@ class FakeGitHub {
 async function connect(page: Page, gh: FakeGitHub, token = TOKEN) {
   await page.route("https://api.github.com/**", (r) => gh.handle(r));
   await page.goto("/admin/");
+  await page.getByText("Advanced: connect with your own GitHub key").click();
   await page.getByLabel("Access token").fill(token);
   await page.getByRole("button", { name: "Connect and load content" }).click();
 }
@@ -186,4 +191,78 @@ test("a wrong access key shows a clear message; editing without connecting can d
   await page.getByRole("dialog").getByRole("button", { name: "Download changes" }).click();
   const file = JSON.parse(readFileSync((await (await dl).path())!, "utf8"));
   expect(file.files.copy.stoppingMessage).toBe("Lovely work today. Time for a rest!");
+});
+
+/**
+ * Username-and-password sign-in. The real check runs in the Cloudflare Worker (worker/index.ts,
+ * unit-tested in tests/unit/worker.test.ts); here a stand-in plays that server so the page's flow is tested.
+ */
+function fakeSignInServer(page: Page, gh: FakeGitHub) {
+  let signedIn = false;
+  const seen: string[] = [];
+  return {
+    seen,
+    install: () =>
+      page.route("**/api/admin/**", async (route) => {
+        const req = route.request();
+        const p = new URL(req.url()).pathname.replace(/^.*\/api\/admin/, "");
+        seen.push(`${req.method()} ${p}${req.headers().authorization ? " (has authorization header)" : ""}`);
+        if (p === "/login") {
+          const { username, password } = JSON.parse(req.postData()!);
+          if (username !== "admin" || password !== "a-long-password") return route.fulfill({ status: 401, json: { error: "wrong-login" } });
+          signedIn = true;
+          return route.fulfill({ json: { user: "admin", owner: "xin-xan", name: "Little-Ramadan", branch: "main" } });
+        }
+        if (p === "/logout") {
+          signedIn = false;
+          return route.fulfill({ json: { ok: true } });
+        }
+        if (!signedIn) return route.fulfill({ status: 401, json: { error: "signed-out" } });
+        if (p === "/session") return route.fulfill({ json: { user: "admin", owner: "xin-xan", name: "Little-Ramadan", branch: "main" } });
+        if (p.startsWith("/github/")) return gh.answer(route, p.slice("/github".length));
+        return route.fulfill({ status: 404, json: {} });
+      }),
+  };
+}
+
+test("sign in with a username and password, publish without a GitHub key, stay signed in, sign out", async ({ page }) => {
+  const gh = new FakeGitHub();
+  const server = fakeSignInServer(page, gh);
+  await server.install();
+  await page.route("https://api.github.com/**", (r) => r.abort());
+  await page.goto("/admin/");
+
+  await page.getByLabel("Username").fill("admin");
+  await page.getByLabel("Password", { exact: true }).fill("wrong");
+  await page.getByRole("button", { name: "Sign in" }).click();
+  await expect(page.getByRole("alert")).toContainText("username or password is not right");
+
+  await page.getByLabel("Password", { exact: true }).fill("a-long-password");
+  await page.getByRole("button", { name: "Sign in" }).click();
+  await expect(page.getByText("Signed in as admin")).toBeVisible();
+
+  await page.getByRole("button", { name: /^App messages/ }).click();
+  await page.getByLabel("Break / stopping message").fill("Well done today. Time for a little rest!");
+  await page.getByRole("button", { name: "Done" }).click();
+  await page.getByTestId("open-publish").click();
+  await page.getByRole("button", { name: "Publish now" }).click();
+  await expect.poll(() => gh.published.length).toBe(1);
+  expect(JSON.parse(gh.file("src/content/data/copy.json")!).stoppingMessage).toBe("Well done today. Time for a little rest!");
+  // The page never handled a GitHub key: every call went to the app's own server, without one.
+  expect(server.seen.filter((s) => s.includes("authorization"))).toEqual([]);
+
+  // Reopening the page keeps the sign-in.
+  await page.reload();
+  await expect(page.getByText("Signed in as admin")).toBeVisible();
+
+  await page.getByText("More").click();
+  await page.getByRole("button", { name: "Sign out" }).click();
+  await expect(page.getByRole("button", { name: "Sign in" })).toBeVisible();
+  expect(server.seen).toContain("POST /logout");
+});
+
+test("without a sign-in server, the page says so and the other ways still work", async ({ page }) => {
+  await page.goto("/admin/");
+  await expect(page.getByText("Sign-in is not set up on this website yet")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Edit without connecting" })).toBeVisible();
 });

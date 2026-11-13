@@ -111,3 +111,6 @@ fieldset.group > legend { font-weight: 800; color: var(--emerald); padding: 0 6p
   .sheet-backdrop { align-items: center; }
   .sheet { border-radius: 20px; }
 }
+.card.advanced > summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
+.card.advanced[open] > summary { margin-bottom: 8px; }
+.connect form { display: grid; gap: 12px; }

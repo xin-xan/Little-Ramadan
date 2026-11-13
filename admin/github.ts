@@ -13,8 +13,14 @@ export interface Repo {
   owner: string;
   name: string;
   branch: string;
+  /** A personal GitHub key (advanced). Not used when signed in: then `proxy` is true. */
   token: string;
+  /** Signed in with a username and password: calls go through the app's own server, which holds the GitHub key. */
+  proxy?: boolean;
 }
+
+/** The app's own sign-in endpoints (served by worker/index.ts). */
+export const ADMIN_API = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/admin`;
 
 export interface Loaded {
   headSha: string;
@@ -36,15 +42,20 @@ export class GitHubError extends Error {
 async function api<T>(repo: Repo, path: string, init: RequestInit = {}): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(`${API}/repos/${encodeURIComponent(repo.owner)}/${encodeURIComponent(repo.name)}${path}`, {
-      ...init,
-      headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${repo.token}`, "X-GitHub-Api-Version": "2022-11-28", ...(init.body ? { "Content-Type": "application/json" } : {}) },
-    });
+    res = repo.proxy
+      ? await fetch(`${ADMIN_API}/github${path}`, { ...init, credentials: "same-origin", headers: init.body ? { "Content-Type": "application/json" } : {} })
+      : await fetch(`${API}/repos/${encodeURIComponent(repo.owner)}/${encodeURIComponent(repo.name)}${path}`, {
+          ...init,
+          headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${repo.token}`, "X-GitHub-Api-Version": "2022-11-28", ...(init.body ? { "Content-Type": "application/json" } : {}) },
+        });
   } catch {
     throw new GitHubError("Could not reach GitHub. Check your internet connection.");
   }
   if (!res.ok) {
     const why =
+      repo.proxy && res.status === 401 ? "Your sign-in has ended. Sign in again (download your changes first if you have any)." :
+      repo.proxy && res.status === 502 ? "The server's GitHub key was not accepted. Ask the app owner to renew GITHUB_TOKEN." :
+      repo.proxy && res.status === 403 ? "The server's GitHub key is not allowed to do that. It needs read and write access to the repository's Contents." :
       res.status === 401 ? "GitHub did not accept the access key. Check it has not expired." :
       res.status === 403 ? "This access key is not allowed to do that. It needs read and write access to the repository's Contents." :
       res.status === 404 ? "Repository or branch not found (or the key can't see it)." :
@@ -123,4 +134,42 @@ export async function publish(repo: Repo, loaded: Pick<Loaded, "headSha" | "shas
   const commit = await api<{ sha: string; html_url?: string }>(repo, "/git/commits", { method: "POST", body: JSON.stringify({ message, tree: newTree.sha, parents: [headSha] }) });
   await api(repo, `/git/refs/heads/${encodeURIComponent(repo.branch)}`, { method: "PATCH", body: JSON.stringify({ sha: commit.sha, force: false }) });
   return { sha: commit.sha, url: commit.html_url ?? `https://github.com/${repo.owner}/${repo.name}/commit/${commit.sha}` };
+}
+
+export interface AdminSession {
+  user: string;
+  owner: string;
+  name: string;
+  branch: string;
+}
+
+async function adminCall(path: string, init?: RequestInit) {
+  try {
+    return await fetch(`${ADMIN_API}${path}`, { credentials: "same-origin", ...init });
+  } catch {
+    throw new GitHubError("Could not reach the server. Check your internet connection.");
+  }
+}
+
+/** The signed-in admin, null when signed out, or "unavailable" when this website has no sign-in set up. */
+export async function getSession(): Promise<AdminSession | null | "unavailable"> {
+  const res = await adminCall("/session").catch(() => null);
+  if (!res || res.status === 503 || res.status === 404 || !(res.headers.get("Content-Type") ?? "").includes("json")) return "unavailable";
+  return res.ok ? ((await res.json()) as AdminSession) : null;
+}
+
+export async function signIn(username: string, password: string): Promise<AdminSession> {
+  const res = await adminCall("/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username, password }) });
+  if (res.ok) return (await res.json()) as AdminSession;
+  throw new GitHubError(
+    res.status === 401 ? "That username or password is not right." :
+    res.status === 429 ? "Too many tries. Wait a minute and try again." :
+    res.status === 503 || res.status === 404 ? "Sign-in is not set up on this website yet. See the admin guide." :
+    `Could not sign in (error ${res.status}).`,
+    res.status,
+  );
+}
+
+export async function signOutSession() {
+  await adminCall("/logout", { method: "POST" }).catch(() => undefined);
 }

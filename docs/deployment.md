@@ -1,6 +1,6 @@
 # Deployment
 
-Little Ramadan builds to a static site (`out/`) with no server code, so it can run on free static hosting.
+Little Ramadan builds to a static site (`out/`), so the children's app runs on free static hosting. The only server code is the content admin's sign-in (`worker/`), which runs on Cloudflare Workers; on other hosts the admin falls back to a personal GitHub key.
 
 ```bash
 npm ci
@@ -8,7 +8,7 @@ npm run check    # lint, typecheck, unit tests, build, e2e
 ```
 
 ## Option A0 — Cloudflare Workers (static assets) — current setup
-`wrangler.jsonc` tells Workers to serve the static export in `out/` (no server code).
+`wrangler.jsonc` tells Workers to serve the static export in `out/`, and to run `worker/index.ts` only for `/api/*` (the admin sign-in and its GitHub proxy). Set its four secrets as described in `docs/admin-guide.md` → First-time setup; until then the admin page says sign-in is not set up.
 - Workers & Pages → your project → Settings → Build: build command `npm run build`, deploy command `npx wrangler deploy`, production branch `main`.
 - Do **not** use the OpenNext / Next.js adapter: this app is a static export.
 
